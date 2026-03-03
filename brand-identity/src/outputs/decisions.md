@@ -94,3 +94,12 @@
 **Notes:** —
 
 ---
+
+## Imagery — Settled
+
+**Date:** 2026-03-03
+**Decision:** Register system — not a single concept selection. Register A (Specification Grade, from Concept 2 — The Mechanism): primary, where artifact maturity and audience technical literacy permit. Register B (Structural Abstraction): secondary, for investor-facing, non-specialist, and early-awareness contexts, or where the artifact is not yet mature enough for honest specification-grade representation. Register C (Absent Image, from Concept 1): tertiary, where the typographic and spatial systems can carry the context without visual support. Key structural properties fixed: no photography in any register for any reason; achromatic foundation throughout with `color.action.default` (`#1D4A4B`) at single structurally significant points only; monolinear construction derived from wordmark logic; no rounded geometry; no icons; Register B maturity arc recedes toward Register A as artifact matures; marketing page test required before Register C at marketing scale.
+**Alternatives:** Single-concept selection evaluated and rejected — over-restricts or under-governs depending on choice. Concept 3 (The Authorization Moment) held for later resolution — form of subject unresolved.
+**Notes:** —
+
+---
