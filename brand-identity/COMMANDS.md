@@ -39,12 +39,12 @@ Run after hypothesis lock. Any order. Rerunnable.
 
 | Command | Output |
 |---|---|
-| `run logo` | `logo_concepts_v[n].md` |
-| `run typography` | `typography_concepts_v[n].md` |
-| `run colour` | `colour_concepts_v[n].md` |
-| `run layout` | `layout_concepts_v[n].md` |
-| `run imagery` | `imagery_concepts_v[n].md` |
-| `run ui` | `ui_behaviour_concepts_v[n].md` |
+| `run logo` | `logo/logo_concepts_v[n].md` |
+| `run typography` | `typography/typography_concepts_v[n].md` |
+| `run colour` | `colour/colour_concepts_v[n].md` |
+| `run layout` | `layout/layout_concepts_v[n].md` |
+| `run imagery` | `imagery/imagery_concepts_v[n].md` |
+| `run ui` | `ui/ui_behaviour_concepts_v[n].md` |
 
 After selecting a direction from a module, drop any exploration materials into `src/import/` and `src/outputs/01-systems/[module]/artifacts/`, then run:
 

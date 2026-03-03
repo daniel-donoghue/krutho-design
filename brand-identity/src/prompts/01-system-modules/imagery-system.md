@@ -3,7 +3,7 @@
 **Purpose:** Generates three structurally distinct imagery system directions derived from the active hypothesis. Produces conceptual exploration briefs — not art direction specifications or mood boards.
 **When to Use:** After hypothesis lock.
 **Dependencies:** `02_foundational_brief.md`, `04_active_hypothesis.md`
-**Output:** `imagery_concepts_vX.md`
+**Output:** `src/outputs/01-systems/imagery/imagery_concepts_vX.md`
 
 ---
 
@@ -44,7 +44,7 @@ Apply the identity gate from the brief to each concept and record the pressure t
 
 Rank all three and make a clear recommendation.
 
-Output a single file: `src/outputs/01-systems/imagery_concepts_vX.md`
+Output a single file: `src/outputs/01-systems/imagery/imagery_concepts_vX.md`
 
 ---
 

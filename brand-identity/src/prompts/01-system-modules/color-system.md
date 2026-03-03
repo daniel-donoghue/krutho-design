@@ -3,7 +3,7 @@
 **Purpose:** Generates three structurally distinct colour system directions derived from the active hypothesis. Produces conceptual exploration briefs — not palettes, not hex values.
 **When to Use:** After hypothesis lock.
 **Dependencies:** `02_foundational_brief.md`, `04_active_hypothesis.md`
-**Output:** `colour_concepts_vX.md`
+**Output:** `src/outputs/01-systems/colour/colour_concepts_vX.md`
 
 ---
 
@@ -43,7 +43,7 @@ Apply the identity gate from the brief to each concept and record the pressure t
 
 Rank all three and make a clear recommendation.
 
-Output a single file: `src/outputs/01-systems/colour_concepts_vX.md`
+Output a single file: `src/outputs/01-systems/colour/colour_concepts_vX.md`
 
 ---
 

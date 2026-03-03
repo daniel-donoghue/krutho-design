@@ -17,9 +17,10 @@ src/prompts/01-system-modules/     ← Module prompt files
 src/prompts/02-governance-tools/   ← Governance prompt files
 src/outputs/00-foundation/         ← Phase 0–4 outputs
 src/outputs/01-systems/            ← Module outputs
-  [module]_concepts_v[n].md       ← Claude-generated concept directions
-  [module]_settled.md             ← Approved exploration outcome (human/collaborative)
-  [module]/artifacts/             ← Design artifacts: images, fonts, Keynotes, etc. (referenced, not ingested)
+  [module]/                       ← One subfolder per module, created when the module is first run
+    [module]_concepts_v[n].md     ← Claude-generated concept directions
+    [module]_settled.md           ← Approved exploration outcome (human/collaborative)
+    artifacts/                    ← Design artifacts: images, fonts, Keynotes, etc. (referenced, not ingested)
 src/outputs/02-governance/         ← Governance outputs
 src/outputs/decisions.md           ← Decision log (appended at each hard stop)
 src/import/                        ← Staging folder: structured exports + exploration conversations
@@ -40,8 +41,8 @@ Before responding to any command, check which files exist in `src/outputs/`. Thi
 | **Phase 2 complete** | `src/outputs/00-foundation/02_foundational_brief.md` exists |
 | **Phase 3 complete** | `src/outputs/00-foundation/03_hypotheses_ranked.md` exists |
 | **Phase 4 complete** | `src/outputs/00-foundation/04_active_hypothesis.md` exists |
-| **Modules in progress** | Files exist in `src/outputs/01-systems/` |
-| **Module settled** | `[module]_settled.md` exists for a given module in `src/outputs/01-systems/` |
+| **Modules in progress** | Subfolders exist in `src/outputs/01-systems/` |
+| **Module settled** | `[module]_settled.md` exists in `src/outputs/01-systems/[module]/` |
 
 Report the detected state to the user before executing anything.
 
@@ -71,8 +72,8 @@ Use when returning to an in-progress project. Does not run reset or contaminatio
    - `src/outputs/decisions.md` if it exists — this gives decision context the output files alone do not contain
    - `src/outputs/00-foundation/04_active_hypothesis.md` if it exists
    - `src/outputs/00-foundation/02_foundational_brief.md` if it exists
-   - Any `*_settled.md` files in `src/outputs/01-systems/` — these carry confirmed structural properties from completed modules
-   - The most recent concepts file in `src/outputs/01-systems/` if any exist
+   - Any `*_settled.md` files in `src/outputs/01-systems/[module]/` — these carry confirmed structural properties from completed modules
+   - The most recent concepts file in `src/outputs/01-systems/[module]/` if any exist
 4. Report the current state:
    - Which phase the project is at
    - What outputs have been written
@@ -191,16 +192,16 @@ Available after Phase 4. Modules can run in any order and can be rerun.
 
 | Command | Prompt file | Output file |
 |---|---|---|
-| `run logo` | [`src/prompts/01-system-modules/logo-concept.md`](src/prompts/01-system-modules/logo-concept.md) | `src/outputs/01-systems/logo_concepts_v[n].md` |
-| `run typography` | [`src/prompts/01-system-modules/typography-system.md`](src/prompts/01-system-modules/typography-system.md) | `src/outputs/01-systems/typography_concepts_v[n].md` |
-| `run colour` or `run color` | [`src/prompts/01-system-modules/color-system.md`](src/prompts/01-system-modules/color-system.md) | `src/outputs/01-systems/colour_concepts_v[n].md` |
-| `run layout` | [`src/prompts/01-system-modules/layout-system.md`](src/prompts/01-system-modules/layout-system.md) | `src/outputs/01-systems/layout_concepts_v[n].md` |
-| `run imagery` | [`src/prompts/01-system-modules/imagery-system.md`](src/prompts/01-system-modules/imagery-system.md) | `src/outputs/01-systems/imagery_concepts_v[n].md` |
-| `run ui` | [`src/prompts/01-system-modules/ui-system.md`](src/prompts/01-system-modules/ui-system.md) | `src/outputs/01-systems/ui_behaviour_concepts_v[n].md` |
+| `run logo` | [`src/prompts/01-system-modules/logo-concept.md`](src/prompts/01-system-modules/logo-concept.md) | `src/outputs/01-systems/logo/logo_concepts_v[n].md` |
+| `run typography` | [`src/prompts/01-system-modules/typography-system.md`](src/prompts/01-system-modules/typography-system.md) | `src/outputs/01-systems/typography/typography_concepts_v[n].md` |
+| `run colour` or `run color` | [`src/prompts/01-system-modules/color-system.md`](src/prompts/01-system-modules/color-system.md) | `src/outputs/01-systems/colour/colour_concepts_v[n].md` |
+| `run layout` | [`src/prompts/01-system-modules/layout-system.md`](src/prompts/01-system-modules/layout-system.md) | `src/outputs/01-systems/layout/layout_concepts_v[n].md` |
+| `run imagery` | [`src/prompts/01-system-modules/imagery-system.md`](src/prompts/01-system-modules/imagery-system.md) | `src/outputs/01-systems/imagery/imagery_concepts_v[n].md` |
+| `run ui` | [`src/prompts/01-system-modules/ui-system.md`](src/prompts/01-system-modules/ui-system.md) | `src/outputs/01-systems/ui/ui_behaviour_concepts_v[n].md` |
 
-Version suffix: check `src/outputs/01-systems/` for existing files. Increment `v[n]` on rerun.
+Version suffix: check `src/outputs/01-systems/[module]/` for existing files. Increment `v[n]` on rerun.
 
-**Before reading the module prompt:** scan `src/outputs/01-systems/` for any `*_settled.md` files from other modules. If any exist, read them. Treat confirmed structural properties from settled modules as additional source context — this module must respect constraints set by modules that have already been resolved. Cite settled records explicitly in the output alongside `02_foundational_brief.md` and `04_active_hypothesis.md`.
+**Before reading the module prompt:** scan `src/outputs/01-systems/` subfolders for any `*_settled.md` files from other modules. If any exist, read them. Treat confirmed structural properties from settled modules as additional source context — this module must respect constraints set by modules that have already been resolved. Cite settled records explicitly in the output alongside `02_foundational_brief.md` and `04_active_hypothesis.md`.
 
 After writing the output: surface the human handoff questions from the prompt. Wait for the user to select a direction. Once a direction is selected, tell the user to run `settle [module]` to record the exploration outcome before moving to the next module.
 
@@ -208,13 +209,13 @@ After writing the output: surface the human handoff questions from the prompt. W
 
 ### `settle [module]`
 
-Available after a module has been run. Records the outcome of the design exploration phase — direction selected, structural properties confirmed through exploration, artifacts produced, and constraints for downstream modules. Produces `src/outputs/01-systems/[module]_settled.md`.
+Available after a module has been run. Records the outcome of the design exploration phase — direction selected, structural properties confirmed through exploration, artifacts produced, and constraints for downstream modules. Produces `src/outputs/01-systems/[module]/[module]_settled.md`.
 
 The settled record is the authoritative outcome of a module. It is what downstream modules read — not the concepts file.
 
 **Before settling:**
 
-1. Check that `[module]_concepts_v[n].md` exists in `src/outputs/01-systems/`. If not, tell the user to run the module first.
+1. Check that `[module]_concepts_v[n].md` exists in `src/outputs/01-systems/[module]/`. If not, tell the user to run the module first.
 2. Read the most recent concepts file for that module.
 3. Check `src/import/` for any files that do not match known structured output filenames (see import section). These are treated as exploration conversations.
 
@@ -240,7 +241,7 @@ The settled record is the authoritative outcome of a module. It is what downstre
    - What constraints or signals does this module send to downstream modules — what must they respect?
    - Any additional notes from the design process worth recording?
 
-10. Synthesise all approved information into `src/outputs/01-systems/[module]_settled.md`:
+10. Synthesise all approved information into `src/outputs/01-systems/[module]/[module]_settled.md`:
 
 ```markdown
 # [Module] — Settled
@@ -309,9 +310,9 @@ After writing the file, tell the user: "When you have the output, save it as `[e
 | `export layout` | `layout-system.md` + `04_active_hypothesis.md` + `02_foundational_brief.md` | `layout_concepts_v[n].md` |
 | `export imagery` | `imagery-system.md` + `04_active_hypothesis.md` + `02_foundational_brief.md` | `imagery_concepts_v[n].md` |
 | `export ui` | `ui-system.md` + `04_active_hypothesis.md` + `02_foundational_brief.md` | `ui_behaviour_concepts_v[n].md` |
-| `export alignment` | `alignment-check.md` + `04_active_hypothesis.md` + `02_foundational_brief.md` + all files in `src/outputs/01-systems/` | `alignment_review.md` |
+| `export alignment` | `alignment-check.md` + `04_active_hypothesis.md` + `02_foundational_brief.md` + all files in `src/outputs/01-systems/` (all module subfolders) | `alignment_review.md` |
 | `export sanity [item]` | `sanity-gate.md` + `04_active_hypothesis.md` + `02_foundational_brief.md` | `sanity_check.md` |
-| `export tokens` | `token-snapshot.md` + `04_active_hypothesis.md` + all files in `src/outputs/01-systems/` | `design_tokens_snapshot.md` |
+| `export tokens` | `token-snapshot.md` + `04_active_hypothesis.md` + all files in `src/outputs/01-systems/` (all module subfolders) | `design_tokens_snapshot.md` |
 
 **Compiled file format.** Write to `src/import/export_[target].md` using this structure:
 
@@ -352,7 +353,7 @@ Reads all files in `src/import/` (excluding files prefixed `export_`) and incorp
 
 1. Match filename to a destination in `src/outputs/`:
    - Foundation files (`01_repo_extraction.md`, `02_foundational_brief.md`, `03_hypotheses_ranked.md`, `04_active_hypothesis.md`) → `src/outputs/00-foundation/`
-   - Module files → `src/outputs/01-systems/`
+   - Module files → `src/outputs/01-systems/[module]/` (match by filename prefix to determine the module subfolder)
    - Governance files → `src/outputs/02-governance/`
    - Unrecognised filename: ask the user to confirm the destination before proceeding.
 

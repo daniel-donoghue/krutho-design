@@ -58,3 +58,39 @@
 **Notes:** Lock document amended before confirmation: furniture analogy removed from Design Consequences (risk of aesthetic contamination); discipline clarified as precision-of-decision, not minimalism or absence of personality.
 
 ---
+
+## Typography — Direction selected
+
+**Date:** 2026-03-02
+**Decision:** Concept 3 — The Demonstrable System. Spline Sans (Regular, Medium) + Spline Sans Mono (Regular, Medium). Named levels, named parameters, public design tokens. Single family origin, single structural decision.
+**Alternatives:** Concept 2 (Two Voices, One Structure) — structurally sound, lowest execution risk; not selected. Concept 1 (The Omission Standard) — strongest hypothesis logic, highest execution risk; not selected.
+**Notes:** —
+
+---
+
+## Typography — Settled
+
+**Date:** 2026-03-02
+**Decision:** Concept 3 — The Demonstrable System. Spline Sans + Spline Sans Mono confirmed. Key structural properties fixed: neo-grotesque register, non-interference as primary requirement, weight ceiling at Medium (UI labels/functional emphasis only), monospace as data/specification boundary, availability under SIL OFL mirrors cryptographic verification posture.
+**Alternatives:** Concepts 1 and 2 not pursued.
+**Notes:** —
+
+---
+
+## Colour — Direction selected
+
+**Date:** 2026-03-03
+**Decision:** Concept 4 — The Achromatic Foundation. Achromatic as governing principle; one precision accent hue admitted as the minimum necessary exception for interactive legibility only. The system has an achromatic default and one named departure — not a brand colour.
+**Alternatives:** Concept 2 (The Signal) — signal-positive framing, simpler governance rule, operationally sound; not selected. Concept 3 (The Named System) — most complete, highest governance overhead; not selected. Concept 1 (The Achromatic) — highest hypothesis purity, most brittle at UI scale; not selected.
+**Notes:** —
+
+---
+
+## Colour — Settled
+
+**Date:** 2026-03-03
+**Decision:** Concept 4 — The Achromatic Foundation confirmed. Key structural properties fixed: achromatic by default in all passive states; two-gate test governs action hue admission ("is this achromatic?" then "would value alone fail?"); action hue `#1D4A4B` (deep teal, derived at structural inflection point between SaaS-teal and corporate-black); token naming `color.action.*` encodes governance into the name — not `color.accent`; foundation values #FAFAFA–#181818, evenly stepped, no temperature bias; status tokens conventional defaults, explicitly separate from action tokens; WCAG AAA target for body text, AA confirmed for `#1D4A4B` as interactive text. Controlled brand emergence acknowledged: repetition of action hue at interactive elements creates recognition over time — the hue is designed to remain infrastructural even at frequency.
+**Alternatives:** Concepts 1, 2, and 3 not pursued.
+**Notes:** —
+
+---

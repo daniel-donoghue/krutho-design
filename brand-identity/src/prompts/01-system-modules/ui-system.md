@@ -3,7 +3,7 @@
 **Purpose:** Generates three structurally distinct UI behaviour directions derived from the active hypothesis. Produces conceptual exploration briefs — not interaction specifications or component libraries.
 **When to Use:** After hypothesis lock. Typically after logo and typography have been established.
 **Dependencies:** `02_foundational_brief.md`, `04_active_hypothesis.md`
-**Output:** `ui_behaviour_concepts_vX.md`
+**Output:** `src/outputs/01-systems/ui/ui_behaviour_concepts_vX.md`
 
 ---
 
@@ -44,7 +44,7 @@ Apply the identity gate from the brief to each concept and record the pressure t
 
 Rank all three and make a clear recommendation.
 
-Output a single file: `src/outputs/01-systems/ui_behaviour_concepts_vX.md`
+Output a single file: `src/outputs/01-systems/ui/ui_behaviour_concepts_vX.md`
 
 ---
 
