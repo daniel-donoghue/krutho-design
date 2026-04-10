@@ -1,6 +1,6 @@
 # Krutho Layout System
 
-Version 0.4 — Last edit 10th April 2026
+Last edit 10th April 2026
 
 ---
 

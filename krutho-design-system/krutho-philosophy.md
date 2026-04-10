@@ -1,6 +1,6 @@
 # Krutho Design Philosophy
 
-Version 0.2 — Last edit 10th April 2026
+Last edit 10th April 2026
 
 ---
 

@@ -1,6 +1,6 @@
 # Krutho Spacing System
 
-Version 0.3 — Last edit 10th April 2026
+Last edit 10th April 2026
 
 ---
 
@@ -83,37 +83,51 @@ The scale is divided into zones. Within each zone, consecutive admitted values a
 
 ### Derivation
 
-The interval for a zone is the smallest step value that, at the largest size within the zone, represents at least 10% of that size.
+Zone boundaries are derived from the 2px substrate that underlies both the spacing and typography systems. The substrate step that defines a zone's boundary is the smallest value at which that step, at the largest size within the zone, represents at least 10% of that size. The boundary lattice produced by this derivation is shared with the Krutho Typography System. The interval admitted within each zone differs between the two systems because their base units differ.
 
 **Why 10% and not a different threshold.**
 
 The 10% threshold is not a perceptibility threshold. It is a hierarchy threshold. Perceptibility research places reliable size discrimination at approximately 5–7%. A size difference of 7% is detectable. It does not read as a deliberate step in a hierarchy. For a size step to signal hierarchy rather than variation, the difference must be obvious rather than merely detectable.
 
-The specific value of 10% is determined by the arithmetic of the base unit. At 10%, every zone boundary in a base-2 step system falls exactly on a multiple of 4px. At any lower threshold, the boundaries require rounding and are no longer exactly derivable. At 9%, the fine zone boundary falls at 2 / 0.09 = 22.2px, which is not on-grid and requires approximation. At 10%, 2 / 0.10 = 20px exactly. The 10% threshold is the smallest value at which the zone derivation is exact. This is the reason that excludes the alternatives.
+The specific value of 10% is determined by the arithmetic of the substrate. At 10%, every zone boundary in a base-2 step system falls exactly on a multiple of 4px. At any lower threshold, the boundaries require rounding and are no longer exactly derivable. At 9%, the fine zone boundary falls at 2 / 0.09 = 22.2px, which is not on-grid and requires approximation. At 10%, 2 / 0.10 = 20px exactly. The 10% threshold is the smallest value at which the zone derivation is exact. This is the reason that excludes the alternatives.
 
-**Zone derivation by interval:**
+**Boundary derivation from the 2px substrate:**
 
-| Interval | Boundary derivation       | Zone upper boundary |
-|----------|---------------------------|---------------------|
-| 2px      | 2 / 0.10 = 20px exactly   | 20px                |
-| 4px      | 4 / 0.10 = 40px exactly   | 40px                |
-| 8px      | 8 / 0.10 = 80px exactly   | 80px                |
-| 16px     | 16 / 0.10 = 160px exactly | 160px               |
-| 32px     | 32 / 0.10 = 320px exactly | 320px               |
+| Substrate step | Boundary derivation       | Zone upper boundary |
+|----------------|---------------------------|---------------------|
+| 2px            | 2 / 0.10 = 20px exactly   | 20px                |
+| 4px            | 4 / 0.10 = 40px exactly   | 40px                |
+| 8px            | 8 / 0.10 = 80px exactly   | 80px                |
+| 16px           | 16 / 0.10 = 160px exactly | 160px               |
+| 32px           | 32 / 0.10 = 320px exactly | 320px               |
 
 Every boundary is a multiple of 4px. This is a consequence of the derivation, not a separate decision.
 
+**Spacing intervals within each zone.**
+
+The spacing base unit is 4px, which is twice the substrate. Two consecutive admitted spacing values cannot be closer than 4px because any closer interval would produce a value that fails the spacing conformance test. The interval admitted within each zone in the spacing system is therefore twice the substrate step that defines that zone's boundary.
+
+| Zone      | Substrate step | Spacing interval |
+|-----------|----------------|------------------|
+| Fine      | 2px            | 4px              |
+| Mid       | 4px            | 8px              |
+| Display   | 8px            | 16px             |
+| Large     | 16px           | 32px             |
+| Statement | 32px           | 64px             |
+
+The Krutho Typography System uses the substrate steps directly as its zone intervals because its base unit equals the substrate. The spacing system uses doubled intervals because its base unit is twice the substrate. The two systems share the boundary lattice. They do not share the zone intervals.
+
 ### Zone table
 
-| Zone      | Interval | Upper boundary |
-|-----------|----------|----------------|
-| Fine      | 2px      | 20px           |
-| Mid       | 4px      | 40px           |
-| Display   | 8px      | 80px           |
-| Large     | 16px     | 160px          |
-| Statement | 32px     | 320px          |
+| Zone      | Interval | Upper boundary | Admitted spacing values |
+|-----------|----------|----------------|-------------------------|
+| Fine      | 4px      | 20px           | 4, 8, 12, 16, 20        |
+| Mid       | 8px      | 40px           | 24, 32, 40              |
+| Display   | 16px     | 80px           | 48, 64, 80              |
+| Large     | 32px     | 160px          | 96, 128, 160            |
+| Statement | 64px     | 320px          | 192, 256, 320           |
 
-Values between zone upper boundaries are not in the designed step set of any zone. The value 22px, for example, falls between the fine upper boundary (20px) and the mid zone start (24px). It is valid by the generative rule and satisfies the spacing conformance test. Its use at surface level requires documented justification.
+On-grid values that fall between admitted steps within a zone are not in the designed step set. The value 28px, for example, satisfies the spacing conformance test (28 mod 4 = 0) and falls within the mid zone (20px to 40px), but the mid zone admits values at an 8px interval (24, 32, 40). 28px is valid by the generative rule. Its use at surface level requires documented justification.
 
 ---
 
@@ -256,9 +270,9 @@ The full designed spacing token set, from which register-level designed sets are
 | space-160  | 160px | 40   |
 | space-192  | 192px | 48   |
 
-The token set follows a consistent selection rule: within the fine zone, every spacing step is admitted (4px intervals: 4, 8, 12, 16, 20, 24). At mid zone and above, every other step of the zone interval is admitted, doubling the effective interval at each zone. This produces 8px spacing increments in the mid zone, 16px in the display zone, and 32px in the large zone. The selection rule thins the token set at the same rate as the zone intervals widen.
+The token set is the union of the admitted spacing values for each zone, as defined by the spacing intervals in the Zone Structure section. Within each zone, consecutive admitted values are separated by the zone's spacing interval: 4px in the fine zone, 8px in the mid zone, 16px in the display zone, 32px in the large zone, and 64px in the statement zone. The token set thins at the same rate as the zone intervals widen.
 
-By this rule: 28, 36, 44 are excluded (mid zone alternate steps). 56, 72 are excluded (display zone alternate steps). 112, 144 are excluded (large zone alternate steps). Their absence is not an oversight. It is the consequence of the selection rule. If a surface requires one of these values, the generative escape conditions apply.
+On-grid values that fall between admitted steps within a zone are valid by the generative rule but are not in the designed set. Examples: 28 sits between mid zone admitted steps 24 and 32. 56 sits between display zone admitted steps 48 and 64. 112 sits between large zone admitted steps 96 and 128. Their absence is not an oversight. It is the consequence of the zone structure. If a surface requires one of these values, the generative escape conditions apply.
 
 Values above space-192 are available by the generative rule. No upper bound is defined. Surface-level use requires documentation.
 
@@ -270,7 +284,7 @@ The following conditions state every assessable rule in this specification. Each
 
 1. A spacing value is valid if and only if value mod 4 = 0 (screen) or value mod 4 = 0pt (print).
 2. Zone boundaries are 20px, 40px, 80px, 160px, and 320px. These are derived from the 10% threshold and are not subject to surface-level modification.
-3. Values between zone upper boundaries are valid by the generative rule but require surface-level documentation with a stated functional reason.
+3. On-grid values that fall between admitted steps within a zone are valid by the generative rule but require surface-level documentation with a stated functional reason.
 4. Values outside the designed spacing set of a register are valid by the generative rule but require surface-level documentation with a stated functional reason.
 5. A preference is not a functional reason. A functional reason traces to a specific requirement of the surface that the designed set does not meet.
 6. The surface spec declares its production context. That declaration determines the unit and conformance test.
