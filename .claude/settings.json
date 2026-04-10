@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /Users/danieldonoghue/GitHub/krutho-design/krutho-design-system/foundation/*.md)",
+      "Bash(grep -n \"Version\" /Users/danieldonoghue/GitHub/krutho-design/krutho-design-system/foundation/*.md /Users/danieldonoghue/GitHub/krutho-design/krutho-design-system/krutho-philosophy.md)"
+    ]
+  }
+}
