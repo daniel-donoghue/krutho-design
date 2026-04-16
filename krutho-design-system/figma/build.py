@@ -1,15 +1,11 @@
-"""Generate Figma variable JSON from Krutho foundation specs.
+"""Generate the Krutho Figma plugin payload from the foundation specs.
 
-Emits in this directory:
-  dtcg/<Collection>.<Mode>.tokens.json
-                         DTCG with com.figma.* extensions, matches Figma's
-                         built-in Variables import / export. One file per
-                         (collection, mode). This is the recommended path.
-  variables.rest.json    POST payload for Figma REST API /v1/files/:key/variables
-                         (Enterprise plan only).
-  variables.plugin.json  Generic plugin-import shape used by community plugins.
+Emits one file:
+  figma-plugin.json   Consumed by plugin/ at runtime to create collections,
+                      modes, variables, and cross-collection aliases.
 
-Re-run after changes to the foundation markdown specs.
+Re-run after changes to the foundation markdown specs. No plugin recompile
+needed; reopen the plugin in Figma and re-import.
 """
 
 from __future__ import annotations
@@ -258,434 +254,12 @@ TYPE_REGISTERS: dict[str, list[tuple[str, int, int]]] = {
 }
 
 
-def hex_to_rgba(h: str) -> dict:
-    h = h.lstrip("#")
-    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
-    a = int(h[6:8], 16) / 255 if len(h) == 8 else 1.0
-    return {"r": round(r / 255, 6), "g": round(g / 255, 6), "b": round(b / 255, 6), "a": round(a, 6)}
-
-
-TRANSPARENT_RGBA = {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.0}
-
 PRIMITIVES_COLLECTION = "Colour Primitives"
 SEMANTIC_COLLECTION = "Colour Semantic"
 DIAGRAM_COLLECTION = "Colour Diagram"
 SPACING_COLLECTION = "Spacing"
 GRID_COLLECTION = "Grid"
 
-
-def primitive_path(ramp: str, stop) -> str:
-    return f"{ramp}/{stop}"
-
-
-def resolve_alias(ref: str) -> tuple[str, str] | None:
-    """Return (collection, var_path) if ref is a primitive alias; else None."""
-    if ref == "transparent":
-        return None
-    if ref.startswith("#"):
-        return None
-    ramp, stop = ref.split(".", 1)
-    stop_key: object = stop if not stop.isdigit() else int(stop)
-    if ramp not in PRIMITIVES or stop_key not in PRIMITIVES[ramp]:
-        raise KeyError(f"Unknown primitive alias: {ref}")
-    return (PRIMITIVES_COLLECTION, primitive_path(ramp, stop))
-
-
-# REST API POST payload builder
-
-def temp_coll_id(name: str) -> str:
-    return f"tempColl:{name}"
-
-
-def temp_mode_id(coll: str, mode: str) -> str:
-    return f"tempMode:{coll}/{mode}"
-
-
-def temp_var_id(coll: str, path: str) -> str:
-    return f"tempVar:{coll}/{path}"
-
-
-def build_rest_payload() -> dict:
-    collections: list[dict] = []
-    modes: list[dict] = []
-    variables: list[dict] = []
-    values: list[dict] = []
-
-    def add_collection(name: str, mode_names: list[str]) -> None:
-        initial_mode = mode_names[0]
-        collections.append({
-            "action": "CREATE",
-            "id": temp_coll_id(name),
-            "name": name,
-            "initialModeId": temp_mode_id(name, initial_mode),
-        })
-        modes.append({
-            "action": "UPDATE",
-            "id": temp_mode_id(name, initial_mode),
-            "variableCollectionId": temp_coll_id(name),
-            "name": initial_mode,
-        })
-        for extra in mode_names[1:]:
-            modes.append({
-                "action": "CREATE",
-                "id": temp_mode_id(name, extra),
-                "variableCollectionId": temp_coll_id(name),
-                "name": extra,
-            })
-
-    def add_variable(coll: str, path: str, resolved_type: str, scopes: list[str] | None = None) -> str:
-        var_id = temp_var_id(coll, path)
-        entry = {
-            "action": "CREATE",
-            "id": var_id,
-            "name": path,
-            "variableCollectionId": temp_coll_id(coll),
-            "resolvedType": resolved_type,
-        }
-        if scopes is not None:
-            entry["scopes"] = scopes
-        variables.append(entry)
-        return var_id
-
-    def add_value(var_id: str, mode_id: str, value: object) -> None:
-        values.append({
-            "variableId": var_id,
-            "modeId": mode_id,
-            "value": value,
-        })
-
-    def colour_value(ref: str) -> object:
-        if ref == "transparent":
-            return TRANSPARENT_RGBA
-        if ref.startswith("#"):
-            return hex_to_rgba(ref)
-        target = resolve_alias(ref)
-        assert target is not None
-        return {"type": "VARIABLE_ALIAS", "id": temp_var_id(target[0], target[1])}
-
-    # Primitives (single mode "Default")
-    add_collection(PRIMITIVES_COLLECTION, ["Default"])
-    default_mode = temp_mode_id(PRIMITIVES_COLLECTION, "Default")
-    for ramp, stops in PRIMITIVES.items():
-        for stop, hex_val in stops.items():
-            path = primitive_path(ramp, stop)
-            vid = add_variable(PRIMITIVES_COLLECTION, path, "COLOR")
-            add_value(vid, default_mode, hex_to_rgba(hex_val))
-
-    # Semantic (Light + Dark)
-    add_collection(SEMANTIC_COLLECTION, ["Light", "Dark"])
-    light_mode = temp_mode_id(SEMANTIC_COLLECTION, "Light")
-    dark_mode = temp_mode_id(SEMANTIC_COLLECTION, "Dark")
-    for path, (light, dark) in SEMANTIC.items():
-        vid = add_variable(SEMANTIC_COLLECTION, path, "COLOR")
-        add_value(vid, light_mode, colour_value(light))
-        add_value(vid, dark_mode, colour_value(dark))
-
-    # Diagram (Light + Dark)
-    add_collection(DIAGRAM_COLLECTION, ["Light", "Dark"])
-    d_light = temp_mode_id(DIAGRAM_COLLECTION, "Light")
-    d_dark = temp_mode_id(DIAGRAM_COLLECTION, "Dark")
-    for path, (light, dark) in DIAGRAM.items():
-        vid = add_variable(DIAGRAM_COLLECTION, path, "COLOR")
-        add_value(vid, d_light, colour_value(light))
-        add_value(vid, d_dark, colour_value(dark))
-
-    # Spacing
-    add_collection(SPACING_COLLECTION, ["Default"])
-    s_mode = temp_mode_id(SPACING_COLLECTION, "Default")
-    for px in SPACING:
-        vid = add_variable(SPACING_COLLECTION, f"space-{px}", "FLOAT", scopes=["ALL_SCOPES"])
-        add_value(vid, s_mode, float(px))
-
-    # Grid
-    add_collection(GRID_COLLECTION, ["Default"])
-    g_mode = temp_mode_id(GRID_COLLECTION, "Default")
-    for px in GRID:
-        vid = add_variable(GRID_COLLECTION, f"grid-{px}", "FLOAT", scopes=["ALL_SCOPES"])
-        add_value(vid, g_mode, float(px))
-
-    # Typography (one collection per register; each role emits size + line-height)
-    for register, roles in TYPE_REGISTERS.items():
-        coll = f"Typography {register}"
-        add_collection(coll, ["Default"])
-        mode_id = temp_mode_id(coll, "Default")
-        for role, size_px, lh_px in roles:
-            sid = add_variable(coll, f"{role}/size", "FLOAT", scopes=["ALL_SCOPES"])
-            lid = add_variable(coll, f"{role}/line-height", "FLOAT", scopes=["ALL_SCOPES"])
-            add_value(sid, mode_id, float(size_px))
-            add_value(lid, mode_id, float(lh_px))
-
-    return {
-        "variableCollections": collections,
-        "variableModes": modes,
-        "variables": variables,
-        "variableModeValues": values,
-    }
-
-
-# Plugin-import payload builder
-# Shape: { collection: { modes: [...], variables: { path: { type, valuesByMode } } } }
-# Aliases use the string syntax "{Collection.path}".
-
-def build_plugin_payload() -> dict:
-    out: dict = {}
-
-    def colour_value(ref: str) -> object:
-        if ref == "transparent":
-            return "transparent"
-        if ref.startswith("#"):
-            return ref
-        target = resolve_alias(ref)
-        assert target is not None
-        return f"{{{target[0]}.{target[1]}}}"
-
-    out[PRIMITIVES_COLLECTION] = {"modes": ["Default"], "variables": {}}
-    for ramp, stops in PRIMITIVES.items():
-        for stop, hex_val in stops.items():
-            out[PRIMITIVES_COLLECTION]["variables"][primitive_path(ramp, stop)] = {
-                "type": "color",
-                "valuesByMode": {"Default": hex_val},
-            }
-
-    out[SEMANTIC_COLLECTION] = {"modes": ["Light", "Dark"], "variables": {}}
-    for path, (light, dark) in SEMANTIC.items():
-        out[SEMANTIC_COLLECTION]["variables"][path] = {
-            "type": "color",
-            "valuesByMode": {"Light": colour_value(light), "Dark": colour_value(dark)},
-        }
-
-    out[DIAGRAM_COLLECTION] = {"modes": ["Light", "Dark"], "variables": {}}
-    for path, (light, dark) in DIAGRAM.items():
-        out[DIAGRAM_COLLECTION]["variables"][path] = {
-            "type": "color",
-            "valuesByMode": {"Light": colour_value(light), "Dark": colour_value(dark)},
-        }
-
-    out[SPACING_COLLECTION] = {"modes": ["Default"], "variables": {}}
-    for px in SPACING:
-        out[SPACING_COLLECTION]["variables"][f"space-{px}"] = {
-            "type": "number",
-            "valuesByMode": {"Default": px},
-            "scopes": ["ALL_SCOPES"],
-        }
-
-    out[GRID_COLLECTION] = {"modes": ["Default"], "variables": {}}
-    for px in GRID:
-        out[GRID_COLLECTION]["variables"][f"grid-{px}"] = {
-            "type": "number",
-            "valuesByMode": {"Default": px},
-            "scopes": ["ALL_SCOPES"],
-        }
-
-    for register, roles in TYPE_REGISTERS.items():
-        coll = f"Typography {register}"
-        out[coll] = {"modes": ["Default"], "variables": {}}
-        for role, size_px, lh_px in roles:
-            out[coll]["variables"][f"{role}/size"] = {
-                "type": "number",
-                "valuesByMode": {"Default": size_px},
-                "scopes": ["ALL_SCOPES"],
-            }
-            out[coll]["variables"][f"{role}/line-height"] = {
-                "type": "number",
-                "valuesByMode": {"Default": lh_px},
-                "scopes": ["ALL_SCOPES"],
-            }
-
-    return {"collections": out}
-
-
-# DTCG payload builder — one file per (collection, mode), matches Figma's
-# native Variables export. Color $value uses {colorSpace, components, alpha,
-# hex}; aliases use the DTCG curly-brace ref "{Collection.path.to.token}".
-
-def hex_to_components(h: str) -> dict:
-    h = h.lstrip("#")
-    r, g, b = int(h[0:2], 16) / 255, int(h[2:4], 16) / 255, int(h[4:6], 16) / 255
-    a = int(h[6:8], 16) / 255 if len(h) == 8 else 1.0
-    norm = "#" + "".join(f"{int(round(c * 255)):02X}" for c in (r, g, b))
-    return {
-        "colorSpace": "srgb",
-        "components": [round(r, 8), round(g, 8), round(b, 8)],
-        "alpha": round(a, 8),
-        "hex": norm,
-    }
-
-
-# Transparent in Figma's exported convention: white components, alpha 0.
-TRANSPARENT_DTCG = {
-    "colorSpace": "srgb",
-    "components": [1.0, 1.0, 1.0],
-    "alpha": 0,
-    "hex": "#FFFFFF",
-}
-
-
-def insert_at_path(root: dict, path_segments: list[str], leaf: dict) -> None:
-    cursor = root
-    for seg in path_segments[:-1]:
-        cursor = cursor.setdefault(seg, {})
-        if "$type" in cursor:
-            raise ValueError(f"Path collision at segment '{seg}'")
-    cursor[path_segments[-1]] = leaf
-
-
-def dtcg_alias(target_collection: str, target_path: str) -> str:
-    dotted = target_path.replace("/", ".")
-    return f"{{{target_collection}.{dotted}}}"
-
-
-def colour_dtcg_value(ref: str) -> tuple[str, object]:
-    """Return ('value' | 'alias', payload). Payload is the $value content."""
-    if ref == "transparent":
-        return ("value", TRANSPARENT_DTCG)
-    if ref.startswith("#"):
-        return ("value", hex_to_components(ref))
-    target = resolve_alias(ref)
-    assert target is not None
-    return ("alias", dtcg_alias(target[0], target[1]))
-
-
-def make_color_leaf(ref: str, scopes: list[str]) -> dict:
-    kind, payload = colour_dtcg_value(ref)
-    return {
-        "$type": "color",
-        "$value": payload,
-        "$extensions": {"com.figma.scopes": scopes},
-    }
-
-
-def make_color_leaf_literal(hex_val: str, scopes: list[str]) -> dict:
-    return {
-        "$type": "color",
-        "$value": hex_to_components(hex_val),
-        "$extensions": {"com.figma.scopes": scopes},
-    }
-
-
-def make_number_leaf(value: float, scopes: list[str]) -> dict:
-    numeric: int | float = int(value) if float(value).is_integer() else value
-    return {
-        "$type": "number",
-        "$value": numeric,
-        "$extensions": {"com.figma.scopes": scopes},
-    }
-
-
-def build_dtcg_files() -> dict[str, dict]:
-    """Return mapping of filename → DTCG payload."""
-    files: dict[str, dict] = {}
-
-    def file_for(collection: str, mode: str) -> dict:
-        key = f"{collection}.{mode}.tokens.json"
-        if key not in files:
-            files[key] = {"$extensions": {"com.figma.modeName": mode}}
-        return files[key]
-
-    all_scopes = ["ALL_SCOPES"]
-
-    # Primitives — single mode "Default"
-    payload = file_for(PRIMITIVES_COLLECTION, "Default")
-    for ramp, stops in PRIMITIVES.items():
-        for stop, hex_val in stops.items():
-            insert_at_path(
-                payload,
-                [ramp, str(stop)],
-                make_color_leaf_literal(hex_val, all_scopes),
-            )
-
-    # Semantic — Light + Dark
-    for mode_name, idx in (("Light", 0), ("Dark", 1)):
-        payload = file_for(SEMANTIC_COLLECTION, mode_name)
-        for path, refs in SEMANTIC.items():
-            insert_at_path(
-                payload,
-                path.split("/"),
-                make_color_leaf(refs[idx], all_scopes),
-            )
-
-    # Diagram — Light + Dark, combined file plus per-subgroup files for
-    # diagnostic import. Subgroup file mode name = "Light" / "Dark" so they
-    # all merge into the same collection × mode in Figma.
-    for mode_name, idx in (("Light", 0), ("Dark", 1)):
-        payload = file_for(DIAGRAM_COLLECTION, mode_name)
-        for path, refs in DIAGRAM.items():
-            insert_at_path(
-                payload,
-                path.split("/"),
-                make_color_leaf(refs[idx], all_scopes),
-            )
-
-    # Per-subgroup diagram files (signal / categorical / sequential / diverging / structural).
-    subgroups: dict[str, list[tuple[str, tuple[str, str]]]] = {}
-    for path, refs in DIAGRAM.items():
-        head = path.split("/", 1)[0]
-        subgroups.setdefault(head, []).append((path, refs))
-
-    for sub, entries in subgroups.items():
-        for mode_name, idx in (("Light", 0), ("Dark", 1)):
-            key = f"Colour Diagram {sub}.{mode_name}.tokens.json"
-            files[key] = {"$extensions": {"com.figma.modeName": mode_name}}
-            for path, refs in entries:
-                insert_at_path(
-                    files[key],
-                    path.split("/"),
-                    make_color_leaf(refs[idx], all_scopes),
-                )
-
-    # Flat (no-alias) diagram files — all values resolved to literal hex.
-    # Used to test whether the DTCG import error is alias-related.
-    def resolve_to_hex(ref: str) -> str:
-        if ref == "transparent":
-            return "#00000000"
-        if ref.startswith("#"):
-            return ref
-        ramp, stop = ref.split(".", 1)
-        stop_key: object = stop if not stop.isdigit() else int(stop)
-        return PRIMITIVES[ramp][stop_key]
-
-    for mode_name, idx in (("Light", 0), ("Dark", 1)):
-        key = f"Colour Diagram (flat).{mode_name}.tokens.json"
-        files[key] = {"$extensions": {"com.figma.modeName": mode_name}}
-        for path, refs in DIAGRAM.items():
-            insert_at_path(
-                files[key],
-                path.split("/"),
-                make_color_leaf_literal(resolve_to_hex(refs[idx]), all_scopes),
-            )
-
-    # Spacing
-    payload = file_for(SPACING_COLLECTION, "Default")
-    for px in SPACING:
-        insert_at_path(
-            payload,
-            [f"space-{px}"],
-            make_number_leaf(float(px), ["ALL_SCOPES"]),
-        )
-
-    # Grid
-    payload = file_for(GRID_COLLECTION, "Default")
-    for px in GRID:
-        insert_at_path(
-            payload,
-            [f"grid-{px}"],
-            make_number_leaf(float(px), ["ALL_SCOPES"]),
-        )
-
-    # Typography — one file per register
-    for register, roles in TYPE_REGISTERS.items():
-        coll = f"Typography {register}"
-        payload = file_for(coll, "Default")
-        for role, size_px, lh_px in roles:
-            insert_at_path(payload, [role, "size"], make_number_leaf(float(size_px), ["ALL_SCOPES"]))
-            insert_at_path(payload, [role, "line-height"], make_number_leaf(float(lh_px), ["ALL_SCOPES"]))
-
-    return files
-
-
-# Krutho plugin payload: single self-contained JSON the companion Figma
-# plugin consumes at runtime. Collections are emitted in dependency order
-# (Primitives before anything that aliases it).
 
 def hex_to_rgba_floats(h: str) -> dict:
     h = h.lstrip("#")
@@ -694,63 +268,59 @@ def hex_to_rgba_floats(h: str) -> dict:
     return {"r": round(r, 8), "g": round(g, 8), "b": round(b, 8), "a": round(a, 8)}
 
 
-def build_krutho_plugin_payload() -> dict:
-    def color_value(ref: str):
-        if ref == "transparent":
-            return {"color": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.0}}
-        if ref.startswith("#"):
-            return {"color": hex_to_rgba_floats(ref)}
-        target = resolve_alias(ref)
-        assert target is not None
-        return {"alias": f"{target[0]}.{target[1]}"}
+def resolve_alias(ref: str) -> tuple[str, str] | None:
+    """Return (collection, var_path) if ref is a primitive alias; else None."""
+    if ref == "transparent" or ref.startswith("#"):
+        return None
+    ramp, stop = ref.split(".", 1)
+    stop_key: object = stop if not stop.isdigit() else int(stop)
+    if ramp not in PRIMITIVES or stop_key not in PRIMITIVES[ramp]:
+        raise KeyError(f"Unknown primitive alias: {ref}")
+    return (PRIMITIVES_COLLECTION, f"{ramp}/{stop}")
 
+
+def color_value(ref: str):
+    if ref == "transparent":
+        return {"color": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.0}}
+    if ref.startswith("#"):
+        return {"color": hex_to_rgba_floats(ref)}
+    target = resolve_alias(ref)
+    assert target is not None
+    return {"alias": f"{target[0]}.{target[1]}"}
+
+
+def build_payload() -> dict:
     collections: list[dict] = []
 
     # Primitives
-    pvars = []
+    p_vars = []
     for ramp, stops in PRIMITIVES.items():
         for stop, hex_val in stops.items():
-            pvars.append({
+            p_vars.append({
                 "path": f"{ramp}/{stop}",
                 "type": "COLOR",
                 "scopes": ["ALL_SCOPES"],
                 "values": {"Default": {"color": hex_to_rgba_floats(hex_val)}},
             })
-    collections.append({
-        "name": PRIMITIVES_COLLECTION,
-        "modes": ["Default"],
-        "variables": pvars,
-    })
+    collections.append({"name": PRIMITIVES_COLLECTION, "modes": ["Default"], "variables": p_vars})
 
     # Semantic
-    svars = []
-    for path, (light, dark) in SEMANTIC.items():
-        svars.append({
-            "path": path,
-            "type": "COLOR",
-            "scopes": ["ALL_SCOPES"],
-            "values": {"Light": color_value(light), "Dark": color_value(dark)},
-        })
-    collections.append({
-        "name": SEMANTIC_COLLECTION,
-        "modes": ["Light", "Dark"],
-        "variables": svars,
-    })
+    s_vars = [{
+        "path": path,
+        "type": "COLOR",
+        "scopes": ["ALL_SCOPES"],
+        "values": {"Light": color_value(light), "Dark": color_value(dark)},
+    } for path, (light, dark) in SEMANTIC.items()]
+    collections.append({"name": SEMANTIC_COLLECTION, "modes": ["Light", "Dark"], "variables": s_vars})
 
     # Diagram
-    dvars = []
-    for path, (light, dark) in DIAGRAM.items():
-        dvars.append({
-            "path": path,
-            "type": "COLOR",
-            "scopes": ["ALL_SCOPES"],
-            "values": {"Light": color_value(light), "Dark": color_value(dark)},
-        })
-    collections.append({
-        "name": DIAGRAM_COLLECTION,
-        "modes": ["Light", "Dark"],
-        "variables": dvars,
-    })
+    d_vars = [{
+        "path": path,
+        "type": "COLOR",
+        "scopes": ["ALL_SCOPES"],
+        "values": {"Light": color_value(light), "Dark": color_value(dark)},
+    } for path, (light, dark) in DIAGRAM.items()]
+    collections.append({"name": DIAGRAM_COLLECTION, "modes": ["Light", "Dark"], "variables": d_vars})
 
     # Spacing
     sp_vars = [{
@@ -796,26 +366,13 @@ def build_krutho_plugin_payload() -> dict:
 
 
 def main() -> None:
-    out_dir = Path(__file__).parent
-    rest = build_rest_payload()
-    plugin = build_plugin_payload()
-    dtcg = build_dtcg_files()
-    krutho = build_krutho_plugin_payload()
+    payload = build_payload()
+    out_path = Path(__file__).parent / "figma-plugin.json"
+    out_path.write_text(json.dumps(payload, indent=2) + "\n")
 
-    (out_dir / "variables.rest.json").write_text(json.dumps(rest, indent=2) + "\n")
-    (out_dir / "variables.plugin.json").write_text(json.dumps(plugin, indent=2) + "\n")
-    (out_dir / "figma-plugin.json").write_text(json.dumps(krutho, indent=2) + "\n")
-
-    dtcg_dir = out_dir / "dtcg"
-    dtcg_dir.mkdir(exist_ok=True)
-    for name, payload in dtcg.items():
-        (dtcg_dir / name).write_text(json.dumps(payload, indent=2) + "\n")
-
-    n_vars = len(rest["variables"])
-    n_colls = len(rest["variableCollections"])
-    print(f"Wrote {n_vars} variables across {n_colls} collections.")
-    print(f"DTCG files: {len(dtcg)}")
-    print(f"Plugin payload: figma-plugin.json ({n_vars} variables)")
+    n_vars = sum(len(c["variables"]) for c in payload["collections"])
+    n_colls = len(payload["collections"])
+    print(f"Wrote {n_vars} variables across {n_colls} collections to {out_path.name}.")
 
 
 if __name__ == "__main__":
