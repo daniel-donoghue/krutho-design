@@ -1,0 +1,420 @@
+{
+  "$extensions": {
+    "com.figma.modeName": "Dark"
+  },
+  "signal": {
+    "trust-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.900}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "trust-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "trust-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "human-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.50}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    }
+  },
+  "categorical": {
+    "trust-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.900}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "trust-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "trust-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "integration-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.secondary-signal.900}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "integration-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.secondary-signal.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "integration-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.secondary-signal.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "transport-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.900}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "transport-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "transport-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "state-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.amber.900}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "state-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.amber.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "state-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.amber.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    }
+  },
+  "sequential": {
+    "1": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.50}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "2": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "3": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.400}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "4": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "5": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.700}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "alt-1": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.50}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "alt-2": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "alt-3": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.400}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "alt-4": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "alt-5": {
+      "$type": "color",
+      "$value": "{Colour Primitives.teal.700}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    }
+  },
+  "diverging": {
+    "negative-strong": {
+      "$type": "color",
+      "$value": "{Colour Primitives.amber.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "negative-subtle": {
+      "$type": "color",
+      "$value": "{Colour Primitives.amber.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "midpoint": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.300}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "positive-subtle": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "positive-strong": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    }
+  },
+  "structural": {
+    "header-bg": {
+      "$type": "color",
+      "$value": "{Colour Primitives.deep-base.b}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "header-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.0}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "node-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.850}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "node-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "node-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.200}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "node-decision-border": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "annotation-fill": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.825}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "annotation-text": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.400}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "connector": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "connector-trust": {
+      "$type": "color",
+      "$value": "{Colour Primitives.signal-blue.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "connector-optional": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "boundary-physical": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.500}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "boundary-logical": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.600}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    },
+    "lane-divider": {
+      "$type": "color",
+      "$value": "{Colour Primitives.neutral.825}",
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ]
+      }
+    }
+  }
+}
