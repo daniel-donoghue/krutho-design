@@ -26,7 +26,7 @@ from pathlib import Path
 # Data: Foundation
 # ---------------------------------------------------------------------------
 
-# Primitive colour ramps. Source: foundation/krutho-colour-system.md
+# Primitive colour ramps. Source: foundation/colour.md
 PRIMITIVES: dict[str, dict] = {
     "neutral": {
         0: "#FFFFFF", 50: "#FAFAFA", 100: "#F2F2F2", 200: "#E6E6E6",
@@ -172,7 +172,7 @@ SEMANTIC: dict[str, tuple[str, str]] = {
 SPACING: list[int] = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192]
 GRID: list[int] = [4, 8, 16, 32, 64]
 
-# Type token set. Source: foundation/krutho-typography-system.md
+# Type token set. Source: foundation/typography.md
 TYPE_SIZES: list[int] = [10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 80, 96, 128, 192]
 
 # Line height variants. Ratio and rounding: lh = ceil(size * ratio / 2) * 2

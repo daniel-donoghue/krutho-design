@@ -22,17 +22,18 @@ The governing document. Defines the four terms (Precision, Correctness, Verifiab
 **[foundation/](krutho-design-system/foundation/)**
 Specifications for the construction primitives.
 
-- [Wordmark](krutho-design-system/foundation/krutho-wordmark.md)
-- [Colour System](krutho-design-system/foundation/krutho-colour-system.md)
-- [Typography System](krutho-design-system/foundation/krutho-typography-system.md)
-- [Spacing System](krutho-design-system/foundation/krutho-spacing-system.md)
-- [Grid System](krutho-design-system/foundation/krutho-grid-system.md)
-- [Layout System](krutho-design-system/foundation/krutho-layout-system.md)
+- [Wordmark](krutho-design-system/foundation/wordmark.md)
+- [Colour](krutho-design-system/foundation/colour.md)
+- [Typography](krutho-design-system/foundation/typography.md)
+- [Spacing](krutho-design-system/foundation/spacing.md)
+- [Grids](krutho-design-system/foundation/grids.md)
+- [Layout](krutho-design-system/foundation/layout.md)
 
 **[surfaces/](krutho-design-system/surfaces/)**
 Specifications for rendered surface contexts. A surface consumes foundation tokens and adds surface-specific rules.
 
 - [Diagrams](krutho-design-system/surfaces/diagrams.md)
+- [Marketing Web](krutho-design-system/surfaces/marketing-web.md)
 
 **[figma/](krutho-design-system/figma/)**
 Token generator and companion Figma plugin. `build.py` emits `foundation.json` (imported into every Figma file) and per-surface payloads (e.g. `surface-diagrams.json`) that are added only where that surface is in use.

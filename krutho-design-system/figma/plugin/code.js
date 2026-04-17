@@ -45,7 +45,20 @@ async function runImport(data) {
   const existingByName = new Map();
   for (const coll of existing) existingByName.set(coll.name, coll);
 
-  const conflicts = data.collections.map((c) => c.name).filter((n) => existingByName.has(n));
+  const varByKey = new Map();
+
+  // Pre-populate with variables from existing collections so aliases from
+  // this payload can target collections imported in a prior run.
+  const conflictSet = new Set(data.collections.map((c) => c.name));
+  for (const coll of existing) {
+    if (conflictSet.has(coll.name)) continue;
+    for (const varId of coll.variableIds) {
+      const variable = await figma.variables.getVariableByIdAsync(varId);
+      if (variable) varByKey.set(`${coll.name}.${variable.name}`, variable);
+    }
+  }
+
+  const conflicts = [...conflictSet].filter((n) => existingByName.has(n));
   if (conflicts.length > 0) {
     for (const name of conflicts) {
       existingByName.get(name).remove();
@@ -53,7 +66,6 @@ async function runImport(data) {
     figma.ui.postMessage({ type: "progress", message: `Deleted ${conflicts.length} existing collection(s).` });
   }
 
-  const varByKey = new Map();
   let totalVars = 0;
 
   for (const collSpec of data.collections) {
