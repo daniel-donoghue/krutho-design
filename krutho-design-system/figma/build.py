@@ -3,15 +3,24 @@
 Emits separate files so foundation can be imported into all Figma files
 and surfaces added individually where needed.
 
+Foundation emits variable collections only. Surfaces emit variable
+collections and/or text styles. Text styles are a surface-layer concept:
+they bundle typography variables into role-specific applicable styles
+(h1, body, button, etc.) and inherit the typographic rules declared by
+the surface specification.
+
 Usage:
-  python build.py                 Build foundation + all surfaces
-  python build.py foundation      Build foundation only
-  python build.py surface diagrams   Build diagrams surface only
+  python build.py                          Build foundation + all surfaces
+  python build.py foundation               Build foundation only
+  python build.py surface diagrams         Build diagrams surface only
+  python build.py surface web-marketing    Build web marketing surface only
 
 Output files:
-  foundation.json          Colour primitives, colour semantic, spacing,
-                           grid, and typography collections.
-  surface-diagrams.json    Diagram colour collection.
+  foundation.json                Colour primitives, colour semantic, spacing,
+                                 grid, and typography collections.
+  surface-diagrams.json          Diagram colour collection.
+  surface-web-marketing.json     Web marketing text styles, one set per
+                                 breakpoint.
 """
 
 from __future__ import annotations
@@ -178,10 +187,53 @@ TYPE_SIZES: list[int] = [10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 80, 96,
 # Line height variants. Ratio and rounding: lh = ceil(size * ratio / 2) * 2
 LH_RATIOS: dict[str, float] = {"tight": 1.2, "default": 1.4, "loose": 1.6}
 
+# Typeface tier to family. Source: foundation/typography.md.
+TIER_TYPEFACE: dict[int, str] = {
+    1: "Spline Sans",
+    2: "Spline Mono",
+    3: "Enra",
+}
+
+# Weight to Figma font-style name.
+WEIGHT_STYLE: dict[int, str] = {
+    400: "Regular",
+    500: "Medium",
+}
+
 
 # ---------------------------------------------------------------------------
 # Data: Surfaces
 # ---------------------------------------------------------------------------
+
+# Web marketing text roles. Source: surfaces/web-marketing.md.
+# Each entry: (role-name, tier, weight, {breakpoint: size}, lh-rule).
+# lh-rule is a variant key ("tight" | "default" | "loose") or a callable
+# taking the rendered size and returning a variant key. Headings follow
+# the surface rule: above 40px rendered size selects tight, else default.
+# Inline roles (Link, Strong, Em, Inline code) inherit line height from
+# their parent role and are not emitted as independent styles.
+WEB_MARKETING_BREAKPOINTS: tuple[str, ...] = ("Small", "Medium", "Large")
+
+def _heading_lh_variant(size: int) -> str:
+    return "tight" if size > 40 else "default"
+
+WEB_MARKETING_ROLES: list[tuple] = [
+    ("Heading 1",   1, 500, {"Small": 40, "Medium": 64, "Large": 80}, _heading_lh_variant),
+    ("Heading 2",   1, 500, {"Small": 28, "Medium": 40, "Large": 48}, _heading_lh_variant),
+    ("Heading 3",   1, 500, {"Small": 20, "Medium": 24, "Large": 28}, _heading_lh_variant),
+    ("Eyebrow",     1, 500, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
+    ("Lead",        1, 400, {"Small": 18, "Medium": 20, "Large": 24}, "loose"),
+    ("Body",        1, 400, {"Small": 16, "Medium": 16, "Large": 16}, "loose"),
+    ("Body Small",  1, 400, {"Small": 14, "Medium": 14, "Large": 14}, "loose"),
+    ("Caption",     1, 400, {"Small": 12, "Medium": 12, "Large": 12}, "default"),
+    ("Block Code",  2, 400, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
+    ("Button",      1, 500, {"Small": 16, "Medium": 16, "Large": 16}, "tight"),
+    ("Nav Primary", 1, 400, {"Small": 16, "Medium": 16, "Large": 16}, "default"),
+    ("Footer Text", 1, 400, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
+]
+
+WEB_MARKETING_STYLE_PREFIX = "Web Marketing"
+
 
 # Diagram colour tokens. Source: surfaces/diagrams.md. Tuple = (light, dark).
 DIAGRAM: dict[str, tuple[str, str]] = {
@@ -288,10 +340,18 @@ def color_value(ref: str):
 def write_payload(filename: str, payload: dict) -> int:
     out_path = Path(__file__).parent / filename
     out_path.write_text(json.dumps(payload, indent=2) + "\n")
-    n_vars = sum(len(c["variables"]) for c in payload["collections"])
-    n_colls = len(payload["collections"])
-    print(f"  {filename}: {n_vars} variables across {n_colls} collections")
-    return n_vars
+    collections = payload.get("collections", [])
+    text_styles = payload.get("textStyles", [])
+    n_vars = sum(len(c["variables"]) for c in collections)
+    n_colls = len(collections)
+    n_styles = len(text_styles)
+    parts: list[str] = []
+    if n_vars:
+        parts.append(f"{n_vars} variables across {n_colls} collections")
+    if n_styles:
+        parts.append(f"{n_styles} text styles")
+    print(f"  {filename}: {', '.join(parts) if parts else 'empty payload'}")
+    return n_vars + n_styles
 
 
 # ---------------------------------------------------------------------------
@@ -374,8 +434,25 @@ def build_surface_diagrams() -> dict:
     ]}
 
 
+def build_surface_web_marketing() -> dict:
+    styles: list[dict] = []
+    for bp in WEB_MARKETING_BREAKPOINTS:
+        for role_name, tier, weight, sizes, lh_rule in WEB_MARKETING_ROLES:
+            size = sizes[bp]
+            variant = lh_rule(size) if callable(lh_rule) else lh_rule
+            styles.append({
+                "name": f"{WEB_MARKETING_STYLE_PREFIX}/{bp}/{role_name}",
+                "fontFamily": TIER_TYPEFACE[tier],
+                "fontStyle": WEIGHT_STYLE[weight],
+                "fontSize": size,
+                "lineHeight": derive_lh(size, LH_RATIOS[variant]),
+            })
+    return {"version": 1, "collections": [], "textStyles": styles}
+
+
 SURFACES = {
     "diagrams": ("surface-diagrams.json", build_surface_diagrams),
+    "web-marketing": ("surface-web-marketing.json", build_surface_web_marketing),
 }
 
 

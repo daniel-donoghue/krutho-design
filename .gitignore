@@ -1,3 +1,4 @@
 .DS_Store
 krutho-design.code-workspace
 .claude/settings.json
+__pycache__/

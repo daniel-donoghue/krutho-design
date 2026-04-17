@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "collections": [],
+  "textStyles": [
+    {
+      "name": "Web Marketing/Small/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 40,
+      "lineHeight": 56
+    },
+    {
+      "name": "Web Marketing/Small/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 28,
+      "lineHeight": 40
+    },
+    {
+      "name": "Web Marketing/Small/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 20,
+      "lineHeight": 28
+    },
+    {
+      "name": "Web Marketing/Small/Eyebrow",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Small/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 30
+    },
+    {
+      "name": "Web Marketing/Small/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 26
+    },
+    {
+      "name": "Web Marketing/Small/Body Small",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 24
+    },
+    {
+      "name": "Web Marketing/Small/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Web Marketing/Small/Block Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Small/Button",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 16,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Small/Nav Primary",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Web Marketing/Small/Footer Text",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Medium/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 64,
+      "lineHeight": 78
+    },
+    {
+      "name": "Web Marketing/Medium/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 40,
+      "lineHeight": 56
+    },
+    {
+      "name": "Web Marketing/Medium/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 24,
+      "lineHeight": 34
+    },
+    {
+      "name": "Web Marketing/Medium/Eyebrow",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Medium/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 20,
+      "lineHeight": 32
+    },
+    {
+      "name": "Web Marketing/Medium/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 26
+    },
+    {
+      "name": "Web Marketing/Medium/Body Small",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 24
+    },
+    {
+      "name": "Web Marketing/Medium/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Web Marketing/Medium/Block Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Medium/Button",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 16,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Medium/Nav Primary",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Web Marketing/Medium/Footer Text",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Large/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 80,
+      "lineHeight": 96
+    },
+    {
+      "name": "Web Marketing/Large/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 48,
+      "lineHeight": 58
+    },
+    {
+      "name": "Web Marketing/Large/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 28,
+      "lineHeight": 40
+    },
+    {
+      "name": "Web Marketing/Large/Eyebrow",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Large/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 24,
+      "lineHeight": 40
+    },
+    {
+      "name": "Web Marketing/Large/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 26
+    },
+    {
+      "name": "Web Marketing/Large/Body Small",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 24
+    },
+    {
+      "name": "Web Marketing/Large/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Web Marketing/Large/Block Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Large/Button",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 16,
+      "lineHeight": 20
+    },
+    {
+      "name": "Web Marketing/Large/Nav Primary",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Web Marketing/Large/Footer Text",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    }
+  ]
+}

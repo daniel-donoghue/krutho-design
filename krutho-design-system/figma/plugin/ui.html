@@ -86,7 +86,7 @@
 </head>
 <body>
   <h1>Krutho Tokens Import</h1>
-  <p>Select <code>figma-plugin.json</code> to create collections, modes, variables, and aliases in this file.</p>
+  <p>Select a payload JSON to create collections, modes, variables, aliases, and text styles in this file.</p>
 
   <label class="drop" id="drop">
     <input type="file" id="file" accept=".json,application/json">
@@ -162,15 +162,28 @@
     if (!msg) return;
 
     if (msg.type === 'analysis') {
-      if (msg.conflicts && msg.conflicts.length > 0) {
-        conflictBox.innerHTML = '<strong>These collections already exist and will be deleted before import:</strong><ul>' +
-          msg.conflicts.map((n) => '<li>' + n + '</li>').join('') +
-          '</ul><div style="margin-top:8px;font-size:11px;">Variables currently used in your designs will be remapped by Figma when re-created with the same names.</div>';
+      const conflicts = msg.conflicts || { collections: [], textStyles: [] };
+      const hasConflicts = conflicts.collections.length > 0 || conflicts.textStyles.length > 0;
+      if (hasConflicts) {
+        const parts = ['<strong>These items already exist and will be deleted before import:</strong>'];
+        if (conflicts.collections.length > 0) {
+          parts.push('<div style="margin-top:6px;font-weight:600;">Variable collections</div>');
+          parts.push('<ul>' + conflicts.collections.map((n) => '<li>' + n + '</li>').join('') + '</ul>');
+        }
+        if (conflicts.textStyles.length > 0) {
+          parts.push('<div style="margin-top:6px;font-weight:600;">Text styles</div>');
+          parts.push('<ul>' + conflicts.textStyles.map((n) => '<li>' + n + '</li>').join('') + '</ul>');
+        }
+        parts.push('<div style="margin-top:8px;font-size:11px;">Variable collections re-created with the same names are automatically remapped by Figma. Text styles are not: nodes using a deleted text style become unlinked and must be re-applied.</div>');
+        conflictBox.innerHTML = parts.join('');
         conflictBox.style.display = 'block';
       } else {
         conflictBox.style.display = 'none';
       }
-      writeLog(`Ready to import ${msg.collectionCount} collections.`, 'ok');
+      const summary = [];
+      if (msg.collectionCount > 0) summary.push(msg.collectionCount + ' collections');
+      if (msg.textStyleCount > 0) summary.push(msg.textStyleCount + ' text styles');
+      writeLog('Ready to import ' + (summary.join(' and ') || 'nothing') + '.', 'ok');
       importBtn.disabled = false;
     } else if (msg.type === 'progress') {
       writeLog(msg.message);

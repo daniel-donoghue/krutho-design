@@ -66,14 +66,14 @@ Roles are grouped by function. Within each group, the role set is what this surf
 
 ### Structural
 
-| Role    | Elements | Tier | Small     | Medium    | Large     | Weight |
-|---------|----------|------|-----------|-----------|-----------|--------|
-| h1      | `<h1>`   | 1    | type-40   | type-64   | type-80   | 500    |
-| h2      | `<h2>`   | 1    | type-28   | type-40   | type-48   | 500    |
-| h3      | `<h3>`   | 1    | type-20   | type-24   | type-28   | 500    |
-| Eyebrow | `<p>` with role class | 1 | type-14 | type-14 | type-14 | 500    |
+| Role      | Elements | Tier | Small     | Medium    | Large     | Weight |
+|-----------|----------|------|-----------|-----------|-----------|--------|
+| Heading 1 | `<h1>`   | 1    | type-40   | type-64   | type-80   | 500    |
+| Heading 2 | `<h2>`   | 1    | type-28   | type-40   | type-48   | 500    |
+| Heading 3 | `<h3>`   | 1    | type-20   | type-24   | type-28   | 500    |
+| Eyebrow   | `<p>` with role class | 1 | type-14 | type-14 | type-14 | 500    |
 
-h1 is the hero-scale heading. One per page. h2 marks major sections. h3 marks subsections within sections. Heading levels below h3 are not admitted on this surface; if a page appears to require h4, the content structure is reconsidered.
+Heading 1 is the hero-scale heading. One per page. Heading 2 marks major sections. Heading 3 marks subsections within sections. Heading levels below Heading 3 are not admitted on this surface; if a page appears to require `<h4>`, the content structure is reconsidered.
 
 Eyebrow sits above a heading and classifies it. Size holds across breakpoints because its function is reference, not hierarchy.
 
@@ -127,17 +127,17 @@ Tier 3 (Enra) is not assigned to any role in this first pass. If a hero tagline 
 
 Line height variant for each role is derived by rule. Variants (Tight, Default, Loose) are defined in the Krutho Typography System.
 
-**Headings (h1, h2, h3).** Tight when the rendered size is above 40px. Default when the rendered size is 40px or below.
+**Headings (Heading 1, Heading 2, Heading 3).** Tight when the rendered size is above 40px. Default when the rendered size is 40px or below.
 
 40px is the zone boundary between the mid zone and the display zone, derived from the 10% hierarchy threshold. The perceptual behaviour of line height tracks this boundary. At display sizes, the Default 1.4 ratio produces a vertical interval large enough to read as disconnection between lines; Tight at 1.2 produces a deliberate, controlled interval. Below the display zone, Tight produces crowding; Default provides reliable clearance. The zone boundary is the threshold at which the variant changes. This reason excludes the alternatives.
 
 Applied across the breakpoints:
 
-| Role | Small             | Medium            | Large           |
-|------|-------------------|-------------------|-----------------|
-| h1   | default (type-40) | tight (type-64)   | tight (type-80) |
-| h2   | default (type-28) | default (type-40) | tight (type-48) |
-| h3   | default (type-20) | default (type-24) | default (type-28) |
+| Role      | Small             | Medium            | Large           |
+|-----------|-------------------|-------------------|-----------------|
+| Heading 1 | default (type-40) | tight (type-64)   | tight (type-80) |
+| Heading 2 | default (type-28) | default (type-40) | tight (type-48) |
+| Heading 3 | default (type-20) | default (type-24) | default (type-28) |
 
 **Prose body roles (Lead, Body, Body small).** Loose.
 
@@ -166,9 +166,9 @@ No space-below value is declared on any role. The interval between two adjacent 
 
 | Role         | Space above |
 |--------------|-------------|
-| h1           | space-96 (when not at page top) |
-| h2           | space-96    |
-| h3           | space-48    |
+| Heading 1    | space-96 (when not at page top) |
+| Heading 2    | space-96    |
+| Heading 3    | space-48    |
 | Lead         | space-32    |
 | Body         | space-24    |
 | Body small   | space-16    |
@@ -223,7 +223,7 @@ Link treatment is an open refinement. The specific colour tokens resolve against
 2. Three breakpoints govern the surface: Small (up to 640px), Medium (640 to 1024px), Large (1024px and above). Responsive behaviour is discrete token swaps at breakpoint boundaries. Fluid type sizing is not admitted.
 3. Every type role on this surface is listed in the Typography Roles section. Roles not listed are not admitted.
 4. Body anchor holds at type-16 across all breakpoints.
-5. Heading levels admitted on this surface are h1, h2, h3. h4 and below are not admitted.
+5. Heading roles admitted on this surface are Heading 1, Heading 2, Heading 3, attached to `<h1>`, `<h2>`, `<h3>` respectively. `<h4>` and below are not admitted.
 6. Tier 3 is not currently assigned to any role. Its admission on this surface requires a named role and a stated reason consistent with the typography system's Tier 3 admission test.
 7. Italic is admitted on `<em>`, `<cite>`, and `<i>` at weight 400.
 8. Line height variants are derived by the rule stated in the Line Height subsection. Tight applies to headings rendered above 40px and to Button. Default applies to headings rendered at 40px or below and to Eyebrow, Caption, Nav primary, Footer text, and Block code. Loose applies to Lead, Body, and Body small. Inline roles inherit from the parent role.
@@ -237,7 +237,7 @@ Link treatment is an open refinement. The specific colour tokens resolve against
 
 Items flagged in the first pass that benefit from review before the spec is considered settled.
 
-1. **Heading scale at Large.** h1 at type-80 is proposed. type-64 and type-96 are both admitted zone-adjacent alternatives. Decision depends on hero composition and the visual weight of the wordmark placed alongside.
+1. **Heading scale at Large.** Heading 1 at type-80 is proposed. type-64 and type-96 are both admitted zone-adjacent alternatives. Decision depends on hero composition and the visual weight of the wordmark placed alongside.
 2. **Eyebrow treatment.** Proposed at type-14 Medium with no transformation. Marketing convention often renders eyebrows uppercase with positive letter-spacing. Neither uppercase transform nor letter-spacing tokens are registered in the Krutho Typography System. Admitting either on this surface is a surface-level extension that needs a stated reason.
 3. **Tier 3 assignment.** Admissible under the system. Not assigned in the first pass. A hero tagline or pull quote is the most likely candidate if Tier 3 is introduced.
 4. **Link treatment.** Colour tokens and underline convention need resolution against the colour system.

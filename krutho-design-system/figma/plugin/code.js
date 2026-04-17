@@ -1,6 +1,6 @@
 // Krutho Tokens Import
-// Reads a figma-plugin.json payload at runtime and materialises variable
-// collections, modes, variables, and aliases into the current file.
+// Reads a payload JSON at runtime and materialises variable collections,
+// modes, variables, aliases, and text styles into the current file.
 
 figma.showUI(__html__, { width: 460, height: 360 });
 
@@ -9,7 +9,12 @@ figma.ui.onmessage = async (msg) => {
     if (msg.type === "analyse") {
       const data = parsePayload(msg.payload);
       const conflicts = await findConflicts(data);
-      figma.ui.postMessage({ type: "analysis", conflicts, collectionCount: data.collections.length });
+      figma.ui.postMessage({
+        type: "analysis",
+        conflicts,
+        collectionCount: data.collections.length,
+        textStyleCount: data.textStyles.length,
+      });
     } else if (msg.type === "import") {
       const data = parsePayload(msg.payload);
       await runImport(data);
@@ -28,19 +33,52 @@ function parsePayload(text) {
   } catch (e) {
     throw new Error("File is not valid JSON.");
   }
-  if (!data || !Array.isArray(data.collections)) {
-    throw new Error("JSON missing 'collections' array.");
+  const hasCollections = data && Array.isArray(data.collections);
+  const hasTextStyles = data && Array.isArray(data.textStyles);
+  if (!hasCollections && !hasTextStyles) {
+    throw new Error("JSON missing 'collections' or 'textStyles' array.");
   }
+  if (!hasCollections) data.collections = [];
+  if (!hasTextStyles) data.textStyles = [];
   return data;
 }
 
 async function findConflicts(data) {
-  const existing = await figma.variables.getLocalVariableCollectionsAsync();
-  const existingSet = new Set(existing.map((c) => c.name));
-  return data.collections.map((c) => c.name).filter((name) => existingSet.has(name));
+  const conflicts = { collections: [], textStyles: [] };
+  if (data.collections.length > 0) {
+    const existing = await figma.variables.getLocalVariableCollectionsAsync();
+    const set = new Set(existing.map((c) => c.name));
+    conflicts.collections = data.collections.map((c) => c.name).filter((n) => set.has(n));
+  }
+  if (data.textStyles.length > 0) {
+    const existing = await figma.getLocalTextStylesAsync();
+    const set = new Set(existing.map((s) => s.name));
+    conflicts.textStyles = data.textStyles.map((s) => s.name).filter((n) => set.has(n));
+  }
+  return conflicts;
 }
 
 async function runImport(data) {
+  let totalVars = 0;
+  if (data.collections.length > 0) {
+    totalVars = await importCollections(data.collections);
+  }
+
+  let totalStyles = 0;
+  if (data.textStyles.length > 0) {
+    totalStyles = await importTextStyles(data.textStyles);
+  }
+
+  const summary = [];
+  if (totalVars > 0) summary.push(`${totalVars} variables across ${data.collections.length} collections`);
+  if (totalStyles > 0) summary.push(`${totalStyles} text styles`);
+  figma.ui.postMessage({
+    type: "done",
+    message: summary.length > 0 ? `Imported ${summary.join(" and ")}.` : "Nothing to import.",
+  });
+}
+
+async function importCollections(collectionSpecs) {
   const existing = await figma.variables.getLocalVariableCollectionsAsync();
   const existingByName = new Map();
   for (const coll of existing) existingByName.set(coll.name, coll);
@@ -49,7 +87,7 @@ async function runImport(data) {
 
   // Pre-populate with variables from existing collections so aliases from
   // this payload can target collections imported in a prior run.
-  const conflictSet = new Set(data.collections.map((c) => c.name));
+  const conflictSet = new Set(collectionSpecs.map((c) => c.name));
   for (const coll of existing) {
     if (conflictSet.has(coll.name)) continue;
     for (const varId of coll.variableIds) {
@@ -68,7 +106,7 @@ async function runImport(data) {
 
   let totalVars = 0;
 
-  for (const collSpec of data.collections) {
+  for (const collSpec of collectionSpecs) {
     figma.ui.postMessage({ type: "progress", message: `Creating "${collSpec.name}"...` });
 
     const coll = figma.variables.createVariableCollection(collSpec.name);
@@ -99,10 +137,67 @@ async function runImport(data) {
     }
   }
 
-  figma.ui.postMessage({
-    type: "done",
-    message: `Imported ${totalVars} variables across ${data.collections.length} collections.`,
-  });
+  return totalVars;
+}
+
+async function importTextStyles(styleSpecs) {
+  // Delete existing text styles whose names collide with incoming ones.
+  // Unlike variables, text styles are not auto-remapped by name on
+  // re-creation. Text nodes previously bound to a deleted style retain
+  // their last-resolved values and must be re-applied to pick up the new
+  // style. The UI warns the user about this before import.
+  const existing = await figma.getLocalTextStylesAsync();
+  const incomingNames = new Set(styleSpecs.map((s) => s.name));
+  let deleted = 0;
+  for (const s of existing) {
+    if (incomingNames.has(s.name)) { s.remove(); deleted++; }
+  }
+  if (deleted > 0) {
+    figma.ui.postMessage({ type: "progress", message: `Deleted ${deleted} existing text style(s).` });
+  }
+
+  // Collect unique (family, style) pairs and try to load each. Setting
+  // fontName on a TextStyle requires the font to be loaded first even
+  // though the style stores only a reference.
+  const fontPairs = new Map();
+  for (const s of styleSpecs) {
+    const key = `${s.fontFamily}__${s.fontStyle}`;
+    if (!fontPairs.has(key)) fontPairs.set(key, { family: s.fontFamily, style: s.fontStyle });
+  }
+  figma.ui.postMessage({ type: "progress", message: `Loading ${fontPairs.size} font(s)...` });
+
+  const loadedKeys = new Set();
+  const failedFonts = [];
+  await Promise.all([...fontPairs.entries()].map(async ([key, font]) => {
+    try {
+      await figma.loadFontAsync(font);
+      loadedKeys.add(key);
+    } catch (err) {
+      failedFonts.push(font);
+    }
+  }));
+
+  if (failedFonts.length > 0) {
+    const list = failedFonts.map((f) => `${f.family} ${f.style}`).join(", ");
+    figma.ui.postMessage({ type: "progress", message: `Skipping styles using unavailable fonts: ${list}.` });
+  }
+
+  figma.ui.postMessage({ type: "progress", message: `Creating text style(s)...` });
+  let created = 0;
+  for (const spec of styleSpecs) {
+    const key = `${spec.fontFamily}__${spec.fontStyle}`;
+    if (!loadedKeys.has(key)) continue;
+    const style = figma.createTextStyle();
+    style.name = spec.name;
+    style.fontName = { family: spec.fontFamily, style: spec.fontStyle };
+    style.fontSize = spec.fontSize;
+    if (typeof spec.lineHeight === "number") {
+      style.lineHeight = { unit: "PIXELS", value: spec.lineHeight };
+    }
+    created++;
+  }
+
+  return created;
 }
 
 function toFigmaValue(type, spec, varByKey, ownerColl, ownerPath) {
