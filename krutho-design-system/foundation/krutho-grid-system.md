@@ -10,7 +10,7 @@ This document operates under the Krutho Design Philosophy. The terms precision, 
 
 The Krutho grid system defines the square pixel grid used as a construction reference on any surface. It is not the column layout system, which governs horizontal subdivision into content columns. It is not the spacing system, which governs the spatial intervals between elements. The grid governs alignment: the common reference frame against which all geometry is placed. A grid value is a cell size: it defines where geometry sits on a pixel raster. A spacing value is an interval: it defines the distance between two elements. Grid values and spacing values may share the same number (the value 4 is both the grid cell size grid-4 and the spacing token space-4) but their functions are distinct, and the grid is not derived from the spacing token set even where individual values coincide.
 
-**Dependencies.** This document inherits the base unit from the Krutho Spacing System: 4px. It references the density registers defined in the Krutho Spacing System and Krutho Typography System. It operates alongside the Krutho Layout System: the layout system governs column structure; this document governs the pixel grid that underlies it. An independent inspector can verify any grid specification against this document without consulting additional documents.
+**Dependencies.** This document inherits the base unit from the Krutho Spacing System: 4px. It references the density registers defined in the Krutho Spacing System. It operates alongside the Krutho Layout System: the layout system governs column structure; this document governs the pixel grid that underlies it. An independent inspector can verify any grid specification against this document without consulting additional documents.
 
 ---
 
@@ -102,7 +102,7 @@ If, in Case 1 or Case 2, no admitted value divides the relevant value(s) exactly
 
 ## Density Register and Grid Selection
 
-The density registers are defined in the Krutho Spacing System and Krutho Typography System. The same three registers apply here. Register definitions are reproduced below in condensed form for independent verification. A change to the register definitions in either source document requires updating this table.
+The density registers are defined in the Krutho Spacing System. The same three registers apply here. Register definitions are reproduced below in condensed form for independent verification. A change to the register definitions in the Krutho Spacing System requires updating this table.
 
 | Register   | Surface class                                                        | Typical primary grid | Sub-grid depth |
 |------------|----------------------------------------------------------------------|----------------------|----------------|

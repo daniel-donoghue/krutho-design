@@ -30,7 +30,7 @@ A specific multiple of the base unit. step(n) = n × 4px, where n is a positive 
 A range of the scale within which a consistent interval applies. The interval is the step gap between consecutive admitted values within the zone. Zone boundaries are derived from the perceptibility threshold defined in the Zone Structure section.
 
 **Register.**
-A named configuration that defines the spatial character of a surface class: its information density, the behaviour of white space on that surface, and the subset of the spacing scale appropriate to it. A register is a selection from the scale, not a modification of it. The register names used in this document are the same names used in the Krutho Typography System. The two documents are complementary: this document governs spatial values, the typography document governs typographic values, within the same register framework.
+A named configuration that defines the spatial character of a surface class: its information density, the behaviour of white space on that surface, and the subset of the spacing scale appropriate to it. A register is a selection from the scale, not a modification of it. Registers are defined and owned by this document. The Krutho Typography System defines type tokens and line height tokens as system-level primitives; surface specifications select from both the spacing register and the typography token sets independently.
 
 **Interval.**
 The step gap between consecutive values within a zone. The interval differs by zone. It is derived, not chosen.
@@ -135,7 +135,7 @@ On-grid values that fall between admitted steps within a zone are not in the des
 
 A register defines a surface class. It specifies the information density and white space behaviour that characterise the class, and the subset of the spacing scale appropriate to it.
 
-Three registers are defined. The same register names apply in the Krutho Typography System, where typographic values for each class are specified. A surface spec selects a register and applies both the spatial values from this document and the typographic values from the typography document.
+Three registers are defined. A surface spec selects a register and applies the spatial values from this document. Typographic values are selected independently from the Krutho Typography System's token sets.
 
 **Register selection.** The register is selected by matching the surface's characteristics against the register descriptions below. A surface spec states which register it uses and which characteristics of the surface determine that selection. The selection is verifiable: an independent party can read the surface spec's stated characteristics and confirm that they match the selected register's description. If no register matches without significant mismatch on multiple criteria, the surface spec documents the closest match and specifies the deviation.
 

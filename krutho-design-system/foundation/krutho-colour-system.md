@@ -10,19 +10,34 @@ This document operates under the Krutho Design Philosophy. The terms precision, 
 
 ---
 
+## Terms
+
+Three terms are defined here. Each is used throughout this document in its defined sense only.
+
+**Layer.**
+An operating context that defines the relationship between Krutho and colour in a given deployment. Three layers are defined in this document. The term layer is not interchangeable with tier as defined in the Krutho Typography System.
+
+**Perceptual weight.**
+The visual prominence of a rendered element, measured by classifying it as neutral or chromatic (by OKLCH chroma) and computing its fractional surface area. The full measurement method is specified in the Perceptual Weight section.
+
+**Dominant.**
+The condition in which a brand colour's chromatic area exceeds twice that of any other brand colour in the same context. Where no colour meets this threshold, no colour is dominant.
+
+---
+
 ## Scope
 
-This document covers five layers.
+This document covers four layers.
 
-**Primitive scales.** The raw colour ramps from which all other values are derived. Primitive values are not used directly in components or diagrams. They are reference points for the semantic and diagram layers.
+**Primitive scales.** The raw colour ramps from which all other values are derived. Primitive values are not used directly in components. They are the reference points for the semantic layer and for surface documents that define their own token sets.
 
 **Semantic tokens.** Named values that carry intent. Each semantic token references one primitive stop. Each token has one function. No token is used outside its defined function.
-
-**Diagram tokens.** Named values for use in technical diagrams and data visualisations. Diagram tokens reference primitive stops. Diagram tokens are not used in UI components.
 
 **System architecture.** The three-tier model that governs how colour operates across product, enterprise, and brand contexts.
 
 **Governing principles.** The conditions that constrain colour application. These principles are specifications, not preferences. Conformance is assessable.
+
+Diagram colour tokens are defined in the Krutho Diagram Surface specification. The primitive ramps referenced by those tokens are defined here.
 
 ---
 
@@ -130,6 +145,38 @@ Primitive scales are sequential ramps from lightest to darkest. Lower stop numbe
 
 The primitive layer is the only layer where raw hex values are specified. No other layer contains raw hex values, with the exception of dark feedback surfaces, which are derived by formula from primitive values. The formula is specified under Dark Feedback Surface Derivation in the Semantic Layer section.
 
+### Ramp Derivation Method
+
+Primitive ramp stops are derived by OKLCH lightness stepping from the brand anchor.
+
+- The anchor stop's hex value is fixed at its registered position in the ramp.
+- Other stops are derived by fixed lightness (L) intervals in OKLCH space, with chroma (C) and hue (H) held constant from the anchor.
+- Where a derived stop falls outside the displayable sRGB gamut, chroma is reduced to the maximum displayable value at that lightness. The reduction is recorded against the affected stop.
+
+OKLCH is selected over HSL because OKLCH is perceptually uniform: a fixed delta-L produces an approximately equal perceived lightness step at every position on the ramp. HSL does not have this property. A ramp constructed in a non-uniform space produces stops that compress perceptually at one end and expand at the other, defeating the purpose of an evenly-spaced reference.
+
+**Lightness positions.** The target L value at each standard stop is:
+
+| Stop | L value |
+|------|---------|
+| 50   | 0.97    |
+| 100  | 0.92    |
+| 200  | 0.83    |
+| 300  | 0.74    |
+| 400  | 0.65    |
+| 500  | 0.56    |
+| 600  | 0.47    |
+| 700  | 0.38    |
+| 800  | 0.29    |
+| 900  | 0.20    |
+| 950  | 0.11    |
+
+These values produce delta-L = 0.09 between adjacent standard stops, with denser sampling at the lighter end (delta-L = 0.05 between 50 and 100) reflecting the greater perceptual sensitivity to lightness differences in the lighter half of the range. The anchor's actual L value may not fall exactly on the target for its stop; in that case, the anchor's L value defines a local origin and other stops are derived from the anchor by the same intervals, preserving the brand colour exactly.
+
+Off-standard stops (neutral-0, neutral-450, neutral-825, neutral-850) retain their function-based derivations documented under their respective primitive sections and are not subject to OKLCH stepping.
+
+**Transitional state.** The ramp stops in this document were authored before this derivation method was specified. The hex values in the primitive scale tables do not yet conform to the OKLCH derivation defined here. The brand anchors are correct by definition; the surrounding stops are approximate. Re-derivation of every primitive ramp by OKLCH stepping from its registered anchor is a named gap in this specification. Until re-derivation is complete, ramp stops other than anchors are documented as transitional. The primitive ramps remain inspectable (their values are listed and reproducible) but are not yet inspectable as derivations from the anchor. The neutral, signal-blue, secondary-signal, teal, amber, error, success, and warning ramps are all in scope for re-derivation.
+
 ---
 
 ### --primitive-neutral
@@ -154,7 +201,13 @@ Pure achromatic scale. No warm or cool undertone. Powers all surface, text, bord
 | 900  | #181818 | text-strong light, surface-base dark, surface-inverse light       |
 | 950  | #0A0A0A | surface-sunken dark                                               |
 
-Stops 0, 450, 825, and 850 fall outside the standard range. Each is defined by a specific token requirement with no equivalent at adjacent stops. The basis for each is documented in Decision Record DR-001.
+Stops 0, 450, 825, and 850 fall outside the standard range. Each is defined by a specific token requirement with no equivalent at adjacent stops.
+
+**Basis for neutral-0 (#FFFFFF).** Pure white is required for action button label text, icon-on-accent, and action-primary-text. The 50 stop (#FAFAFA) is not sufficient: the contrast difference between #FAFAFA and a saturated fill is not equivalent to white.
+
+**Basis for neutral-450 (#AFAFAF).** text-placeholder light requires a value perceptibly lighter than text-disabled (neutral-400, #C4C4C4) and darker than text-faint (neutral-500, #9A9A9A). No adjacent stop serves this function. The value is the arithmetic midpoint: (196 + 154) / 2 = 175 = RGB(175, 175, 175) = #AFAFAF.
+
+**Basis for neutral-825 (#2A2A2A) and neutral-850 (#202020).** Four distinct dark background values are required: #343434, #2A2A2A, #202020, #181818. On a standard 11-stop scale, only #343434 (neutral-800) and #181818 (neutral-900) have natural positions. Adding neutral-825 and neutral-850 accommodates all four values without compression. Compressing two values onto a single stop would make them indistinguishable by reference, which defeats the function of the primitive scale.
 
 ---
 
@@ -204,7 +257,9 @@ Brand anchor: 500 = #5C60D6 (Secondary Signal).
 
 ### --primitive-teal
 
-Derived from brand Accent (#004964). Anchored at 700. Mid-tone stops are constructed above the anchor to provide usable fills for diagram categorical transport tokens. Anchoring at 700 rather than 500 is documented in Decision Record DR-003.
+Derived from brand Accent (#004964). Anchored at 700. Mid-tone stops are constructed above the anchor to provide usable fills for diagram categorical transport tokens.
+
+**Why anchored at 700.** The Accent value #004964 has a relative luminance of approximately 3.5%, placing it perceptually at the dark end of a ramp. Anchoring at 500 would compress the lighter stops to a degree where fills (stops 50 through 300) would not be perceptually distinct from neutral at diagram node sizes. Anchoring at 700 allows lighter stops to carry sufficient saturation for categorical fill use while preserving the brand anchor at its correct tonal position.
 
 | Stop | Hex     |
 |------|---------|
@@ -226,7 +281,9 @@ Brand anchor: 700 = #004964 (Accent).
 
 ### --primitive-amber
 
-Net-new ramp. Not present in the existing brand palette. Required for diagram categorical state tokens and the negative pole of the diverging scale. Admission is documented in Decision Record DR-004. The amber ramp does not appear in any surface, text, border, icon, action, or feedback token. Its scope is restricted to the diagram layer.
+Net-new ramp. Not present in the existing brand palette. The amber ramp does not appear in any surface, text, border, icon, action, or feedback token. Its scope is restricted to the diagram layer.
+
+**Why admitted.** Two independent grounds, either sufficient alone. First, diverging data requires two hues extending outward from a neutral midpoint with equal visual weight. The positive pole uses signal-blue. No warm hue exists in the brand palette for the negative pole. Without an amber ramp, a diverging scale cannot be constructed from defined primitives. Second, four categorical diagram tokens require four perceptually distinct hue families. The three existing families (signal-blue at ~220°, secondary-signal at ~238°, teal at ~198°) are all cool hues. At diagram node sizes, three variants of the same cool sector are not reliably discriminated. A warm hue at ~37° (amber) produces a set where each member is distinguishable from all others.
 
 | Stop | Hex     |
 |------|---------|
@@ -248,7 +305,9 @@ Conceptual anchor: 500 = #C47B1A. Warm gold. Distinct in hue from the brownish-a
 
 ### --primitive-deep-base
 
-Fixed structural anchors. Not a ramp. Not stops on any scale. Used exclusively for diagram headers, swimlane bars, and label tabs. Exclusion from the signal-blue ramp is documented in Decision Record DR-003.
+Fixed structural anchors. Not a ramp. Not stops on any scale. Used exclusively for diagram headers, swimlane bars, and label tabs.
+
+**Why not on the signal-blue ramp.** Including these values as stops on the signal-blue ramp would compress the dark end of the scale. The perceived lightness difference between signal-blue-900 (#001F6B) and #000035 is below the threshold of reliable discrimination. A ramp with indistinguishable adjacent stops fails its function as a reference scale. Additionally, ramp membership implies tonal relationships (hover states, surface tints, contrast pairs). These values are structural anchors for fixed elements. A structural anchor that acquires tonal relationships through ramp membership has been misclassified.
 
 | Name                    | Hex     | Function                                                    |
 |-------------------------|---------|-------------------------------------------------------------|
@@ -357,11 +416,15 @@ RGB calculation: each channel = round(base + (source − base) × 0.12) where ba
 
 The same formula and derived values apply to the corresponding --color-feedback-[state]-surface dark tokens.
 
-These values are reproducible by any party from the defined primitives and formula. The basis for the 12% figure is documented in Decision Record DR-002.
+These values are reproducible by any party from the defined primitives and formula.
+
+**Why 12%.** The opacity must produce a tint that is perceptible on a dark background without dominating it. Below 8%, the tint is below perceptual threshold at typical viewing distances. Above 15%, the surface begins to compete with node-level colour. 12% is the midpoint of the viable range.
 
 ---
 
 ### Surface
+
+Surface tokens follow an elevation metaphor: overlay floats above all, raised floats above page, base is the page, sunken recedes below. Each name describes where in the z-axis the surface sits. The metaphor is directionally unambiguous.
 
 | Token                    | Description                                                              | Light             | Dark        |
 |--------------------------|--------------------------------------------------------------------------|-------------------|-------------|
@@ -580,293 +643,3 @@ Surfaces use the derivation formula for dark values. Text, border, and icon toke
 
 ---
 
-## Diagram Colour System
-
-The same chain applies to diagrams as to the semantic layer: every value traces to a primitive, every token has one function, and every decision records its reason.
-
-Diagram tokens are not used in UI components. Semantic tokens are not used in diagrams unless the diagram type is status or threshold data, in which case the semantic mode applies directly. The two layers do not cross.
-
----
-
-### Colour Modes
-
-Every diagram operates in one or more of five colour modes. The mode is determined by the type of information being communicated. Diagram type is not a colour specification. Colour mode is.
-
-| Mode        | Question the colour answers              | Typical diagram types                                        |
-|-------------|------------------------------------------|--------------------------------------------------------------|
-| Signal      | What matters in this diagram?            | Process flows, swimlanes, architectural diagrams             |
-| Categorical | Which group is this?                     | Architecture, network graphs, categorical data charts        |
-| Sequential  | How much, or how far?                    | Heatmaps, timelines, density charts, volume series           |
-| Diverging   | Which direction from the centre?         | Delta charts, valid/expired distributions, before/after      |
-| Semantic    | What does the system judge this to be?   | Status dashboards, compliance matrices, threshold alerts     |
-
-A diagram that cannot be assigned to any defined mode requires a specification addition before colour is applied. Using an existing mode for an unspecified purpose is a conformance failure.
-
----
-
-### Signal Mode
-
-Signal mode is used when a diagram is primarily neutral and colour marks only those moments that carry distinct meaning within that neutrality. The majority of nodes remain neutral. Signal is withheld until a signal condition is met.
-
-Two signal conditions are defined.
-
-**Trust layer active.** A component, node, or step in which cryptographic verification, identity assertion, or trust chain operations are occurring. Filled with signal-blue · 50. Bordered with signal-blue · 500. Text in signal-blue · 800.
-
-**Human decision in motion.** A step at which a person must act. No fill colour is applied — white fill, strong neutral border. The border weight distinguishes the node from infrastructure. No blue fill is used because the human is not the trust layer.
-
-Signal mode does not extend to connectors unless the connection itself represents a trust handoff. A connector between two trust-layer nodes is not itself a trust event. The connector-trust token is used only when the connection is the handoff, not merely adjacent to one.
-
-#### Signal mode tokens
-
-| Token                               | Description                              | Light              | Dark               |
-|-------------------------------------|------------------------------------------|--------------------|--------------------|
-| --color-diagram-signal-trust-fill   | Trust layer node or container fill       | signal-blue · 50   | signal-blue · 900  |
-| --color-diagram-signal-trust-border | Trust layer node or container border     | signal-blue · 500  | signal-blue · 500  |
-| --color-diagram-signal-trust-text   | Text on trust layer fill                 | signal-blue · 800  | signal-blue · 200  |
-| --color-diagram-signal-human-border | Human action node border                 | neutral · 900      | neutral · 50       |
-
----
-
-### Categorical Mode
-
-Categorical mode is used when distinct domains, systems, or entity types require simultaneous visual separation. All members of the same category receive the same colour treatment. Categories carry no hierarchy. No category is more important than another by virtue of its colour.
-
-Maximum four categories. A fifth category is rendered neutral and its role is documented in the diagram key. The specification does not define a fifth categorical colour. A diagram requiring more than four colour-separated categories requires structural redesign before it requires a fifth colour.
-
-Each categorical token is defined by a function, not an ordinal position. The basis for role-defined names is documented in Decision Record DR-005.
-
-#### Category definitions
-
-**Trust (signal-blue family)** Applied to components, systems, or processes that perform or rely on cryptographic verification, identity assertion, or trust chain operations. The defining criterion: correct behaviour depends on cryptographic proof rather than assumed permission.
-
-**Integration (secondary-signal family)** Applied to partner systems, external services, and third-party components that communicate with the trust layer through defined interfaces. Connected to the trust chain but external to it. Does not itself perform verification.
-
-**Transport (teal family)** Applied to network infrastructure, connectivity layers, routing, and data-in-motion systems. The defining criterion: the component's primary function is movement of data, not computation or storage of it.
-
-**State (amber family)** Applied to storage systems, credential stores, databases, and data-at-rest. The defining criterion: the component's primary function is persistence of data, not movement or transformation of it.
-
-Where an entity satisfies more than one definition, assign by primary function. Where an entity satisfies none, render it neutral and annotate.
-
-#### Relationship to signal tokens
-
-The trust categorical tokens and the signal trust tokens reference the same primitive stops. Their distinction is scope. Signal tokens mark specific nodes in a predominantly neutral diagram. Categorical tokens mark all entities of a domain in a diagram where multiple domains require simultaneous colour distinction. A node correctly marked with diagram-signal-trust is also correctly categorised as diagram-cat-trust when the diagram operates in categorical mode.
-
-#### Categorical tokens
-
-| Token                                | Light                   | Dark                      |
-|--------------------------------------|-------------------------|---------------------------|
-| --color-diagram-cat-trust-fill       | signal-blue · 50        | signal-blue · 900         |
-| --color-diagram-cat-trust-border     | signal-blue · 500       | signal-blue · 500         |
-| --color-diagram-cat-trust-text       | signal-blue · 800       | signal-blue · 200         |
-| --color-diagram-cat-integration-fill | secondary-signal · 50   | secondary-signal · 900    |
-| --color-diagram-cat-integration-border | secondary-signal · 500 | secondary-signal · 500   |
-| --color-diagram-cat-integration-text | secondary-signal · 800  | secondary-signal · 200    |
-| --color-diagram-cat-transport-fill   | teal · 50               | teal · 900                |
-| --color-diagram-cat-transport-border | teal · 500              | teal · 500                |
-| --color-diagram-cat-transport-text   | teal · 800              | teal · 200                |
-| --color-diagram-cat-state-fill       | amber · 50              | amber · 900               |
-| --color-diagram-cat-state-border     | amber · 500             | amber · 500               |
-| --color-diagram-cat-state-text       | amber · 800             | amber · 200               |
-
----
-
-### Sequential Mode
-
-Sequential mode is used for ordered data with a single direction. The colour encodes position in the sequence. Signal-blue is the default sequential ramp. A second sequential variable in the same diagram uses the teal ramp.
-
-Five stops are defined for standard use. These are the stops at which perceptual differentiation is reliable at typical diagram and chart dimensions. The full primitive ramp is available for precise mapping where finer gradation is required.
-
-| Token                      | Primitive reference  | Position                    |
-|----------------------------|----------------------|-----------------------------|
-| --color-diagram-seq-1      | signal-blue · 50     | Lowest / earliest / weakest |
-| --color-diagram-seq-2      | signal-blue · 200    |                             |
-| --color-diagram-seq-3      | signal-blue · 400    | Mid                         |
-| --color-diagram-seq-4      | signal-blue · 500    |                             |
-| --color-diagram-seq-5      | signal-blue · 700    | Highest / latest / strongest |
-| --color-diagram-seq-alt-1  | teal · 50            | Alternate ramp — lowest     |
-| --color-diagram-seq-alt-2  | teal · 200           |                             |
-| --color-diagram-seq-alt-3  | teal · 400           | Alternate ramp — mid        |
-| --color-diagram-seq-alt-4  | teal · 500           |                             |
-| --color-diagram-seq-alt-5  | teal · 700           | Alternate ramp — highest    |
-
----
-
-### Diverging Mode
-
-Diverging mode is used for data with a meaningful centre point. Two hues extend outward from a neutral midpoint with equal visual weight. The centre represents zero, baseline, threshold, or balance.
-
-For Krutho data: the positive pole (valid, trusted, above threshold) uses signal-blue. The negative pole (expired, revoked, below threshold) uses amber. The midpoint is neutral.
-
-| Token                               | Primitive reference   | Position        |
-|-------------------------------------|-----------------------|-----------------|
-| --color-diagram-div-negative-strong | amber · 600           | Strong negative |
-| --color-diagram-div-negative-subtle | amber · 200           | Subtle negative |
-| --color-diagram-div-midpoint        | neutral · 300         | Centre          |
-| --color-diagram-div-positive-subtle | signal-blue · 200     | Subtle positive |
-| --color-diagram-div-positive-strong | signal-blue · 600     | Strong positive |
-
----
-
-### Semantic Mode
-
-Semantic mode uses the existing semantic source tokens directly. No diagram-specific tokens are introduced for this mode.
-
-Status conditions map as follows.
-
-| Condition                    | Token family       |
-|------------------------------|--------------------|
-| Valid / confirmed            | semantic · success |
-| Invalid / failed             | semantic · error   |
-| Expired / expiring / caution | semantic · warning |
-| Informational / pending      | semantic · info    |
-
----
-
-### Structural Tokens
-
-Structural tokens apply to all diagram types regardless of mode. They govern headers, default nodes, annotations, connectors, and boundaries.
-
-| Token                                 | Description                                                                                    | Light              | Dark               |
-|---------------------------------------|------------------------------------------------------------------------------------------------|--------------------|--------------------|
-| --color-diagram-header-bg             | Swimlane headers, container label tabs                                                         | deep-base-b        | deep-base-b        |
-| --color-diagram-header-text           | Text on diagram headers                                                                        | neutral · 0        | neutral · 0        |
-| --color-diagram-node-fill             | Default node fill                                                                              | neutral · 0        | neutral · 850      |
-| --color-diagram-node-border           | Default node border                                                                            | neutral · 500      | neutral · 600      |
-| --color-diagram-node-text             | Default node text                                                                              | neutral · 900      | neutral · 200      |
-| --color-diagram-node-decision-border  | Decision / branch node — dashed, same colour as node border                                    | neutral · 500      | neutral · 600      |
-| --color-diagram-annotation-fill       | Callout annotation background                                                                  | neutral · 200      | neutral · 825      |
-| --color-diagram-annotation-text       | Callout annotation text                                                                        | neutral · 700      | neutral · 400      |
-| --color-diagram-connector             | Standard connector line                                                                        | neutral · 500      | neutral · 600      |
-| --color-diagram-connector-trust       | Trust handoff connector — used only when the connection is the handoff, not when adjacent to one | signal-blue · 500 | signal-blue · 500 |
-| --color-diagram-connector-optional    | Non-critical or opportunistic path — fine dash                                                 | neutral · 400      | neutral · 600      |
-| --color-diagram-boundary-physical     | Physical environment perimeter — coarse dash                                                   | neutral · 600      | neutral · 500      |
-| --color-diagram-boundary-logical      | Logical grouping boundary — fine dash                                                          | neutral · 400      | neutral · 600      |
-| --color-diagram-lane-divider          | Swimlane separator                                                                             | neutral · 200      | neutral · 825      |
-
----
-
-## Decision Records
-
-Decision records document the reasoning that excludes alternatives. They are part of the specification. A decision recorded here is not subject to re-evaluation without updating this record. A decision not recorded here is not a decision in the sense this philosophy defines — it is an arbitrary choice and must be resolved before use.
-
----
-
-### DR-001: Neutral scale additional stops
-
-**Stops added:** neutral-0, neutral-450, neutral-825, neutral-850.
-
-**Basis for neutral-0 (#FFFFFF).** Pure white is required for action button label text, icon-on-accent, and action-primary-text. The 50 stop (#FAFAFA) is not sufficient. The contrast difference between #FAFAFA and a saturated fill is not equivalent to white. White is the specified value in the Krutho palette documentation and in standard accessibility practice for text on saturated fills.
-
-**Basis for neutral-450 (#AFAFAF).** text-placeholder light requires a value perceptibly lighter than text-disabled (neutral-400, #C4C4C4) and darker than text-faint (neutral-500, #9A9A9A). No adjacent stop serves this function. The value is the arithmetic midpoint: (196 + 154) / 2 = 175 = RGB(175, 175, 175) = #AFAFAF. The derivation is reproducible without reference to the original authoring decision.
-
-**Basis for neutral-825 (#2A2A2A) and neutral-850 (#202020).** The Krutho palette document specifies four distinct dark background values: #343434,
-#2A2A2A, #202020, #181818. Each must map to a distinct primitive stop.
-On a standard 11-stop scale, only #343434 (neutral-800) and #181818 (neutral-900) have natural positions. Adding neutral-825 and neutral-850 accommodates all four values without compression. Compressing two values onto a single stop would make them indistinguishable by reference, which defeats the function of the primitive scale.
-
----
-
-### DR-002: Dark feedback surface derivation method
-
-**Formula.** Dark feedback surfaces are derived by compositing the semantic source stop over neutral-900 (#181818) at 12% opacity.
-
-**Basis for the method.** Four dark feedback surface values were previously specified as authored hex values without a derivation basis. An authored hex value without a derivation basis cannot be verified by inspection. It requires trust in the maker's judgment. The philosophy defines correctness that cannot be verified as indistinguishable from incorrectness.
-
-A formula derivable from the defined primitives resolves this. Any party can compute the expected value and confirm the rendered value matches.
-
-**Basis for the 12% figure.** The opacity must produce a tint that is perceptible on a dark background without dominating it. Below 8%, the tint is below perceptual threshold at typical viewing distances. Above 15%, the surface begins to compete with node-level colour when diagrams are rendered on dark backgrounds. 12% is the midpoint of the viable range. The result at 12% is verifiable against the formula by any party.
-
----
-
-### DR-003: Deep base values excluded from signal-blue ramp, and teal anchored at 700
-
-**Deep base exclusion.** Including deep-base-a (#000035) and deep-base-b (#010364) as stops on the signal-blue ramp would compress the dark end of the scale. The perceived lightness difference between signal-blue-900 (#001F6B) and #000035 is below the threshold of reliable discrimination at the sizes used in UI and diagram contexts. A ramp with indistinguishable adjacent stops fails its function as a reference scale.
-
-Additionally, ramp membership implies tonal relationships: hover states, surface tints, and text contrast pairs. The deep base values are structural anchors used for fixed elements. A structural anchor that acquires hover and tint relationships through ramp membership has been misclassified. Fixed identity is the required property. Ramp membership contradicts it.
-
-**Teal anchored at 700.** The Accent value #004964 has a relative luminance of approximately 3.5%, placing it perceptually at the dark end of a ramp. Anchoring at 500 would compress the lighter stops to a degree where fills (stops 50 through 300) would not be perceptually distinct from neutral at the node sizes used in diagrams. Anchoring at 700 allows lighter stops to carry sufficient saturation for categorical fill use while preserving the brand anchor value at its correct tonal position.
-
----
-
-### DR-004: Amber ramp admitted to the system
-
-**Basis.** The amber ramp is admitted on two independent grounds. Either alone is sufficient.
-
-**Ground one — diverging scale.** Diverging data requires two hues extending outward from a neutral midpoint with equal visual weight. The positive pole uses signal-blue. A warm complement is required for the negative pole. No warm hue exists in the current brand palette at any stop. Without an amber ramp, a diverging scale cannot be constructed from defined primitives. The ramp is admitted to close a functional gap.
-
-**Ground two — categorical coverage.** The four categorical diagram tokens require four perceptually distinct hue families. The three existing brand families — signal-blue at approximately 220°, secondary-signal at approximately 238°, and teal at approximately 198° — are all cool hues in the blue-to-teal sector. At the fill and node sizes used in these diagrams, three variants of the same cool hue sector are not reliably discriminated. A warm hue at approximately 37° (amber) produces a categorical set where each member is distinguishable from all others under normal viewing conditions.
-
-Both grounds are functional, not aesthetic. The ramp's scope is restricted to the diagram layer. It does not appear in surface, text, border, icon, action, or feedback tokens.
-
----
-
-### DR-005: Categorical diagram tokens named by role, not ordinal position
-
-**Previous form.** The categorical tokens were initially specified as --color-diagram-cat-1 through --color-diagram-cat-4. Ordinal names specify position in a sequence. They do not specify function.
-
-**Failure.** An independent party reading --color-diagram-cat-2 cannot determine, without external knowledge, what class of entity receives that token. Correct use cannot be assessed. A specification that requires external knowledge to interpret is not independently verifiable.
-
-**Resolution.** Each token is named to specify its assigned function: trust, integration, transport, state. Each is defined by a criterion precise enough that two independent parties would reach the same assignment for any entity encountered in the diagram types covered by this specification.
-
-**Boundary condition.** Where an entity satisfies more than one definition, the assignment rule is: assign by primary function. Primary function is the function the entity exists to perform. Secondary functions do not determine category assignment. This rule is deterministic. It does not require judgment about which definition is more relevant.
-
----
-
-### DR-006: Surface elevation naming convention
-
-**Previous form.** The Krutho palette documentation named surfaces as Base, Raised, Section, and Structure. The new document uses overlay, raised, base, and sunken.
-
-**Basis for the change.** The original naming placed Base at the lightest (most elevated) stop and applied no term for the recessed input-fill surface. This created two problems. First, "Base" as a name for the highest surface is directionally ambiguous — it connotes ground-level, not elevation. Second, the absence of a recessed surface token meant inputs inside cards had no neutral way to visually recede below the card surface.
-
-The elevation metaphor — overlay floats above all; raised floats above page; base is the page; sunken recedes below — is directionally unambiguous. Each name describes where in the z-axis the surface sits. The term "sunken" closes the input-fill gap.
-
-The values for raised (#FAFAFA light) and base (#F2F2F2 light) are preserved from the original specification. Section (#E6E6E6) becomes sunken. Structure (#D6D6D6) is not carried forward: no token use case requires a fourth distinct surface stop in the light theme. Its omission is documented here as a boundary condition of the specification, not as an oversight.
-
----
-
-### DR-007: Gradient exclusion with defined exception
-
-**General rule.** Gradients are not part of the core colour system. A gradient requires two colours to produce its effect. Principle 4 (colour independence) requires each colour to be complete and independent. A gradient violates this principle structurally.
-
-**Exception.** A single linear gradient between two stops of the same primitive ramp is permitted in illustrative diagrams where the gradient represents a continuous physical property (temperature stratification, pressure distribution, concentration gradient). The property must be genuinely continuous in the subject being illustrated. The gradient must use exactly two stops from one ramp. No radial gradients. No multi-stop gradients. No gradients used for aesthetic effect.
-
-**Scope of exception.** The exception is scoped to the diagram layer, illustrative mode only. It does not apply to UI components, brand expression, or any other diagram mode.
-
----
-
-### DR-008: Primitive ramp derivation method
-
-**Standing condition.** DR-002 establishes that authored hex values without a derivation basis cannot be verified by inspection: an inspector must trust the maker's judgment. The philosophy treats correctness that cannot be verified as indistinguishable from incorrectness. DR-002 closes this gap for dark feedback surfaces through a compositing formula. The same standard applies to the primitive ramps themselves, which are currently authored at every stop except the brand anchors and a single arithmetic midpoint (neutral-450, DR-001).
-
-**Target method.** Primitive ramp stops are derived by OKLCH lightness stepping from the brand anchor.
-
-- The anchor stop's hex value is fixed at its registered position in the ramp.
-- Other stops are derived by fixed lightness (L) intervals in OKLCH space, with chroma (C) and hue (H) held constant from the anchor.
-- Where a derived stop falls outside the displayable sRGB gamut, chroma is reduced to the maximum displayable value at that lightness. The reduction is recorded against the affected stop.
-
-OKLCH is selected over HSL because OKLCH is perceptually uniform: a fixed ΔL produces an approximately equal perceived lightness step at every position on the ramp. HSL does not have this property. Perceptual uniformity is required because the ramp's function is to provide reliably differentiated stops to a human inspector. A ramp constructed in a non-uniform space produces stops that compress perceptually at one end of the ramp and expand at the other, which defeats the purpose of an evenly-spaced reference.
-
-**Lightness positions.** The target L value at each standard stop is:
-
-| Stop | L value |
-|------|---------|
-| 50   | 0.97    |
-| 100  | 0.92    |
-| 200  | 0.83    |
-| 300  | 0.74    |
-| 400  | 0.65    |
-| 500  | 0.56    |
-| 600  | 0.47    |
-| 700  | 0.38    |
-| 800  | 0.29    |
-| 900  | 0.20    |
-| 950  | 0.11    |
-
-These values produce ΔL = 0.09 between adjacent standard stops, with denser sampling at the lighter end (ΔL = 0.05 between 50 and 100) reflecting the greater perceptual sensitivity to lightness differences in the lighter half of the range. The anchor's actual L value may not fall exactly on the target for its stop; in that case, the anchor's L value defines a local origin and other stops are derived from the anchor by the same intervals, preserving the brand colour exactly.
-
-Off-standard stops (neutral-0, neutral-450, neutral-825, neutral-850) retain their function-based derivations from DR-001 and are not subject to OKLCH stepping. Their basis is documented separately.
-
-**Current state.** The ramp stops in this document are transitional. They were authored before this derivation method was specified. The hex values in the primitive scale tables do not yet conform to the OKLCH derivation defined here. The brand anchors are correct by definition; the surrounding stops are approximate.
-
-**Closure path.** Re-derivation of every primitive ramp by OKLCH stepping from its registered anchor is a named gap in this specification. Until re-derivation is complete, ramp stops other than anchors are documented as transitional. A future revision of this document will replace the current hex values with the derived values and remove the transitional designation. The neutral, signal-blue, secondary-signal, teal, amber, error, success, and warning ramps are all in scope for re-derivation.
-
-**Verifiability under the transitional state.** While transitional, the primitive ramps remain inspectable: their values are listed in this document and reproducible by any party. They are not yet inspectable as derivations from the anchor. The verifiability gap is named here so that readers can distinguish between values that are correct against the target method and values that are pending re-derivation.

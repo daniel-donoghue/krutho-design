@@ -1,18 +1,30 @@
-"""Generate the Krutho Figma plugin payload from the foundation specs.
+"""Generate Krutho Figma plugin payloads from foundation and surface specs.
 
-Emits one file:
-  figma-plugin.json   Consumed by plugin/ at runtime to create collections,
-                      modes, variables, and cross-collection aliases.
+Emits separate files so foundation can be imported into all Figma files
+and surfaces added individually where needed.
 
-Re-run after changes to the foundation markdown specs. No plugin recompile
-needed; reopen the plugin in Figma and re-import.
+Usage:
+  python build.py                 Build foundation + all surfaces
+  python build.py foundation      Build foundation only
+  python build.py surface diagrams   Build diagrams surface only
+
+Output files:
+  foundation.json          Colour primitives, colour semantic, spacing,
+                           grid, and typography collections.
+  surface-diagrams.json    Diagram colour collection.
 """
 
 from __future__ import annotations
 
 import json
+import math
+import sys
 from pathlib import Path
 
+
+# ---------------------------------------------------------------------------
+# Data: Foundation
+# ---------------------------------------------------------------------------
 
 # Primitive colour ramps. Source: foundation/krutho-colour-system.md
 PRIMITIVES: dict[str, dict] = {
@@ -63,9 +75,7 @@ PRIMITIVES: dict[str, dict] = {
     },
 }
 
-
 # Semantic colour tokens. Tuple = (light, dark).
-# Each value is "ramp.stop" (alias to a primitive), a hex literal, or "transparent".
 SEMANTIC: dict[str, tuple[str, str]] = {
     "source/error": ("error.600", "error.200"),
     "source/success": ("success.700", "success.200"),
@@ -159,8 +169,21 @@ SEMANTIC: dict[str, tuple[str, str]] = {
     "feedback/info-icon": ("signal-blue.500", "signal-blue.300"),
 }
 
+SPACING: list[int] = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192]
+GRID: list[int] = [4, 8, 16, 32, 64]
 
-# Diagram colour tokens. Tuple = (light, dark).
+# Type token set. Source: foundation/krutho-typography-system.md
+TYPE_SIZES: list[int] = [10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 80, 96, 128, 192]
+
+# Line height variants. Ratio and rounding: lh = ceil(size * ratio / 2) * 2
+LH_RATIOS: dict[str, float] = {"tight": 1.2, "default": 1.4, "loose": 1.6}
+
+
+# ---------------------------------------------------------------------------
+# Data: Surfaces
+# ---------------------------------------------------------------------------
+
+# Diagram colour tokens. Source: surfaces/diagrams.md. Tuple = (light, dark).
 DIAGRAM: dict[str, tuple[str, str]] = {
     "signal/trust-fill": ("signal-blue.50", "signal-blue.900"),
     "signal/trust-border": ("signal-blue.500", "signal-blue.500"),
@@ -214,51 +237,24 @@ DIAGRAM: dict[str, tuple[str, str]] = {
 }
 
 
-SPACING: list[int] = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192]
-GRID: list[int] = [4, 8, 16, 32, 64]
-
-
-# Type registers: each role = (size_px, line_height_px).
-# Roles where surface declares lh (Expressive display/hero/statement) are omitted.
-TYPE_REGISTERS: dict[str, list[tuple[str, int, int]]] = {
-    "Compact": [
-        ("caption", 12, 18),
-        ("secondary", 14, 20),
-        ("body", 16, 24),
-        ("lead", 18, 26),
-        ("heading-sm", 20, 28),
-        ("heading-md", 24, 36),
-        ("heading-lg", 32, 48),
-        ("display", 40, 56),
-    ],
-    "Standard": [
-        ("caption", 12, 18),
-        ("secondary", 14, 20),
-        ("body", 16, 24),
-        ("lead", 20, 28),
-        ("heading-sm", 24, 36),
-        ("heading-md", 32, 48),
-        ("heading-lg", 48, 64),
-        ("display", 64, 80),
-        ("hero", 80, 96),
-    ],
-    "Expressive": [
-        ("caption", 14, 20),
-        ("body", 16, 24),
-        ("lead", 20, 28),
-        ("heading-sm", 28, 40),
-        ("heading-md", 40, 56),
-        ("heading-lg", 48, 64),
-        ("heading-xl", 64, 80),
-    ],
-}
-
+# ---------------------------------------------------------------------------
+# Collection names
+# ---------------------------------------------------------------------------
 
 PRIMITIVES_COLLECTION = "Colour Primitives"
 SEMANTIC_COLLECTION = "Colour Semantic"
 DIAGRAM_COLLECTION = "Colour Diagram"
 SPACING_COLLECTION = "Spacing"
 GRID_COLLECTION = "Grid"
+TYPOGRAPHY_COLLECTION = "Typography"
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def derive_lh(size: int, ratio: float) -> int:
+    return math.ceil(size * ratio / 2) * 2
 
 
 def hex_to_rgba_floats(h: str) -> dict:
@@ -289,7 +285,20 @@ def color_value(ref: str):
     return {"alias": f"{target[0]}.{target[1]}"}
 
 
-def build_payload() -> dict:
+def write_payload(filename: str, payload: dict) -> int:
+    out_path = Path(__file__).parent / filename
+    out_path.write_text(json.dumps(payload, indent=2) + "\n")
+    n_vars = sum(len(c["variables"]) for c in payload["collections"])
+    n_colls = len(payload["collections"])
+    print(f"  {filename}: {n_vars} variables across {n_colls} collections")
+    return n_vars
+
+
+# ---------------------------------------------------------------------------
+# Builders
+# ---------------------------------------------------------------------------
+
+def build_foundation() -> dict:
     collections: list[dict] = []
 
     # Primitives
@@ -313,15 +322,6 @@ def build_payload() -> dict:
     } for path, (light, dark) in SEMANTIC.items()]
     collections.append({"name": SEMANTIC_COLLECTION, "modes": ["Light", "Dark"], "variables": s_vars})
 
-    # Diagram
-    d_vars = [{
-        "path": path,
-        "type": "COLOR",
-        "scopes": ["ALL_SCOPES"],
-        "values": {"Light": color_value(light), "Dark": color_value(dark)},
-    } for path, (light, dark) in DIAGRAM.items()]
-    collections.append({"name": DIAGRAM_COLLECTION, "modes": ["Light", "Dark"], "variables": d_vars})
-
     # Spacing
     sp_vars = [{
         "path": f"space-{px}",
@@ -340,39 +340,76 @@ def build_payload() -> dict:
     } for px in GRID]
     collections.append({"name": GRID_COLLECTION, "modes": ["Default"], "variables": g_vars})
 
-    # Typography per register
-    for register, roles in TYPE_REGISTERS.items():
-        t_vars = []
-        for role, size_px, lh_px in roles:
-            t_vars.append({
-                "path": f"{role}/size",
-                "type": "FLOAT",
-                "scopes": ["ALL_SCOPES"],
-                "values": {"Default": {"number": size_px}},
-            })
-            t_vars.append({
-                "path": f"{role}/line-height",
-                "type": "FLOAT",
-                "scopes": ["ALL_SCOPES"],
-                "values": {"Default": {"number": lh_px}},
-            })
-        collections.append({
-            "name": f"Typography {register}",
-            "modes": ["Default"],
-            "variables": t_vars,
+    # Typography
+    t_vars = []
+    for size in TYPE_SIZES:
+        t_vars.append({
+            "path": f"type-{size}/size",
+            "type": "FLOAT",
+            "scopes": ["ALL_SCOPES"],
+            "values": {"Default": {"number": size}},
         })
+        for variant, ratio in LH_RATIOS.items():
+            t_vars.append({
+                "path": f"type-{size}/lh-{variant}",
+                "type": "FLOAT",
+                "scopes": ["ALL_SCOPES"],
+                "values": {"Default": {"number": derive_lh(size, ratio)}},
+            })
+    collections.append({"name": TYPOGRAPHY_COLLECTION, "modes": ["Default"], "variables": t_vars})
 
     return {"version": 1, "collections": collections}
 
 
-def main() -> None:
-    payload = build_payload()
-    out_path = Path(__file__).parent / "figma-plugin.json"
-    out_path.write_text(json.dumps(payload, indent=2) + "\n")
+def build_surface_diagrams() -> dict:
+    d_vars = [{
+        "path": path,
+        "type": "COLOR",
+        "scopes": ["ALL_SCOPES"],
+        "values": {"Light": color_value(light), "Dark": color_value(dark)},
+    } for path, (light, dark) in DIAGRAM.items()]
 
-    n_vars = sum(len(c["variables"]) for c in payload["collections"])
-    n_colls = len(payload["collections"])
-    print(f"Wrote {n_vars} variables across {n_colls} collections to {out_path.name}.")
+    return {"version": 1, "collections": [
+        {"name": DIAGRAM_COLLECTION, "modes": ["Light", "Dark"], "variables": d_vars},
+    ]}
+
+
+SURFACES = {
+    "diagrams": ("surface-diagrams.json", build_surface_diagrams),
+}
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    if not args:
+        # Build everything
+        write_payload("foundation.json", build_foundation())
+        for name, (filename, builder) in SURFACES.items():
+            write_payload(filename, builder())
+        return
+
+    target = args[0]
+
+    if target == "foundation":
+        write_payload("foundation.json", build_foundation())
+    elif target == "surface":
+        if len(args) < 2:
+            print(f"Available surfaces: {', '.join(SURFACES)}")
+            sys.exit(1)
+        name = args[1]
+        if name not in SURFACES:
+            print(f"Unknown surface: {name}. Available: {', '.join(SURFACES)}")
+            sys.exit(1)
+        filename, builder = SURFACES[name]
+        write_payload(filename, builder())
+    else:
+        print(f"Usage: python build.py [foundation | surface <name>]")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
