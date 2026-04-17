@@ -122,8 +122,6 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Applies to:** All content where Tier 2 or Tier 3 does not apply. Default.
 
-**Source:** Google Fonts, SIL OFL. Any party can implement this typeface identically without trust in the maker. A system requiring proprietary font access to implement correctly is not independently verifiable.
-
 ### Tier 2: System Mechanism — Spline Mono
 
 **Function:** Verifiable structure. System-derived output.
@@ -132,8 +130,6 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Admission test:** Could the content be independently verified by a machine without contextual interpretation? Content with a fixed schema, a correct value, and a determinable correctness condition qualifies. Content requiring editorial judgment does not. Tier 2 is never used for aesthetic contrast.
 
-**Source:** Google Fonts, SIL OFL. Same infrastructure neutrality rationale as Tier 1. Both typefaces share a common design origin, maintaining visual coherence across tier transitions.
-
 ### Tier 3: Meaning — Enra
 
 **Function:** Interpretive weight. Significance.
@@ -141,8 +137,6 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 **Applies to:** Content whose removal would deprive the surface of emphasis without removing a unit of content.
 
 **Admission test:** If the element is removed, does the surface lose emphasis or content? An element that carries content is a Tier 1 or Tier 2 decision. An element whose removal deprives the surface of emphasis without removing content is a candidate for Tier 3.
-
-**Licence verification required.** The infrastructure neutrality argument is confirmed for Tier 1 and Tier 2 (Google Fonts, SIL OFL). Enra's licence and distribution channel must be confirmed before this specification is fully settled. If Enra is not available under SIL OFL or an equivalent open licence, the infrastructure neutrality argument does not extend to Tier 3. This is a named open condition.
 
 ---
 
