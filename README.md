@@ -8,7 +8,8 @@ Specification documents for the Krutho brand and product design system.
 krutho-design-system/
 ├── krutho-philosophy.md
 ├── foundation/
-└── surfaces/
+├── surfaces/
+└── figma/
 ```
 
 The system is organised in layers. The philosophy governs the foundation. The foundation governs the surfaces. Every document derives from the one above it and traces its decisions to reasons that exclude the alternatives.
@@ -29,7 +30,12 @@ Specifications for the construction primitives.
 - [Layout System](krutho-design-system/foundation/krutho-layout-system.md)
 
 **[surfaces/](krutho-design-system/surfaces/)**
-Specifications for rendered surface contexts (web, app, deck, print, diagrams). Forthcoming.
+Specifications for rendered surface contexts. A surface consumes foundation tokens and adds surface-specific rules.
+
+- [Diagrams](krutho-design-system/surfaces/diagrams.md)
+
+**[figma/](krutho-design-system/figma/)**
+Token generator and companion Figma plugin. `build.py` emits `foundation.json` (imported into every Figma file) and per-surface payloads (e.g. `surface-diagrams.json`) that are added only where that surface is in use.
 
 ## Reading conventions
 
