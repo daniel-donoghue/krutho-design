@@ -1,6 +1,6 @@
 # Krutho Typography System
 
-Last edit 17th April 2026
+Last edit 21st April 2026
 
 ---
 
@@ -116,13 +116,13 @@ The specific value of 10% is determined by the arithmetic of the base unit. At 1
 
 Three tiers are defined. Every typographic decision belongs to exactly one tier. The tier determines the typeface.
 
-### Tier 1: System Interface — Spline Sans
+### Tier 1: System Interface, Spline Sans
 
 **Function:** Operational clarity. The primary voice of the system.
 
 **Applies to:** All content where Tier 2 or Tier 3 does not apply. Default.
 
-### Tier 2: System Mechanism — Spline Mono
+### Tier 2: System Mechanism, Spline Mono
 
 **Function:** Verifiable structure. System-derived output.
 
@@ -130,7 +130,7 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Admission test:** Could the content be independently verified by a machine without contextual interpretation? Content with a fixed schema, a correct value, and a determinable correctness condition qualifies. Content requiring editorial judgment does not. Tier 2 is never used for aesthetic contrast.
 
-### Tier 3: Meaning — Enra
+### Tier 3: Meaning, Enra
 
 **Function:** Interpretive weight. Significance.
 
@@ -142,21 +142,50 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 ## Weight Vocabulary
 
-Two weights are admitted.
+Four weights are admitted.
 
-**Regular (400).** Default. Applied to all Tier 1 informational content, all Tier 2 content, and all Tier 3 content.
+**Regular (400).** The baseline weight. Applied to content whose function is continuous reading, and to content whose role carries presence through size, position, or typeface without requiring additional weight. This is the default weight across all tiers.
 
-**Medium (500).** Applied to Tier 1 structural content where weight reinforces hierarchy alongside size. Tier 2 and Tier 3 do not use Medium.
+**Medium (500).** The display weight within Tier 1. Applied to content whose function is surface presence through size. At display sizes, size carries the role. Medium adds structural presence without introducing mass that would compete with display openness.
 
-**Why Medium is the ceiling.**
+**Semibold (600).** The structural weight within Tier 1. Applied to content whose function is visible division of continuous reading flow at sizes close to body scale. Semibold provides reliable division against body Regular at heading sizes where size alone would not sufficiently break the flow.
 
-At SemiBold (600), stroke thickening produces mass concentration at junction points within letterforms. At display and heading sizes, this concentration introduces visual weight that competes with the spatial hierarchy established by the spacing system. Medium provides reliable differentiation from Regular without crossing into mass competition. SemiBold is the first weight at which the competition begins and is therefore excluded. Bold and above are excluded by the same reason applied with greater force.
+**Bold (700).** The inline emphasis weight within Tier 1. Applied to inline content within body flow whose function is emphasis. Bold exceeds Semibold, the structural heading weight. This is required for inline emphasis to read as emphasis rather than as a structural division on surfaces where structural headings are present.
 
-| Tier | Typeface     | Weight admitted       |
-|------|--------------|-----------------------|
-| 1    | Spline Sans  | Regular, Medium       |
-| 2    | Spline Mono  | Regular               |
-| 3    | Enra         | Regular               |
+---
+
+**Weight assignment within Tier 1.**
+
+Tier 1 content belongs to one of four functional categories. The weight is determined by the functional category. The functional category is determined at surface specification. Weight is not assigned independently of function.
+
+| Functional category | Weight        | Function                                               |
+|---------------------|---------------|--------------------------------------------------------|
+| Display             | Medium (500)  | Surface presence, sized to anchor the surface          |
+| Structural          | Semibold (600) | Visible division of continuous reading flow            |
+| Continuous reading  | Regular (400) | Body and body-adjacent content                         |
+| Inline emphasis     | Bold (700)    | Emphasis within continuous reading flow                |
+
+**Why four weights.**
+
+Two weights cannot encode four functional category distinctions. Structural content would share its weight with either display or body, collapsing the category distinction.
+
+Three weights cannot encode both structural division and inline emphasis. If the third weight serves structural division, inline emphasis has no weight distinct from structural content and cannot read as emphasis. If the third weight serves inline emphasis, structural content shares its weight with display or body.
+
+Five weights would introduce a distinction within a functional category (for example, H1 and H2 at different weights), which has no structural basis. Within a functional category, members share the weight assigned to the category. Distinction between members of the same category is made by size.
+
+Four weights is the smallest count that encodes all four functional categories without introducing distinctions that have no structural basis.
+
+**Tier-level admission.**
+
+| Tier | Typeface     | Weights admitted                          |
+|------|--------------|-------------------------------------------|
+| 1    | Spline Sans  | Regular, Medium, Semibold, Bold           |
+| 2    | Spline Mono  | Regular                                   |
+| 3    | Enra         | Regular                                   |
+
+Tier 2 content is verifiable structure: code, tokens, certificate identifiers, CLI representations. Tier 2 at weights above Regular would compete with inline emphasis in surrounding body text. Code inline at Semibold or Bold would read as emphasis rather than as a distinct tier. The tier distinction is preserved through typeface alone, which is the correct mechanism for Tier 2.
+
+Tier 3 content (Enra) draws its presence from the typeface itself. Additional weight would compound a mechanism the tier already carries. Regular is sufficient.
 
 ---
 
@@ -306,7 +335,7 @@ The following conditions state every assessable rule in this specification.
 3. Every typographic decision belongs to exactly one tier. The tier determines the typeface. A decision may not use a typeface from a different tier.
 4. Tier 2 (Spline Mono) is admitted only where the content satisfies the admission test: could the content be independently verified by a machine without contextual interpretation? Tier 2 is never used for aesthetic contrast.
 5. Tier 3 (Enra) is admitted only where the admission test is satisfied: if the element were removed, would the surface lose emphasis or content? Tier 3 carries emphasis, not content.
-6. No weight above Medium (500) is admitted. Tier 2 and Tier 3 use Regular (400) only.
+6. Admitted weights are Regular (400), Medium (500), Semibold (600), and Bold (700). Tier 2 and Tier 3 use Regular (400) only. Within Tier 1, weight is assigned by functional category per the Weight Vocabulary section: Display uses Medium; Structural uses Semibold; Continuous reading uses Regular; Inline emphasis uses Bold.
 7. Line height tokens are derived by the rule stated in the Line Height Derivation section. The derivation is the specification. Derived values satisfy the type conformance test.
 8. Type sizes not in the designed token set are valid by the generative rule. Use at surface level requires a stated functional reason.
 9. A surface specification declares its production context. That declaration determines the unit and conformance test.

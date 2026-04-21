@@ -1,6 +1,6 @@
 # Krutho Design Philosophy
 
-Last edit 10th April 2026
+Last edit 21st April 2026
 
 ---
 
@@ -100,6 +100,12 @@ A specification defines what belongs. It also defines, by omission, what does no
 
 This applies in both directions. A thing that should be present and is absent is a failure of correctness. A thing that should be absent and is present is also a failure of correctness.
 
+**9. Precision applies to real conditions.**
+
+A value is only correct if the condition it derives from is real. An exact derivation from an assumption that does not match use is precise about the wrong thing. Arithmetic can be flawless relative to a reference frame no one inhabits; that precision does not produce a correct value.
+
+The derivation must first match use. The arithmetic follows. This ordering cannot be reversed. A value chosen for its arithmetic elegance and justified after by selecting conditions that produce it is not precise. It is a preference with reasoning attached. A specification that assumes conditions that do not hold produces values that cannot be correct however faithfully they are derived. The first inspection question for any specification is whether its assumptions describe real use.
+
 ---
 
 ## Operational Conditions
@@ -120,6 +126,9 @@ Synonymy in defined terms introduces ambiguity. Ambiguity breaks precision. The 
 
 **No claim is made that cannot be verified by inspection.**
 If a property of Krutho is asserted and cannot be verified, the assertion is excluded. The demonstration is preferred in all cases where it is available.
+
+**Every specification's assumptions must describe real use.**
+A specification built on conditions that do not hold produces values that cannot be correct however faithfully they are derived. The reality of a specification's assumptions is the first thing an independent party inspects. Arithmetic consistency is inspected against that reality, not instead of it.
 
 ---
 

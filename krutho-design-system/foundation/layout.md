@@ -1,6 +1,6 @@
 # Krutho Layout System
 
-Last edit 10th April 2026
+Last edit 21st April 2026
 
 ---
 
@@ -30,26 +30,27 @@ Four terms are defined here. Each is used throughout this document in its define
 
 ## Column Count
 
-The admitted column counts are 4, 8, 12, and 16. No other value is admitted.
+The admitted column counts are 2, 4, 8, 12, and 16. No other value is admitted.
 
-**Why multiples of 4.**
+**Why the admitted set.**
 
-The Krutho Spacing System is built on a base unit of 4px. The column count follows the same arithmetic logic. A column count that is a multiple of 4 can be subdivided by 2 and by 4 exactly: every count in the admitted set supports half-width and quarter-width spans without a remainder. 12 additionally divides by 3 and 6, which gives it the widest range of clean subdivision. Column counts that are not multiples of 4 cannot be quartered without a remainder. They introduce a subdivision logic inconsistent with the arithmetic of the spacing base unit and are excluded on that ground.
+At counts of 4 and above, the count is a multiple of 4, following the arithmetic logic of the Krutho Spacing System base unit. Multiples of 4 support half-width and quarter-width spans without a remainder. 12 additionally divides by 3 and 6, giving it the widest range of clean subdivision. Column counts above 2 that are not multiples of 4 cannot be quartered without a remainder. They introduce a subdivision logic inconsistent with the arithmetic of the spacing base unit and are excluded on that ground.
 
-**Why the range is 4 to 16.**
+2 is admitted at scales where a binary split is the correct grid. A binary split does not subdivide further: it produces two equal halves, which is the minimum grid a content surface can support without producing column widths too narrow for functional content. At scales where finer subdivision is structurally meaningful, 2 is not the correct grid. The surface specification declares whether its scale admits 2.
 
-Fewer than 4 columns does not produce a meaningful subdivision: 2 columns collapses to a binary split, which is not a grid but a pair. More than 16 columns produces individual column widths that, at the viewport sizes this system addresses, approach the minimum widths of standard components. A column count above 16 is not a structural tool in this context and is excluded on that ground.
+More than 16 columns produces individual column widths that, at the viewport sizes this system addresses, approach the minimum widths of standard components. A column count above 16 is not a structural tool in this context and is excluded on that ground.
 
 **Column count and density register.**
 
 | Count | Subdivisions supported | Register |
 |-------|------------------------|----------|
+| 2 | halves | Compact |
 | 4 | halves, quarters | Compact |
 | 8 | halves, quarters | Standard |
 | 12 | halves, thirds, quarters, sixths | Standard |
 | 16 | halves, quarters, eighths | Expressive |
 
-Both 8 and 12 are assigned to the Standard register. The surface spec selects one and states the reason.
+Both 2 and 4 are assigned to the Compact register. 2 is admitted only at scales where a binary split is the correct grid. 4 is admitted at Compact-register scales where finer subdivision than 2 is structurally meaningful. Both 8 and 12 are assigned to the Standard register. Where multiple counts are assigned to the same register, the surface spec selects one and states the reason.
 
 ---
 
@@ -91,8 +92,8 @@ The derived column width is not subject to the spacing conformance test. It is a
 
 The following conditions state every assessable rule in this specification. Each can be applied by inspection to any output.
 
-1. The column count is one of 4, 8, 12, or 16. No other value is admitted.
-2. The column count matches the density register of the surface as specified in the Column Count table. Where two counts are assigned to the same register (Standard: 8 and 12), the surface spec states which applies and why.
+1. The column count is one of 2, 4, 8, 12, or 16. No other value is admitted. Column count 2 is admitted only at scales where a binary split is the correct grid, as declared in the surface specification.
+2. The column count matches the density register of the surface as specified in the Column Count table. Where multiple counts are assigned to the same register (Compact: 2 and 4; Standard: 8 and 12), the surface spec states which applies and why, including the scale condition where 2 is selected.
 3. The margin, when present, is a spacing token from the Krutho Spacing System. It is equal on both sides.
 4. The gutter, when present, is a spacing token from the Krutho Spacing System.
 5. Where a margin is present, the gutter value does not exceed the margin value. Where no margin is present, the gutter value does not exceed the unguttered column width, defined as surface width / column count.

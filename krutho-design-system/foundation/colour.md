@@ -27,7 +27,7 @@ The condition in which a brand colour's chromatic area exceeds twice that of any
 
 ## Scope
 
-This document covers four layers.
+This document covers four areas.
 
 **Primitive scales.** The raw colour ramps from which all other values are derived. Primitive values are not used directly in components. They are the reference points for the semantic layer and for surface documents that define their own token sets.
 
@@ -43,23 +43,23 @@ Diagram colour tokens are defined in the Krutho Diagram Surface specification. T
 
 ## System Architecture
 
-The colour system operates across three distinct contexts. Each context has a defined relationship to colour. The three contexts are not modes of the same system — they are separate operating conditions with separate constraints.
+The colour system operates across three distinct contexts. Each context has a defined relationship to colour. The three contexts are not modes of the same system: they are separate operating conditions with separate constraints.
 
 ```
-Layer 1 — Core Technology    → Product truth. Krutho itself.
-Layer 2 — Enterprise Context → Client environment. Krutho within Delta,
+Layer 1: Core Technology     → Product truth. Krutho itself.
+Layer 2: Enterprise Context  → Client environment. Krutho within Delta,
                                 Aldar, and equivalent deployments.
-Layer 3 — Brand Expression   → Narrative, investor, and positioning
+Layer 3: Brand Expression    → Narrative, investor, and positioning
                                 contexts where client environment is absent.
 ```
 
-**Layer 1 — Core Technology.** The neutral system is always present. Colour is applied only as state, action, or system response. The product must function clearly and completely without reliance on colour. Colour failure must not produce a failure of function or comprehension.
+**Layer 1: Core Technology.** The neutral system is always present. Colour is applied only as state, action, or system response. The product must function clearly and completely without reliance on colour. Colour failure must not produce a failure of function or comprehension.
 
-**Layer 2 — Enterprise Context.** Krutho is visualised within the client's world. Client colour systems may be introduced. Krutho does not override — it integrates. The structural layer (surface hierarchy, text hierarchy, component behaviour) is fixed. The colour expression adapts to the client context. Krutho remains structurally consistent and visually coherent within the enterprise environment.
+**Layer 2: Enterprise Context.** Krutho is visualised within the client's world. Client colour systems may be introduced. Krutho does not override: it integrates. The structural layer (surface hierarchy, text hierarchy, component behaviour) is fixed. The colour expression adapts to the client context. Krutho remains structurally consistent and visually coherent within the enterprise environment.
 
 This principle reinforces trust, compatibility, and adoption readiness. A system that imposes its own visual language into a client environment signals that it has not been designed to coexist. Krutho is designed to coexist.
 
-**Layer 3 — Brand Expression.** Controlled use of Krutho brand colours. More expressive than product contexts but still restrained. Brand expression is strongest where client context is absent — investor presentations, narrative documents, and brand communications. Brand colours at this layer operate at higher density than in product or enterprise contexts, but the governing principles still apply.
+**Layer 3: Brand Expression.** Controlled use of Krutho brand colours. More expressive than product contexts but still restrained. Brand expression is strongest where client context is absent: investor presentations, narrative documents, and brand communications. Brand colours at this layer operate at higher density than in product or enterprise contexts, but the governing principles still apply.
 
 **The constant across all three layers.** Structure is fixed. Colour is contextual. Meaning is consistent.
 
@@ -69,27 +69,27 @@ This principle reinforces trust, compatibility, and adoption readiness. A system
 
 These principles constrain how colour is applied across all three layers. Each is stated as a condition. Conformance is assessable. A practitioner can inspect any output and determine whether it conforms.
 
-**Principle 1 — Neutral first.** Every design must function completely in neutral before colour is applied. Colour is added to a working neutral system. It is not used to construct function that neutral cannot provide. A component, diagram, or layout that requires colour to be understood has failed this condition before colour was considered.
+**Principle 1: Neutral first.** Every design must function completely in neutral before colour is applied. Colour is added to a working neutral system. It is not used to construct function that neutral cannot provide. A component, diagram, or layout that requires colour to be understood has failed this condition before colour was considered.
 
-**Principle 2 — Colour asserts, not decorates.** Colour is applied in three conditions only: to signal state, to signal action, and to signal system response. Colour applied for visual variety, background styling, or spatial decoration is a conformance failure. An element that carries colour must carry a reason for that colour that traces to one of the three conditions.
+**Principle 2: Colour asserts, not decorates.** Colour is applied in three conditions only: to signal state, to signal action, and to signal system response. Colour applied for visual variety, background styling, or spatial decoration is a conformance failure. An element that carries colour must carry a reason for that colour that traces to one of the three conditions.
 
-**Principle 3 — Single colour dominance.** Exactly one brand colour is dominant in any given context, component, or view. Dominance is defined under Perceptual Weight: a brand colour is dominant when its chromatic area exceeds twice the chromatic area of any other brand colour in the same context. Where two or more brand colours occupy comparable chromatic area, no colour is dominant and this principle fails. Multiple brand colours in simultaneous use do not compound meaning: they cancel it. The presence of a second brand colour at or above half the dominant colour's chromatic area is a conformance failure unless the second colour is a semantic state token (error, success, warning, info), in which case it is not a brand colour occurrence but a system response.
+**Principle 3: Single colour dominance.** Exactly one brand colour is dominant in any given context, component, or view. Dominance is defined under Perceptual Weight: a brand colour is dominant when its chromatic area exceeds twice the chromatic area of any other brand colour in the same context. Where two or more brand colours occupy comparable chromatic area, no colour is dominant and this principle fails. Multiple brand colours in simultaneous use do not compound meaning: they cancel it. The presence of a second brand colour at or above half the dominant colour's chromatic area is a conformance failure unless the second colour is a semantic state token (error, success, warning, info), in which case it is not a brand colour occurrence but a system response.
 
-**Principle 4 — Colour independence.** Each colour in the system is complete and independent. Colours are not positioned relative to adjacent colours. They do not form gradients as a base brand expression. A colour that requires adjacent colour to produce its intended effect has failed this condition.
+**Principle 4: Colour independence.** Each colour in the system is complete and independent. Colours are not positioned relative to adjacent colours. They do not form gradients as a base brand expression. A colour that requires adjacent colour to produce its intended effect has failed this condition.
 
 Gradients are not a base brand expression. They are permitted in one defined exception: a single linear gradient between two stops of the same primitive ramp, used in illustrative diagrams to represent a continuous physical property (temperature, pressure, concentration). This exception is scoped to the diagram layer. Gradients do not appear in UI components.
 
-**Principle 5 — No luminous effects.** Colour is embedded in the surface. It does not project from it. Glow, neon, bloom, and light-emitting treatments are not permitted. These effects perform a property (energy, dynamism, modernity) that is not present in the construction. The philosophy excludes elements that perform properties they do not have.
+**Principle 5: No luminous effects.** Colour is embedded in the surface. It does not project from it. Glow, neon, bloom, and light-emitting treatments are not permitted. These effects perform a property (energy, dynamism, modernity) that is not present in the construction. The philosophy excludes elements that perform properties they do not have.
 
-**Principle 6 — Mode-invariant brand colours.** Brand colours are identical in light and dark modes. A brand colour does not have a light-mode version and a dark-mode version. Alternate versions of brand colours imply that the colours are contextual rather than assertive, which contradicts their defined role. The surface context changes — ink on light, embedded in dark — but the colour value is constant.
+**Principle 6: Mode-invariant brand colours.** Brand colours are identical in light and dark modes. A brand colour does not have a light-mode version and a dark-mode version. Alternate versions of brand colours imply that the colours are contextual rather than assertive, which contradicts their defined role. The surface context changes, ink on light or embedded in dark, but the colour value is constant.
 
 Semantic feedback colours (error, success, warning, info) are an exception: their dark mode values are defined to maintain contrast on dark surfaces. This exception is functional, not expressive. It is documented in the semantic source layer.
 
-**Principle 7 — Usage ratios.** Across any Layer 1 or Layer 2 surface, the neutral system accounts for 85–95% of the surface by perceptual weight. Brand and semantic colour accounts for 5–15%. Perceptual weight is defined and computed in the Perceptual Weight section. This ratio is a verifiable constraint: an inspector can classify each rendered element by OKLCH chroma and measure fractional area without judgment. A Layer 1 or Layer 2 layout that inverts this ratio, where chromatic content is the ground and neutral is the figure, has failed the neutral-first principle at the compositional level.
+**Principle 7: Usage ratios.** Across any Layer 1 or Layer 2 surface, the neutral system accounts for 85–95% of the surface by perceptual weight. Brand and semantic colour accounts for 5–15%. Perceptual weight is defined and computed in the Perceptual Weight section. This ratio is a verifiable constraint: an inspector can classify each rendered element by OKLCH chroma and measure fractional area without judgment. A Layer 1 or Layer 2 layout that inverts this ratio, where chromatic content is the ground and neutral is the figure, has failed the neutral-first principle at the compositional level.
 
 Layer 3 (brand expression) is not bounded by a numeric ratio. It remains bound by the neutral-first principle (Principle 1): the surface must function completely without colour before colour is applied.
 
-**Principle 8 — System character.** The following properties are present in the construction of every element. They are not performed.
+**Principle 8: System character.** The following properties are present in the construction of every element. They are not performed.
 
 - Control: every colour decision is bounded and traceable
 - Precision: every value is defined without ambiguity
@@ -428,10 +428,10 @@ Surface tokens follow an elevation metaphor: overlay floats above all, raised fl
 
 | Token                    | Description                                                              | Light             | Dark        |
 |--------------------------|--------------------------------------------------------------------------|-------------------|-------------|
-| --color-surface-overlay  | Modals, drawers, dialogs — sits above all other surfaces                 | neutral · 0       | neutral · 800 |
+| --color-surface-overlay  | Modals, drawers, dialogs: sits above all other surfaces                  | neutral · 0       | neutral · 800 |
 | --color-surface-raised   | Cards, panels, dropdowns, tooltips                                       | neutral · 50      | neutral · 850 |
-| --color-surface-base     | Default page background — the primary content canvas                     | neutral · 100     | neutral · 900 |
-| --color-surface-sunken   | Input fills, code blocks, inset areas — recedes below base               | neutral · 200     | neutral · 950 |
+| --color-surface-base     | Default page background: the primary content canvas                      | neutral · 100     | neutral · 900 |
+| --color-surface-sunken   | Input fills, code blocks, inset areas: recedes below base                | neutral · 200     | neutral · 950 |
 | --color-surface-inverse  | Dark chips, inverted banners, tooltips on dark backgrounds               | neutral · 900     | neutral · 200 |
 | --color-surface-error    | Background fill for error alerts, banners, and validation areas          | error · 50        | derived     |
 | --color-surface-warning  | Background fill for warning alerts and cautionary notices                | warning · 50      | derived     |
@@ -448,7 +448,7 @@ Surface tokens follow an elevation metaphor: overlay floats above all, raised fl
 
 | Token               | Description                                                        | Light         | Dark          |
 |---------------------|--------------------------------------------------------------------|---------------|---------------|
-| --color-text-strong  | Maximum contrast — headings, UI labels, data values requiring emphasis | neutral · 900 | neutral · 50  |
+| --color-text-strong  | Maximum contrast: headings, UI labels, data values requiring emphasis  | neutral · 900 | neutral · 50  |
 | --color-text-default | Body copy, standard reading weight                                 | neutral · 800 | neutral · 200 |
 | --color-text-subtle  | Supporting copy, secondary labels, captions, helper text           | neutral · 600 | neutral · 500 |
 | --color-text-faint   | Metadata, timestamps, character counts, lowest-priority annotations | neutral · 500 | neutral · 600 |
@@ -465,7 +465,7 @@ Surface tokens follow an elevation metaphor: overlay floats above all, raised fl
 | Token                  | Description                                                          | Light         | Dark          |
 |------------------------|----------------------------------------------------------------------|---------------|---------------|
 | --color-text-inverse   | Text rendered on surface-inverse                                     | neutral · 100 | neutral · 900 |
-| --color-text-on-accent | Text rendered on brand or action-coloured fills — always white       | neutral · 0   | neutral · 0   |
+| --color-text-on-accent | Text rendered on brand or action-coloured fills: always white        | neutral · 0   | neutral · 0   |
 
 #### Semantic
 
@@ -488,14 +488,14 @@ Values reference the semantic source layer. Light and dark resolution is handled
 | Token                  | Description                                                          | Light         | Dark          |
 |------------------------|----------------------------------------------------------------------|---------------|---------------|
 | --color-border-strong  | High-emphasis dividers, selected state outlines, active edges        | neutral · 600 | neutral · 500 |
-| --color-border-default | Standard component borders — inputs, cards, panels                   | neutral · 300 | neutral · 800 |
+| --color-border-default | Standard component borders: inputs, cards, panels                    | neutral · 300 | neutral · 800 |
 | --color-border-subtle  | Hairlines, table rules, section dividers, low-priority separators    | neutral · 200 | neutral · 825 |
 
 #### Functional
 
 | Token                  | Description                                                          | Light                | Dark                 |
 |------------------------|----------------------------------------------------------------------|----------------------|----------------------|
-| --color-border-focus   | Keyboard focus ring — always 2px, identical in both modes            | signal-blue · 500    | signal-blue · 500    |
+| --color-border-focus   | Keyboard focus ring: always 2px, identical in both modes             | signal-blue · 500    | signal-blue · 500    |
 | --color-border-inverse | Borders rendered on surface-inverse                                  | neutral · 800        | neutral · 300        |
 
 #### Semantic
@@ -519,7 +519,7 @@ Icon tokens mirror the text hierarchy directly. An icon paired with a text token
 
 | Token               | Description                                                        | Light         | Dark          |
 |---------------------|--------------------------------------------------------------------|---------------|---------------|
-| --color-icon-strong  | High-emphasis icons — primary actions, active states               | neutral · 900 | neutral · 50  |
+| --color-icon-strong  | High-emphasis icons: primary actions, active states                | neutral · 900 | neutral · 50  |
 | --color-icon-default | Standard icon colour for most UI contexts                          | neutral · 800 | neutral · 200 |
 | --color-icon-subtle  | Supporting icons, decorative indicators                            | neutral · 600 | neutral · 500 |
 | --color-icon-faint   | Low-priority icons, metadata-level indicators                      | neutral · 500 | neutral · 600 |
@@ -560,25 +560,25 @@ Values reference the semantic source layer.
 | --color-action-primary       | Resting fill for primary CTA buttons    | signal-blue · 500  | signal-blue · 500  |
 | --color-action-primary-hover | Fill on hover                           | signal-blue · 600  | signal-blue · 400  |
 | --color-action-primary-active | Fill on press                          | signal-blue · 700  | signal-blue · 300  |
-| --color-action-primary-text  | Label colour — always white             | neutral · 0        | neutral · 0        |
+| --color-action-primary-text  | Label colour: always white              | neutral · 0        | neutral · 0        |
 
 #### Secondary (outlined)
 
 | Token                                | Description                               | Light         | Dark          |
 |--------------------------------------|-------------------------------------------|---------------|---------------|
-| --color-action-secondary             | Resting fill — transparent                | transparent   | transparent   |
+| --color-action-secondary             | Resting fill: transparent                 | transparent   | transparent   |
 | --color-action-secondary-hover       | Fill on hover                             | neutral · 100 | neutral · 850 |
 | --color-action-secondary-active      | Fill on press                             | neutral · 200 | neutral · 825 |
 | --color-action-secondary-border      | Resting border                            | neutral · 300 | neutral · 800 |
 | --color-action-secondary-border-hover | Border on hover                          | neutral · 500 | neutral · 500 |
-| --color-action-secondary-border-active | Border on press — maximum contrast     | neutral · 800 | neutral · 200 |
+| --color-action-secondary-border-active | Border on press: maximum contrast      | neutral · 800 | neutral · 200 |
 | --color-action-secondary-text        | Label colour                              | neutral · 900 | neutral · 200 |
 
 #### Ghost
 
 | Token                       | Description                               | Light         | Dark          |
 |-----------------------------|-------------------------------------------|---------------|---------------|
-| --color-action-ghost        | Resting fill — transparent, no border     | transparent   | transparent   |
+| --color-action-ghost        | Resting fill: transparent, no border      | transparent   | transparent   |
 | --color-action-ghost-hover  | Fill on hover                             | neutral · 100 | neutral · 850 |
 | --color-action-ghost-active | Fill on press                             | neutral · 200 | neutral · 825 |
 | --color-action-ghost-text   | Label and icon colour                     | neutral · 900 | neutral · 200 |
@@ -590,7 +590,7 @@ Values reference the semantic source layer.
 | --color-action-destructive         | Resting fill for irreversible actions          | error · 600  | error · 600  |
 | --color-action-destructive-hover   | Fill on hover                                  | error · 700  | error · 400  |
 | --color-action-destructive-active  | Fill on press                                  | error · 800  | error · 200  |
-| --color-action-destructive-text    | Label colour — always white                    | neutral · 0  | neutral · 0  |
+| --color-action-destructive-text    | Label colour: always white                     | neutral · 0  | neutral · 0  |
 
 #### Disabled
 
