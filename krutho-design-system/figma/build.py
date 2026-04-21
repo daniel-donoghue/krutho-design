@@ -13,14 +13,13 @@ Usage:
   python build.py                          Build foundation + all surfaces
   python build.py foundation               Build foundation only
   python build.py surface diagrams         Build diagrams surface only
-  python build.py surface web-marketing    Build web marketing surface only
+  python build.py surface website          Build website surface only
 
 Output files:
   foundation.json                Colour primitives, colour semantic, spacing,
                                  grid, and typography collections.
   surface-diagrams.json          Diagram colour collection.
-  surface-web-marketing.json     Web marketing text styles, one set per
-                                 breakpoint.
+  surface-website.json           Website text styles, one set per breakpoint.
 """
 
 from __future__ import annotations
@@ -205,19 +204,19 @@ WEIGHT_STYLE: dict[int, str] = {
 # Data: Surfaces
 # ---------------------------------------------------------------------------
 
-# Web marketing text roles. Source: surfaces/web-marketing.md.
+# Website text roles. Source: surfaces/website.md.
 # Each entry: (role-name, tier, weight, {breakpoint: size}, lh-rule).
 # lh-rule is a variant key ("tight" | "default" | "loose") or a callable
 # taking the rendered size and returning a variant key. Headings follow
 # the surface rule: above 40px rendered size selects tight, else default.
 # Inline roles (Link, Strong, Em, Inline code) inherit line height from
 # their parent role and are not emitted as independent styles.
-WEB_MARKETING_BREAKPOINTS: tuple[str, ...] = ("Small", "Medium", "Large")
+WEBSITE_BREAKPOINTS: tuple[str, ...] = ("Small", "Medium", "Large")
 
 def _heading_lh_variant(size: int) -> str:
     return "tight" if size > 40 else "default"
 
-WEB_MARKETING_ROLES: list[tuple] = [
+WEBSITE_ROLES: list[tuple] = [
     ("Heading 1",   1, 500, {"Small": 40, "Medium": 64, "Large": 80}, _heading_lh_variant),
     ("Heading 2",   1, 500, {"Small": 28, "Medium": 40, "Large": 48}, _heading_lh_variant),
     ("Heading 3",   1, 500, {"Small": 20, "Medium": 24, "Large": 28}, _heading_lh_variant),
@@ -232,7 +231,7 @@ WEB_MARKETING_ROLES: list[tuple] = [
     ("Footer Text", 1, 400, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
 ]
 
-WEB_MARKETING_STYLE_PREFIX = "Web Marketing"
+WEBSITE_STYLE_PREFIX = "Website"
 
 
 # Diagram colour tokens. Source: surfaces/diagrams.md. Tuple = (light, dark).
@@ -434,14 +433,14 @@ def build_surface_diagrams() -> dict:
     ]}
 
 
-def build_surface_web_marketing() -> dict:
+def build_surface_website() -> dict:
     styles: list[dict] = []
-    for bp in WEB_MARKETING_BREAKPOINTS:
-        for role_name, tier, weight, sizes, lh_rule in WEB_MARKETING_ROLES:
+    for bp in WEBSITE_BREAKPOINTS:
+        for role_name, tier, weight, sizes, lh_rule in WEBSITE_ROLES:
             size = sizes[bp]
             variant = lh_rule(size) if callable(lh_rule) else lh_rule
             styles.append({
-                "name": f"{WEB_MARKETING_STYLE_PREFIX}/{bp}/{role_name}",
+                "name": f"{WEBSITE_STYLE_PREFIX}/{bp}/{role_name}",
                 "fontFamily": TIER_TYPEFACE[tier],
                 "fontStyle": WEIGHT_STYLE[weight],
                 "fontSize": size,
@@ -452,7 +451,7 @@ def build_surface_web_marketing() -> dict:
 
 SURFACES = {
     "diagrams": ("surface-diagrams.json", build_surface_diagrams),
-    "web-marketing": ("surface-web-marketing.json", build_surface_web_marketing),
+    "website": ("surface-website.json", build_surface_website),
 }
 
 

@@ -1,4 +1,4 @@
-# Krutho Marketing Website Surface
+# Krutho Website Surface
 
 Last edit 17th April 2026
 
@@ -10,7 +10,7 @@ First-pass specification. Values in this document are proposals for a working ba
 
 This document operates under the Krutho Design Philosophy. The terms precision, correctness, verifiability, and truth are used throughout in the senses defined there. Every decision traces to a reason that excludes the alternatives.
 
-This is a surface specification. It extends the Krutho foundation for one specific surface: the marketing website. Foundation documents define universal primitives. This document defines rules that apply to this surface only. Decisions here do not propagate back to the foundation.
+This is a surface specification. It extends the Krutho foundation for one specific surface: the website. Foundation documents define universal primitives. This document defines rules that apply to this surface only. Decisions here do not propagate back to the foundation.
 
 ---
 
@@ -34,7 +34,7 @@ All token references resolve to the values defined in those documents. This docu
 
 **Register:** Expressive.
 
-The marketing website operates with low information density by intent. White space is the primary structural element. Spatial intervals between elements are generous. These are the conditions that define the Expressive register in the Krutho Spacing System.
+The website operates with low information density by intent. White space is the primary structural element. Spatial intervals between elements are generous. These are the conditions that define the Expressive register in the Krutho Spacing System.
 
 The register governs the spatial character of the whole site. Column count adapts to viewport within this register; the adaptation is recorded in the Breakpoints section. A viewport that physically cannot hold 16 columns does not invalidate the register: the register is the spatial intent, and the column count is the mechanism by which that intent is realised at each viewport.
 

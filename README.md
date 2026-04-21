@@ -33,7 +33,7 @@ Specifications for the construction primitives.
 Specifications for rendered surface contexts. A surface consumes foundation tokens and adds surface-specific rules.
 
 - [Diagrams](krutho-design-system/surfaces/diagrams.md)
-- [Web Marketing](krutho-design-system/surfaces/web-marketing.md)
+- [Website](krutho-design-system/surfaces/website.md)
 
 **[figma/](krutho-design-system/figma/)**
 Token generator and companion Figma plugin. `build.py` emits `foundation.json` (imported into every Figma file) and per-surface payloads (e.g. `surface-diagrams.json`) that are added only where that surface is in use.

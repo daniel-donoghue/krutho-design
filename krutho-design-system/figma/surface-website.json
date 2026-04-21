@@ -3,252 +3,252 @@
   "collections": [],
   "textStyles": [
     {
-      "name": "Web Marketing/Small/Heading 1",
+      "name": "Website/Small/Heading 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 40,
       "lineHeight": 56
     },
     {
-      "name": "Web Marketing/Small/Heading 2",
+      "name": "Website/Small/Heading 2",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 28,
       "lineHeight": 40
     },
     {
-      "name": "Web Marketing/Small/Heading 3",
+      "name": "Website/Small/Heading 3",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 20,
       "lineHeight": 28
     },
     {
-      "name": "Web Marketing/Small/Eyebrow",
+      "name": "Website/Small/Eyebrow",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Small/Lead",
+      "name": "Website/Small/Lead",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 18,
       "lineHeight": 30
     },
     {
-      "name": "Web Marketing/Small/Body",
+      "name": "Website/Small/Body",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 26
     },
     {
-      "name": "Web Marketing/Small/Body Small",
+      "name": "Website/Small/Body Small",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 24
     },
     {
-      "name": "Web Marketing/Small/Caption",
+      "name": "Website/Small/Caption",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 12,
       "lineHeight": 18
     },
     {
-      "name": "Web Marketing/Small/Block Code",
+      "name": "Website/Small/Block Code",
       "fontFamily": "Spline Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Small/Button",
+      "name": "Website/Small/Button",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 16,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Small/Nav Primary",
+      "name": "Website/Small/Nav Primary",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
-      "name": "Web Marketing/Small/Footer Text",
+      "name": "Website/Small/Footer Text",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Medium/Heading 1",
+      "name": "Website/Medium/Heading 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 64,
       "lineHeight": 78
     },
     {
-      "name": "Web Marketing/Medium/Heading 2",
+      "name": "Website/Medium/Heading 2",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 40,
       "lineHeight": 56
     },
     {
-      "name": "Web Marketing/Medium/Heading 3",
+      "name": "Website/Medium/Heading 3",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 24,
       "lineHeight": 34
     },
     {
-      "name": "Web Marketing/Medium/Eyebrow",
+      "name": "Website/Medium/Eyebrow",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Medium/Lead",
+      "name": "Website/Medium/Lead",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 20,
       "lineHeight": 32
     },
     {
-      "name": "Web Marketing/Medium/Body",
+      "name": "Website/Medium/Body",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 26
     },
     {
-      "name": "Web Marketing/Medium/Body Small",
+      "name": "Website/Medium/Body Small",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 24
     },
     {
-      "name": "Web Marketing/Medium/Caption",
+      "name": "Website/Medium/Caption",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 12,
       "lineHeight": 18
     },
     {
-      "name": "Web Marketing/Medium/Block Code",
+      "name": "Website/Medium/Block Code",
       "fontFamily": "Spline Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Medium/Button",
+      "name": "Website/Medium/Button",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 16,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Medium/Nav Primary",
+      "name": "Website/Medium/Nav Primary",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
-      "name": "Web Marketing/Medium/Footer Text",
+      "name": "Website/Medium/Footer Text",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Large/Heading 1",
+      "name": "Website/Large/Heading 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 80,
       "lineHeight": 96
     },
     {
-      "name": "Web Marketing/Large/Heading 2",
+      "name": "Website/Large/Heading 2",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
-      "name": "Web Marketing/Large/Heading 3",
+      "name": "Website/Large/Heading 3",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 28,
       "lineHeight": 40
     },
     {
-      "name": "Web Marketing/Large/Eyebrow",
+      "name": "Website/Large/Eyebrow",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Large/Lead",
+      "name": "Website/Large/Lead",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 24,
       "lineHeight": 40
     },
     {
-      "name": "Web Marketing/Large/Body",
+      "name": "Website/Large/Body",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 26
     },
     {
-      "name": "Web Marketing/Large/Body Small",
+      "name": "Website/Large/Body Small",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 24
     },
     {
-      "name": "Web Marketing/Large/Caption",
+      "name": "Website/Large/Caption",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 12,
       "lineHeight": 18
     },
     {
-      "name": "Web Marketing/Large/Block Code",
+      "name": "Website/Large/Block Code",
       "fontFamily": "Spline Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Large/Button",
+      "name": "Website/Large/Button",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 16,
       "lineHeight": 20
     },
     {
-      "name": "Web Marketing/Large/Nav Primary",
+      "name": "Website/Large/Nav Primary",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
-      "name": "Web Marketing/Large/Footer Text",
+      "name": "Website/Large/Footer Text",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
