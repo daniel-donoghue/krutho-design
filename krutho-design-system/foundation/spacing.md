@@ -1,6 +1,6 @@
 # Krutho Spacing System
 
-Last edit 10th April 2026
+Last edit 21st April 2026
 
 ---
 
@@ -140,6 +140,10 @@ Three registers are defined. A surface spec selects a register and applies the s
 **Register selection.** The register is selected by matching the surface's characteristics against the register descriptions below. A surface spec states which register it uses and which characteristics of the surface determine that selection. The selection is verifiable: an independent party can read the surface spec's stated characteristics and confirm that they match the selected register's description. If no register matches without significant mismatch on multiple criteria, the surface spec documents the closest match and specifies the deviation.
 
 Register selection cannot be fully derived by arithmetic. It requires judgment applied to the surface's functional requirements. This is a named gap in the specification: the register descriptions provide the criteria, but the application of those criteria to a given surface requires a human decision. That decision must be recorded in the surface spec.
+
+**Responsive surfaces.** A surface whose spatial character varies with its scale of operation may declare a register per scale class. Each declared register is selected per the Register selection rule above, applied independently to that scale class's characteristics. A multi-register surface's spacing values at each scale class are drawn from the designed set of that scale class's declared register. The surface specification states the scale classes, the register declared at each, and the characteristics that determine each selection.
+
+The condition for declaring multiple registers is that the surface's spatial character genuinely varies across scale classes. A surface that uses different spacing values at different scales but retains the same information density and white space character across those scales is a single-register surface. The reality of the variation is the first inspection point.
 
 ---
 
@@ -290,3 +294,4 @@ The following conditions state every assessable rule in this specification. Each
 6. The surface spec declares its production context. That declaration determines the unit and conformance test.
 7. The designed spacing sets defined in the Register section are a starting point. The generative rule governs. The designed sets govern only in the absence of a documented surface-level reason to extend them.
 8. Register selection requires human judgment applied against the register descriptions. The surface spec records the selection and states the characteristics that determine it. Consistent use of sizes outside the selected register's designed set signals an incorrect register selection, not a system deficiency.
+9. A responsive surface whose spatial character varies with scale may declare a register per scale class. Each declaration satisfies the Register selection rule independently. The surface specification states the scale classes, the register at each, and the characteristics that determine each selection. A surface whose character does not genuinely vary with scale is a single-register surface; multi-register declaration requires real variation in spatial character, not merely different values at different scales.
