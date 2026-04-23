@@ -19,7 +19,8 @@ Output files:
   foundation.json                Colour primitives, colour semantic, spacing,
                                  grid, and typography collections.
   surface-diagrams.json          Diagram colour collection.
-  surface-website.json           Website text styles, one set per breakpoint.
+  surface-website.json           Website text styles and grid styles, one set
+                                 per breakpoint.
 """
 
 from __future__ import annotations
@@ -197,6 +198,7 @@ TIER_TYPEFACE: dict[int, str] = {
 WEIGHT_STYLE: dict[int, str] = {
     400: "Regular",
     500: "Medium",
+    600: "Semibold",
 }
 
 
@@ -205,33 +207,48 @@ WEIGHT_STYLE: dict[int, str] = {
 # ---------------------------------------------------------------------------
 
 # Website text roles. Source: surfaces/website.md.
-# Each entry: (role-name, tier, weight, {breakpoint: size}, lh-rule).
-# lh-rule is a variant key ("tight" | "default" | "loose") or a callable
-# taking the rendered size and returning a variant key. Headings follow
-# the surface rule: above 40px rendered size selects tight, else default.
-# Inline roles (Link, Strong, Em, Inline code) inherit line height from
-# their parent role and are not emitted as independent styles.
-WEBSITE_BREAKPOINTS: tuple[str, ...] = ("Small", "Medium", "Large")
-
-def _heading_lh_variant(size: int) -> str:
-    return "tight" if size > 40 else "default"
+# Each entry: (role-name, tier, weight, {breakpoint-key: size}, lh-variant).
+# Breakpoint keys match WEBSITE_BREAKPOINTS. The lh-variant is a key into
+# LH_RATIOS: "tight" for Display and Structural categories, "default" for
+# Continuous reading and Code.
+WEBSITE_BREAKPOINTS: tuple[tuple[str, str], ...] = (
+    ("SM",         "SM (320-575)"),
+    ("MD",         "MD (576-1087)"),
+    ("LG",         "LG (1088-1343)"),
+    ("Display-SM", "Display-SM (1344-1599)"),
+    ("Display-MD", "Display-MD (1600-1855)"),
+    ("Display-LG", "Display-LG (1856+)"),
+)
 
 WEBSITE_ROLES: list[tuple] = [
-    ("Heading 1",   1, 500, {"Small": 40, "Medium": 64, "Large": 80}, _heading_lh_variant),
-    ("Heading 2",   1, 500, {"Small": 28, "Medium": 40, "Large": 48}, _heading_lh_variant),
-    ("Heading 3",   1, 500, {"Small": 20, "Medium": 24, "Large": 28}, _heading_lh_variant),
-    ("Eyebrow",     1, 500, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
-    ("Lead",        1, 400, {"Small": 18, "Medium": 20, "Large": 24}, "loose"),
-    ("Body",        1, 400, {"Small": 16, "Medium": 16, "Large": 16}, "loose"),
-    ("Body Small",  1, 400, {"Small": 14, "Medium": 14, "Large": 14}, "loose"),
-    ("Caption",     1, 400, {"Small": 12, "Medium": 12, "Large": 12}, "default"),
-    ("Block Code",  2, 400, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
-    ("Button",      1, 500, {"Small": 16, "Medium": 16, "Large": 16}, "tight"),
-    ("Nav Primary", 1, 400, {"Small": 16, "Medium": 16, "Large": 16}, "default"),
-    ("Footer Text", 1, 400, {"Small": 14, "Medium": 14, "Large": 14}, "default"),
+    ("Display 1", 1, 500, {"SM": 48, "MD": 48, "LG": 48, "Display-SM": 64, "Display-MD": 80, "Display-LG": 96}, "tight"),
+    ("Display 2", 1, 500, {"SM": 40, "MD": 40, "LG": 40, "Display-SM": 48, "Display-MD": 64, "Display-LG": 80}, "tight"),
+    ("Heading 1", 1, 600, {"SM": 32, "MD": 32, "LG": 32, "Display-SM": 40, "Display-MD": 48, "Display-LG": 64}, "tight"),
+    ("Heading 2", 1, 600, {"SM": 24, "MD": 24, "LG": 24, "Display-SM": 32, "Display-MD": 40, "Display-LG": 48}, "tight"),
+    ("Heading 3", 1, 600, {"SM": 20, "MD": 20, "LG": 20, "Display-SM": 24, "Display-MD": 32, "Display-LG": 40}, "tight"),
+    ("Heading 4", 1, 600, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 20, "Display-MD": 24, "Display-LG": 32}, "tight"),
+    ("Lead",      1, 400, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 18, "Display-MD": 18, "Display-LG": 24}, "default"),
+    ("Body",      1, 400, {"SM": 16, "MD": 16, "LG": 16, "Display-SM": 16, "Display-MD": 16, "Display-LG": 20}, "default"),
+    ("Caption",   1, 400, {"SM": 12, "MD": 12, "LG": 12, "Display-SM": 12, "Display-MD": 12, "Display-LG": 14}, "default"),
+    ("Code",      2, 400, {"SM": 14, "MD": 14, "LG": 14, "Display-SM": 14, "Display-MD": 14, "Display-LG": 16}, "default"),
 ]
 
 WEBSITE_STYLE_PREFIX = "Website"
+
+# Website grid structure per breakpoint. Source: surfaces/website.md.
+# (columns, margin, gutter). Applied to frames via Figma grid styles with
+# STRETCH alignment, so columns fluidly fill within a breakpoint range.
+# The Display-LG content lock at 1760 is a frame-level convention: apply
+# the Display-LG grid to a 1760-wide content frame centred in a >=1856
+# outer frame. It is not expressed as a separate grid style.
+WEBSITE_GRIDS: dict[str, tuple[int, int, int]] = {
+    "SM":         (2,  16, 32),
+    "MD":         (8,  48, 32),
+    "LG":         (16, 48, 32),
+    "Display-SM": (16, 48, 32),
+    "Display-MD": (16, 48, 32),
+    "Display-LG": (16, 48, 32),
+}
 
 
 # Diagram colour tokens. Source: surfaces/diagrams.md. Tuple = (light, dark).
@@ -341,16 +358,20 @@ def write_payload(filename: str, payload: dict) -> int:
     out_path.write_text(json.dumps(payload, indent=2) + "\n")
     collections = payload.get("collections", [])
     text_styles = payload.get("textStyles", [])
+    grid_styles = payload.get("gridStyles", [])
     n_vars = sum(len(c["variables"]) for c in collections)
     n_colls = len(collections)
     n_styles = len(text_styles)
+    n_grids = len(grid_styles)
     parts: list[str] = []
     if n_vars:
         parts.append(f"{n_vars} variables across {n_colls} collections")
     if n_styles:
         parts.append(f"{n_styles} text styles")
+    if n_grids:
+        parts.append(f"{n_grids} grid styles")
     print(f"  {filename}: {', '.join(parts) if parts else 'empty payload'}")
-    return n_vars + n_styles
+    return n_vars + n_styles + n_grids
 
 
 # ---------------------------------------------------------------------------
@@ -435,18 +456,34 @@ def build_surface_diagrams() -> dict:
 
 def build_surface_website() -> dict:
     styles: list[dict] = []
-    for bp in WEBSITE_BREAKPOINTS:
-        for role_name, tier, weight, sizes, lh_rule in WEBSITE_ROLES:
-            size = sizes[bp]
-            variant = lh_rule(size) if callable(lh_rule) else lh_rule
+    grid_styles: list[dict] = []
+    for bp_key, bp_label in WEBSITE_BREAKPOINTS:
+        for role_name, tier, weight, sizes, lh_variant in WEBSITE_ROLES:
+            size = sizes[bp_key]
             styles.append({
-                "name": f"{WEBSITE_STYLE_PREFIX}/{bp}/{role_name}",
+                "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}/{role_name}",
                 "fontFamily": TIER_TYPEFACE[tier],
                 "fontStyle": WEIGHT_STYLE[weight],
                 "fontSize": size,
-                "lineHeight": derive_lh(size, LH_RATIOS[variant]),
+                "lineHeight": derive_lh(size, LH_RATIOS[lh_variant]),
             })
-    return {"version": 1, "collections": [], "textStyles": styles}
+        cols, margin, gutter = WEBSITE_GRIDS[bp_key]
+        grid_styles.append({
+            "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}",
+            "layoutGrids": [{
+                "pattern": "COLUMNS",
+                "alignment": "STRETCH",
+                "count": cols,
+                "offset": margin,
+                "gutterSize": gutter,
+            }],
+        })
+    return {
+        "version": 1,
+        "collections": [],
+        "textStyles": styles,
+        "gridStyles": grid_styles,
+    }
 
 
 SURFACES = {

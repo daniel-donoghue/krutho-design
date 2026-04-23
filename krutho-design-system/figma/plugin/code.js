@@ -14,6 +14,7 @@ figma.ui.onmessage = async (msg) => {
         conflicts,
         collectionCount: data.collections.length,
         textStyleCount: data.textStyles.length,
+        gridStyleCount: data.gridStyles.length,
       });
     } else if (msg.type === "import") {
       const data = parsePayload(msg.payload);
@@ -35,16 +36,18 @@ function parsePayload(text) {
   }
   const hasCollections = data && Array.isArray(data.collections);
   const hasTextStyles = data && Array.isArray(data.textStyles);
-  if (!hasCollections && !hasTextStyles) {
-    throw new Error("JSON missing 'collections' or 'textStyles' array.");
+  const hasGridStyles = data && Array.isArray(data.gridStyles);
+  if (!hasCollections && !hasTextStyles && !hasGridStyles) {
+    throw new Error("JSON missing 'collections', 'textStyles', or 'gridStyles' array.");
   }
   if (!hasCollections) data.collections = [];
   if (!hasTextStyles) data.textStyles = [];
+  if (!hasGridStyles) data.gridStyles = [];
   return data;
 }
 
 async function findConflicts(data) {
-  const conflicts = { collections: [], textStyles: [] };
+  const conflicts = { collections: [], textStyles: [], gridStyles: [] };
   if (data.collections.length > 0) {
     const existing = await figma.variables.getLocalVariableCollectionsAsync();
     const set = new Set(existing.map((c) => c.name));
@@ -54,6 +57,11 @@ async function findConflicts(data) {
     const existing = await figma.getLocalTextStylesAsync();
     const set = new Set(existing.map((s) => s.name));
     conflicts.textStyles = data.textStyles.map((s) => s.name).filter((n) => set.has(n));
+  }
+  if (data.gridStyles.length > 0) {
+    const existing = await figma.getLocalGridStylesAsync();
+    const set = new Set(existing.map((s) => s.name));
+    conflicts.gridStyles = data.gridStyles.map((s) => s.name).filter((n) => set.has(n));
   }
   return conflicts;
 }
@@ -69,12 +77,18 @@ async function runImport(data) {
     totalStyles = await importTextStyles(data.textStyles);
   }
 
+  let totalGrids = 0;
+  if (data.gridStyles.length > 0) {
+    totalGrids = await importGridStyles(data.gridStyles);
+  }
+
   const summary = [];
   if (totalVars > 0) summary.push(`${totalVars} variables across ${data.collections.length} collections`);
   if (totalStyles > 0) summary.push(`${totalStyles} text styles`);
+  if (totalGrids > 0) summary.push(`${totalGrids} grid styles`);
   figma.ui.postMessage({
     type: "done",
-    message: summary.length > 0 ? `Imported ${summary.join(" and ")}.` : "Nothing to import.",
+    message: summary.length > 0 ? `Imported ${summary.join(", ")}.` : "Nothing to import.",
   });
 }
 
@@ -198,6 +212,47 @@ async function importTextStyles(styleSpecs) {
   }
 
   return created;
+}
+
+async function importGridStyles(specs) {
+  // Delete existing grid styles whose names collide with incoming ones.
+  // Like text styles, grid styles are not auto-remapped on re-creation:
+  // frames previously bound to a deleted grid style retain their last
+  // layout grids but lose the style link. The UI warns before import.
+  const existing = await figma.getLocalGridStylesAsync();
+  const incomingNames = new Set(specs.map((s) => s.name));
+  let deleted = 0;
+  for (const s of existing) {
+    if (incomingNames.has(s.name)) { s.remove(); deleted++; }
+  }
+  if (deleted > 0) {
+    figma.ui.postMessage({ type: "progress", message: `Deleted ${deleted} existing grid style(s).` });
+  }
+
+  figma.ui.postMessage({ type: "progress", message: `Creating grid style(s)...` });
+  let created = 0;
+  for (const spec of specs) {
+    const style = figma.createGridStyle();
+    style.name = spec.name;
+    style.layoutGrids = spec.layoutGrids.map((g) => toFigmaLayoutGrid(g, spec.name));
+    created++;
+  }
+  return created;
+}
+
+function toFigmaLayoutGrid(g, ownerName) {
+  if (g.pattern !== "COLUMNS") {
+    throw new Error(`Unsupported layout grid pattern "${g.pattern}" on ${ownerName}`);
+  }
+  return {
+    pattern: "COLUMNS",
+    alignment: g.alignment,
+    count: g.count,
+    gutterSize: g.gutterSize,
+    offset: g.offset,
+    visible: true,
+    color: { r: 1, g: 0, b: 0, a: 0.1 },
+  };
 }
 
 function toFigmaValue(type, spec, varByKey, ownerColl, ownerPath) {

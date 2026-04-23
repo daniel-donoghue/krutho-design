@@ -3,256 +3,498 @@
   "collections": [],
   "textStyles": [
     {
-      "name": "Website/Small/Heading 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 40,
-      "lineHeight": 56
-    },
-    {
-      "name": "Website/Small/Heading 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 28,
-      "lineHeight": 40
-    },
-    {
-      "name": "Website/Small/Heading 3",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 20,
-      "lineHeight": 28
-    },
-    {
-      "name": "Website/Small/Eyebrow",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Small/Lead",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 18,
-      "lineHeight": 30
-    },
-    {
-      "name": "Website/Small/Body",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 16,
-      "lineHeight": 26
-    },
-    {
-      "name": "Website/Small/Body Small",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 24
-    },
-    {
-      "name": "Website/Small/Caption",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18
-    },
-    {
-      "name": "Website/Small/Block Code",
-      "fontFamily": "Spline Mono",
-      "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Small/Button",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 16,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Small/Nav Primary",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 16,
-      "lineHeight": 24
-    },
-    {
-      "name": "Website/Small/Footer Text",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Medium/Heading 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 64,
-      "lineHeight": 78
-    },
-    {
-      "name": "Website/Medium/Heading 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 40,
-      "lineHeight": 56
-    },
-    {
-      "name": "Website/Medium/Heading 3",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 24,
-      "lineHeight": 34
-    },
-    {
-      "name": "Website/Medium/Eyebrow",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Medium/Lead",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 20,
-      "lineHeight": 32
-    },
-    {
-      "name": "Website/Medium/Body",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 16,
-      "lineHeight": 26
-    },
-    {
-      "name": "Website/Medium/Body Small",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 24
-    },
-    {
-      "name": "Website/Medium/Caption",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18
-    },
-    {
-      "name": "Website/Medium/Block Code",
-      "fontFamily": "Spline Mono",
-      "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Medium/Button",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 16,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Medium/Nav Primary",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 16,
-      "lineHeight": 24
-    },
-    {
-      "name": "Website/Medium/Footer Text",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Large/Heading 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 80,
-      "lineHeight": 96
-    },
-    {
-      "name": "Website/Large/Heading 2",
+      "name": "Website/SM (320-575)/Display 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
-      "name": "Website/Large/Heading 3",
+      "name": "Website/SM (320-575)/Display 2",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
-      "fontSize": 28,
+      "fontSize": 40,
+      "lineHeight": 48
+    },
+    {
+      "name": "Website/SM (320-575)/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 32,
       "lineHeight": 40
     },
     {
-      "name": "Website/Large/Eyebrow",
+      "name": "Website/SM (320-575)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
-      "fontSize": 14,
-      "lineHeight": 20
-    },
-    {
-      "name": "Website/Large/Lead",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
+      "fontStyle": "Semibold",
       "fontSize": 24,
-      "lineHeight": 40
+      "lineHeight": 30
     },
     {
-      "name": "Website/Large/Body",
+      "name": "Website/SM (320-575)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 16,
-      "lineHeight": 26
-    },
-    {
-      "name": "Website/Large/Body Small",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Regular",
-      "fontSize": 14,
+      "fontStyle": "Semibold",
+      "fontSize": 20,
       "lineHeight": 24
     },
     {
-      "name": "Website/Large/Caption",
+      "name": "Website/SM (320-575)/Heading 4",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 18,
+      "lineHeight": 22
+    },
+    {
+      "name": "Website/SM (320-575)/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 26
+    },
+    {
+      "name": "Website/SM (320-575)/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/SM (320-575)/Caption",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 12,
       "lineHeight": 18
     },
     {
-      "name": "Website/Large/Block Code",
+      "name": "Website/SM (320-575)/Code",
       "fontFamily": "Spline Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
-      "name": "Website/Large/Button",
+      "name": "Website/MD (576-1087)/Display 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
-      "fontSize": 16,
-      "lineHeight": 20
+      "fontSize": 48,
+      "lineHeight": 58
     },
     {
-      "name": "Website/Large/Nav Primary",
+      "name": "Website/MD (576-1087)/Display 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 40,
+      "lineHeight": 48
+    },
+    {
+      "name": "Website/MD (576-1087)/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 32,
+      "lineHeight": 40
+    },
+    {
+      "name": "Website/MD (576-1087)/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 24,
+      "lineHeight": 30
+    },
+    {
+      "name": "Website/MD (576-1087)/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 20,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/MD (576-1087)/Heading 4",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 18,
+      "lineHeight": 22
+    },
+    {
+      "name": "Website/MD (576-1087)/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 26
+    },
+    {
+      "name": "Website/MD (576-1087)/Body",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
-      "name": "Website/Large/Footer Text",
+      "name": "Website/MD (576-1087)/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Website/MD (576-1087)/Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Website/LG (1088-1343)/Display 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 48,
+      "lineHeight": 58
+    },
+    {
+      "name": "Website/LG (1088-1343)/Display 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 40,
+      "lineHeight": 48
+    },
+    {
+      "name": "Website/LG (1088-1343)/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 32,
+      "lineHeight": 40
+    },
+    {
+      "name": "Website/LG (1088-1343)/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 24,
+      "lineHeight": 30
+    },
+    {
+      "name": "Website/LG (1088-1343)/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 20,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/LG (1088-1343)/Heading 4",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 18,
+      "lineHeight": 22
+    },
+    {
+      "name": "Website/LG (1088-1343)/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 26
+    },
+    {
+      "name": "Website/LG (1088-1343)/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/LG (1088-1343)/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Website/LG (1088-1343)/Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Display 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 64,
+      "lineHeight": 78
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Display 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 48,
+      "lineHeight": 58
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 40,
+      "lineHeight": 48
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 32,
+      "lineHeight": 40
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 24,
+      "lineHeight": 30
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Heading 4",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 20,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 26
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Display 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 80,
+      "lineHeight": 96
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Display 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 64,
+      "lineHeight": 78
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 48,
+      "lineHeight": 58
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 40,
+      "lineHeight": 48
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 32,
+      "lineHeight": 40
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Heading 4",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 24,
+      "lineHeight": 30
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 26
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Caption",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Display 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 96,
+      "lineHeight": 116
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Display 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Medium",
+      "fontSize": 80,
+      "lineHeight": 96
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Heading 1",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 64,
+      "lineHeight": 78
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Heading 2",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 48,
+      "lineHeight": 58
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Heading 3",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 40,
+      "lineHeight": 48
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Heading 4",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Semibold",
+      "fontSize": 32,
+      "lineHeight": 40
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Lead",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 24,
+      "lineHeight": 34
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Body",
+      "fontFamily": "Spline Sans",
+      "fontStyle": "Regular",
+      "fontSize": 20,
+      "lineHeight": 28
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Caption",
       "fontFamily": "Spline Sans",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Code",
+      "fontFamily": "Spline Mono",
+      "fontStyle": "Regular",
+      "fontSize": 16,
+      "lineHeight": 24
+    }
+  ],
+  "gridStyles": [
+    {
+      "name": "Website/SM (320-575)",
+      "layoutGrids": [
+        {
+          "pattern": "COLUMNS",
+          "alignment": "STRETCH",
+          "count": 2,
+          "offset": 16,
+          "gutterSize": 32
+        }
+      ]
+    },
+    {
+      "name": "Website/MD (576-1087)",
+      "layoutGrids": [
+        {
+          "pattern": "COLUMNS",
+          "alignment": "STRETCH",
+          "count": 8,
+          "offset": 48,
+          "gutterSize": 32
+        }
+      ]
+    },
+    {
+      "name": "Website/LG (1088-1343)",
+      "layoutGrids": [
+        {
+          "pattern": "COLUMNS",
+          "alignment": "STRETCH",
+          "count": 16,
+          "offset": 48,
+          "gutterSize": 32
+        }
+      ]
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)",
+      "layoutGrids": [
+        {
+          "pattern": "COLUMNS",
+          "alignment": "STRETCH",
+          "count": 16,
+          "offset": 48,
+          "gutterSize": 32
+        }
+      ]
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)",
+      "layoutGrids": [
+        {
+          "pattern": "COLUMNS",
+          "alignment": "STRETCH",
+          "count": 16,
+          "offset": 48,
+          "gutterSize": 32
+        }
+      ]
+    },
+    {
+      "name": "Website/Display-LG (1856+)",
+      "layoutGrids": [
+        {
+          "pattern": "COLUMNS",
+          "alignment": "STRETCH",
+          "count": 16,
+          "offset": 48,
+          "gutterSize": 32
+        }
+      ]
     }
   ]
 }

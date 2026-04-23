@@ -86,7 +86,7 @@
 </head>
 <body>
   <h1>Krutho Tokens Import</h1>
-  <p>Select a payload JSON to create collections, modes, variables, aliases, and text styles in this file.</p>
+  <p>Select a payload JSON to create collections, modes, variables, aliases, text styles, and grid styles in this file.</p>
 
   <label class="drop" id="drop">
     <input type="file" id="file" accept=".json,application/json">
@@ -162,8 +162,8 @@
     if (!msg) return;
 
     if (msg.type === 'analysis') {
-      const conflicts = msg.conflicts || { collections: [], textStyles: [] };
-      const hasConflicts = conflicts.collections.length > 0 || conflicts.textStyles.length > 0;
+      const conflicts = msg.conflicts || { collections: [], textStyles: [], gridStyles: [] };
+      const hasConflicts = conflicts.collections.length > 0 || conflicts.textStyles.length > 0 || (conflicts.gridStyles && conflicts.gridStyles.length > 0);
       if (hasConflicts) {
         const parts = ['<strong>These items already exist and will be deleted before import:</strong>'];
         if (conflicts.collections.length > 0) {
@@ -174,7 +174,11 @@
           parts.push('<div style="margin-top:6px;font-weight:600;">Text styles</div>');
           parts.push('<ul>' + conflicts.textStyles.map((n) => '<li>' + n + '</li>').join('') + '</ul>');
         }
-        parts.push('<div style="margin-top:8px;font-size:11px;">Variable collections re-created with the same names are automatically remapped by Figma. Text styles are not: nodes using a deleted text style become unlinked and must be re-applied.</div>');
+        if (conflicts.gridStyles && conflicts.gridStyles.length > 0) {
+          parts.push('<div style="margin-top:6px;font-weight:600;">Grid styles</div>');
+          parts.push('<ul>' + conflicts.gridStyles.map((n) => '<li>' + n + '</li>').join('') + '</ul>');
+        }
+        parts.push('<div style="margin-top:8px;font-size:11px;">Variable collections re-created with the same names are automatically remapped by Figma. Text and grid styles are not: nodes using a deleted style become unlinked and must be re-applied.</div>');
         conflictBox.innerHTML = parts.join('');
         conflictBox.style.display = 'block';
       } else {
@@ -183,7 +187,8 @@
       const summary = [];
       if (msg.collectionCount > 0) summary.push(msg.collectionCount + ' collections');
       if (msg.textStyleCount > 0) summary.push(msg.textStyleCount + ' text styles');
-      writeLog('Ready to import ' + (summary.join(' and ') || 'nothing') + '.', 'ok');
+      if (msg.gridStyleCount > 0) summary.push(msg.gridStyleCount + ' grid styles');
+      writeLog('Ready to import ' + (summary.join(', ') || 'nothing') + '.', 'ok');
       importBtn.disabled = false;
     } else if (msg.type === 'progress') {
       writeLog(msg.message);
