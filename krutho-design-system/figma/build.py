@@ -190,7 +190,7 @@ LH_RATIOS: dict[str, float] = {"tight": 1.2, "default": 1.4, "loose": 1.6}
 # Typeface tier to family. Source: foundation/typography.md.
 TIER_TYPEFACE: dict[int, str] = {
     1: "Spline Sans",
-    2: "Spline Mono",
+    2: "Spline Sans Mono",
     3: "Enra",
 }
 
@@ -198,7 +198,7 @@ TIER_TYPEFACE: dict[int, str] = {
 WEIGHT_STYLE: dict[int, str] = {
     400: "Regular",
     500: "Medium",
-    600: "Semibold",
+    600: "SemiBold",
 }
 
 

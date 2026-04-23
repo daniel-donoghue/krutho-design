@@ -46,7 +46,7 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Applies to:** All content where Tier 2 or Tier 3 does not apply. Default.
 
-### Tier 2: System Mechanism, Spline Mono
+### Tier 2: System Mechanism, Spline Sans Mono
 
 **Function:** Verifiable structure. System-derived output.
 
@@ -93,11 +93,11 @@ Tier 1 content belongs to one of four functional categories. The weight is deter
 
 **Tier-level admission.**
 
-| Tier | Typeface    | Weights admitted                |
-|------|-------------|---------------------------------|
-| 1    | Spline Sans | Regular, Medium, Semibold, Bold |
-| 2    | Spline Mono | Regular                         |
-| 3    | Enra        | Regular                         |
+| Tier | Typeface         | Weights admitted                |
+|------|------------------|---------------------------------|
+| 1    | Spline Sans      | Regular, Medium, Semibold, Bold |
+| 2    | Spline Sans Mono | Regular                         |
+| 3    | Enra             | Regular                         |
 
 Tier 2 uses Regular only. Weight above Regular would read as emphasis rather than as a distinct tier, competing with inline Bold in surrounding body. The tier distinction is carried by typeface.
 
@@ -232,7 +232,7 @@ The following conditions state every assessable rule in this specification. Each
 
 1. A type size is valid if and only if it satisfies the substrate conformance test (value mod 2 = 0 in the unit of the declared production context).
 2. Every typographic decision belongs to exactly one tier. The tier determines the typeface.
-3. Tier 2 (Spline Mono) is admitted only where the content satisfies the admission test: could the content be independently verified by a machine without contextual interpretation? Tier 2 is never used for aesthetic contrast.
+3. Tier 2 (Spline Sans Mono) is admitted only where the content satisfies the admission test: could the content be independently verified by a machine without contextual interpretation? Tier 2 is never used for aesthetic contrast.
 4. Tier 3 (Enra) is admitted only where the admission test is satisfied: if the element were removed, would the surface lose emphasis without losing content?
 5. Admitted weights are Regular (400), Medium (500), Semibold (600), and Bold (700). Tier 2 and Tier 3 use Regular only. Within Tier 1, weight is assigned by functional category: Display uses Medium, Structural uses Semibold, Continuous reading uses Regular, Inline emphasis uses Bold.
 6. Line height tokens are derived by the rule stated in the Line Height Derivation section. Derived values satisfy the substrate conformance test.

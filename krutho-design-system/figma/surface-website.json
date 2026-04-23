@@ -19,28 +19,28 @@
     {
       "name": "Website/SM (320-575)/Heading 1",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
       "name": "Website/SM (320-575)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 24,
       "lineHeight": 30
     },
     {
       "name": "Website/SM (320-575)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 20,
       "lineHeight": 24
     },
     {
       "name": "Website/SM (320-575)/Heading 4",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 18,
       "lineHeight": 22
     },
@@ -67,7 +67,7 @@
     },
     {
       "name": "Website/SM (320-575)/Code",
-      "fontFamily": "Spline Mono",
+      "fontFamily": "Spline Sans Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
@@ -89,28 +89,28 @@
     {
       "name": "Website/MD (576-1087)/Heading 1",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
       "name": "Website/MD (576-1087)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 24,
       "lineHeight": 30
     },
     {
       "name": "Website/MD (576-1087)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 20,
       "lineHeight": 24
     },
     {
       "name": "Website/MD (576-1087)/Heading 4",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 18,
       "lineHeight": 22
     },
@@ -137,7 +137,7 @@
     },
     {
       "name": "Website/MD (576-1087)/Code",
-      "fontFamily": "Spline Mono",
+      "fontFamily": "Spline Sans Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
@@ -159,28 +159,28 @@
     {
       "name": "Website/LG (1088-1343)/Heading 1",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
       "name": "Website/LG (1088-1343)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 24,
       "lineHeight": 30
     },
     {
       "name": "Website/LG (1088-1343)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 20,
       "lineHeight": 24
     },
     {
       "name": "Website/LG (1088-1343)/Heading 4",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 18,
       "lineHeight": 22
     },
@@ -207,7 +207,7 @@
     },
     {
       "name": "Website/LG (1088-1343)/Code",
-      "fontFamily": "Spline Mono",
+      "fontFamily": "Spline Sans Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
@@ -229,28 +229,28 @@
     {
       "name": "Website/Display-SM (1344-1599)/Heading 1",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 40,
       "lineHeight": 48
     },
     {
       "name": "Website/Display-SM (1344-1599)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
       "name": "Website/Display-SM (1344-1599)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 24,
       "lineHeight": 30
     },
     {
       "name": "Website/Display-SM (1344-1599)/Heading 4",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 20,
       "lineHeight": 24
     },
@@ -277,7 +277,7 @@
     },
     {
       "name": "Website/Display-SM (1344-1599)/Code",
-      "fontFamily": "Spline Mono",
+      "fontFamily": "Spline Sans Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
@@ -299,28 +299,28 @@
     {
       "name": "Website/Display-MD (1600-1855)/Heading 1",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
       "name": "Website/Display-MD (1600-1855)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 40,
       "lineHeight": 48
     },
     {
       "name": "Website/Display-MD (1600-1855)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
       "name": "Website/Display-MD (1600-1855)/Heading 4",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 24,
       "lineHeight": 30
     },
@@ -347,7 +347,7 @@
     },
     {
       "name": "Website/Display-MD (1600-1855)/Code",
-      "fontFamily": "Spline Mono",
+      "fontFamily": "Spline Sans Mono",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
@@ -369,28 +369,28 @@
     {
       "name": "Website/Display-LG (1856+)/Heading 1",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 64,
       "lineHeight": 78
     },
     {
       "name": "Website/Display-LG (1856+)/Heading 2",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
       "name": "Website/Display-LG (1856+)/Heading 3",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 40,
       "lineHeight": 48
     },
     {
       "name": "Website/Display-LG (1856+)/Heading 4",
       "fontFamily": "Spline Sans",
-      "fontStyle": "Semibold",
+      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
@@ -417,7 +417,7 @@
     },
     {
       "name": "Website/Display-LG (1856+)/Code",
-      "fontFamily": "Spline Mono",
+      "fontFamily": "Spline Sans Mono",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24

@@ -153,20 +153,20 @@ At viewport 1856 and above, content area is locked at 1760. Margins expand symme
 
 The Web Surface declares ten content roles. The role set is canonical across Krutho web content surfaces. Product and application UI surfaces declare their own role set.
 
-| Role      | Tier | Typeface    | Weight         | Tier 1 functional category |
-|-----------|------|-------------|----------------|----------------------------|
-| Display 1 | 1    | Spline Sans | Medium (500)   | Display                    |
-| Display 2 | 1    | Spline Sans | Medium (500)   | Display                    |
-| Heading 1 | 1    | Spline Sans | Semibold (600) | Structural                 |
-| Heading 2 | 1    | Spline Sans | Semibold (600) | Structural                 |
-| Heading 3 | 1    | Spline Sans | Semibold (600) | Structural                 |
-| Heading 4 | 1    | Spline Sans | Semibold (600) | Structural                 |
-| Lead      | 1    | Spline Sans | Regular (400)  | Continuous reading         |
-| Body      | 1    | Spline Sans | Regular (400)  | Continuous reading         |
-| Caption   | 1    | Spline Sans | Regular (400)  | Continuous reading         |
-| Code      | 2    | Spline Mono | Regular (400)  |                            |
+| Role      | Tier | Typeface         | Weight         | Tier 1 functional category |
+|-----------|------|------------------|----------------|----------------------------|
+| Display 1 | 1    | Spline Sans      | Medium (500)   | Display                    |
+| Display 2 | 1    | Spline Sans      | Medium (500)   | Display                    |
+| Heading 1 | 1    | Spline Sans      | Semibold (600) | Structural                 |
+| Heading 2 | 1    | Spline Sans      | Semibold (600) | Structural                 |
+| Heading 3 | 1    | Spline Sans      | Semibold (600) | Structural                 |
+| Heading 4 | 1    | Spline Sans      | Semibold (600) | Structural                 |
+| Lead      | 1    | Spline Sans      | Regular (400)  | Continuous reading         |
+| Body      | 1    | Spline Sans      | Regular (400)  | Continuous reading         |
+| Caption   | 1    | Spline Sans      | Regular (400)  | Continuous reading         |
+| Code      | 2    | Spline Sans Mono | Regular (400)  |                            |
 
-The Tier 1 functional category column applies only to Tier 1 roles. Code is Tier 2; its typeface and weight are determined by tier: Spline Mono, Regular.
+The Tier 1 functional category column applies only to Tier 1 roles. Code is Tier 2; its typeface and weight are determined by tier: Spline Sans Mono, Regular.
 
 Inline body emphasis is Bold (700) applied within Body flow where emphasis is functionally required. It is a weight variant, not a role: the Inline emphasis functional category per the Krutho Typography System.
 
@@ -366,11 +366,11 @@ Reproduced from foundation documents for independent verification. Values are no
 
 **Typography tiers.** Reproduced from the Krutho Typography System Typeface Tier Model.
 
-| Tier | Typeface    | Function                                              |
-|------|-------------|-------------------------------------------------------|
-| 1    | Spline Sans | Operational clarity. The primary voice of the system. |
-| 2    | Spline Mono | Verifiable structure. System-derived output.          |
-| 3    | Enra        | Interpretive weight. Significance.                    |
+| Tier | Typeface         | Function                                              |
+|------|------------------|-------------------------------------------------------|
+| 1    | Spline Sans      | Operational clarity. The primary voice of the system. |
+| 2    | Spline Sans Mono | Verifiable structure. System-derived output.          |
+| 3    | Enra             | Interpretive weight. Significance.                    |
 
 **Density registers.** Reproduced from the Krutho Spacing System and the Krutho Layout System.
 
