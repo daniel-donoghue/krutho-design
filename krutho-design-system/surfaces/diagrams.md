@@ -1,24 +1,24 @@
 # Krutho Diagram Surface
 
-Last edit 17th April 2026
+Last edit 23rd April 2026
 
 ---
 
 ## Grounding Statement
 
-This document operates under the Krutho Design Philosophy. The terms precision, correctness, verifiability, and truth are used throughout in the senses defined there. Every decision in this document traces to a reason that excludes the alternatives.
+This document is the Krutho Diagram Surface. It operates under the Krutho Design Philosophy and derives from the Krutho Colour System.
 
 This document defines the colour token set for technical diagrams and data visualisations. Every token references a primitive stop defined in the Krutho Colour System. The governing principles of the Krutho Colour System apply to all tokens defined here. The gradient exception stated in Principle 4 of that document is scoped to this surface.
 
-Diagram tokens are not used in UI components. Semantic tokens defined in the Krutho Colour System are not used in diagrams unless the diagram operates in semantic mode, in which case the semantic source tokens apply directly. The two layers do not cross.
+Diagram tokens and UI component tokens do not cross. Semantic tokens apply to diagrams only when the diagram operates in semantic mode, in which case the semantic source tokens apply directly.
 
-**Dependency.** This document requires the Krutho Colour System for primitive colour values. The referenced primitive stops are reproduced in the Primitive Reference at the end of this document. An independent inspector can verify any diagram token against this document and the reproduced primitive values without consulting additional documents.
+Referenced primitive stops are reproduced in the Primitive Reference at the end of this document for independent verification.
 
 ---
 
 ## Colour Modes
 
-Every diagram operates in one or more of five colour modes. The mode is determined by the type of information being communicated. Diagram type is not a colour specification. Colour mode is.
+Every diagram operates in one or more of five colour modes. The mode is determined by the type of information being communicated.
 
 | Mode        | Question the colour answers              | Typical diagram types                                        |
 |-------------|------------------------------------------|--------------------------------------------------------------|
@@ -40,9 +40,9 @@ Two signal conditions are defined.
 
 **Trust layer active.** A component, node, or step in which cryptographic verification, identity assertion, or trust chain operations are occurring. Filled with signal-blue · 50. Bordered with signal-blue · 500. Text in signal-blue · 800.
 
-**Human decision in motion.** A step at which a person must act. No fill colour is applied. White fill, strong neutral border. The border weight distinguishes the node from infrastructure. No blue fill is used because the human is not the trust layer.
+**Human decision in motion.** A step at which a person must act. White fill, strong neutral border. The border weight distinguishes the node from infrastructure. Blue is reserved for the trust layer; a human is not the trust layer.
 
-Signal mode does not extend to connectors unless the connection itself represents a trust handoff. A connector between two trust-layer nodes is not itself a trust event. The connector-trust token is used only when the connection is the handoff, not merely adjacent to one.
+Signal mode extends to connectors only when the connection represents a trust handoff. A connector between two trust-layer nodes is not itself a trust event. The connector-trust token is applied only when the connection is the handoff.
 
 ### Signal mode tokens
 
@@ -57,11 +57,11 @@ Signal mode does not extend to connectors unless the connection itself represent
 
 ## Categorical Mode
 
-Categorical mode is used when distinct domains, systems, or entity types require simultaneous visual separation. All members of the same category receive the same colour treatment. Categories carry no hierarchy. No category is more important than another by virtue of its colour.
+Categorical mode is used when distinct domains, systems, or entity types require simultaneous visual separation. All members of the same category receive the same colour treatment. Categories carry no hierarchy; colour does not rank.
 
-Maximum four categories. A fifth category is rendered neutral and its role is documented in the diagram key. The specification does not define a fifth categorical colour. A diagram requiring more than four colour-separated categories requires structural redesign before it requires a fifth colour.
+Maximum four categories. A fifth category is rendered neutral and its role is documented in the diagram key. A diagram requiring more than four colour-separated categories requires structural redesign before a fifth colour.
 
-Each categorical token is defined by a function, not an ordinal position. Ordinal names (cat-1, cat-2) specify position in a sequence, not function. An independent party reading an ordinal token cannot determine, without external knowledge, what class of entity receives it. Functional names (trust, integration, transport, state) make correct use assessable by inspection.
+Each categorical token is defined by function. Ordinal names (cat-1, cat-2) specify position without carrying function; an independent party reading an ordinal token cannot determine what class of entity receives it. Functional names (trust, integration, transport, state) make correct use assessable by inspection.
 
 ### Category definitions
 
@@ -81,20 +81,20 @@ The trust categorical tokens and the signal trust tokens reference the same prim
 
 ### Categorical tokens
 
-| Token                                | Light                   | Dark                      |
-|--------------------------------------|-------------------------|---------------------------|
-| --color-diagram-cat-trust-fill       | signal-blue · 50        | signal-blue · 900         |
-| --color-diagram-cat-trust-border     | signal-blue · 500       | signal-blue · 500         |
-| --color-diagram-cat-trust-text       | signal-blue · 800       | signal-blue · 200         |
-| --color-diagram-cat-integration-fill | secondary-signal · 50   | secondary-signal · 900    |
-| --color-diagram-cat-integration-border | secondary-signal · 500 | secondary-signal · 500   |
-| --color-diagram-cat-integration-text | secondary-signal · 800  | secondary-signal · 200    |
-| --color-diagram-cat-transport-fill   | teal · 50               | teal · 900                |
-| --color-diagram-cat-transport-border | teal · 500              | teal · 500                |
-| --color-diagram-cat-transport-text   | teal · 800              | teal · 200                |
-| --color-diagram-cat-state-fill       | amber · 50              | amber · 900               |
-| --color-diagram-cat-state-border     | amber · 500             | amber · 500               |
-| --color-diagram-cat-state-text       | amber · 800             | amber · 200               |
+| Token                                  | Light                  | Dark                   |
+|----------------------------------------|------------------------|------------------------|
+| --color-diagram-cat-trust-fill         | signal-blue · 50       | signal-blue · 900      |
+| --color-diagram-cat-trust-border       | signal-blue · 500      | signal-blue · 500      |
+| --color-diagram-cat-trust-text         | signal-blue · 800      | signal-blue · 200      |
+| --color-diagram-cat-integration-fill   | secondary-signal · 50  | secondary-signal · 900 |
+| --color-diagram-cat-integration-border | secondary-signal · 500 | secondary-signal · 500 |
+| --color-diagram-cat-integration-text   | secondary-signal · 800 | secondary-signal · 200 |
+| --color-diagram-cat-transport-fill     | teal · 50              | teal · 900             |
+| --color-diagram-cat-transport-border   | teal · 500             | teal · 500             |
+| --color-diagram-cat-transport-text     | teal · 800             | teal · 200             |
+| --color-diagram-cat-state-fill         | amber · 50             | amber · 900            |
+| --color-diagram-cat-state-border       | amber · 500            | amber · 500            |
+| --color-diagram-cat-state-text         | amber · 800            | amber · 200            |
 
 ---
 
@@ -104,18 +104,18 @@ Sequential mode is used for ordered data with a single direction. The colour enc
 
 Five stops are defined for standard use. These are the stops at which perceptual differentiation is reliable at typical diagram and chart dimensions. The full primitive ramp is available for precise mapping where finer gradation is required.
 
-| Token                      | Primitive reference  | Position                    |
-|----------------------------|----------------------|-----------------------------|
-| --color-diagram-seq-1      | signal-blue · 50     | Lowest / earliest / weakest |
-| --color-diagram-seq-2      | signal-blue · 200    |                             |
-| --color-diagram-seq-3      | signal-blue · 400    | Mid                         |
-| --color-diagram-seq-4      | signal-blue · 500    |                             |
+| Token                      | Primitive reference  | Position                     |
+|----------------------------|----------------------|------------------------------|
+| --color-diagram-seq-1      | signal-blue · 50     | Lowest / earliest / weakest  |
+| --color-diagram-seq-2      | signal-blue · 200    |                              |
+| --color-diagram-seq-3      | signal-blue · 400    | Mid                          |
+| --color-diagram-seq-4      | signal-blue · 500    |                              |
 | --color-diagram-seq-5      | signal-blue · 700    | Highest / latest / strongest |
-| --color-diagram-seq-alt-1  | teal · 50            | Alternate ramp, lowest      |
-| --color-diagram-seq-alt-2  | teal · 200           |                             |
-| --color-diagram-seq-alt-3  | teal · 400           | Alternate ramp, mid         |
-| --color-diagram-seq-alt-4  | teal · 500           |                             |
-| --color-diagram-seq-alt-5  | teal · 700           | Alternate ramp, highest     |
+| --color-diagram-seq-alt-1  | teal · 50            | Alternate ramp, lowest       |
+| --color-diagram-seq-alt-2  | teal · 200           |                              |
+| --color-diagram-seq-alt-3  | teal · 400           | Alternate ramp, mid          |
+| --color-diagram-seq-alt-4  | teal · 500           |                              |
+| --color-diagram-seq-alt-5  | teal · 700           | Alternate ramp, highest      |
 
 ---
 
@@ -137,7 +137,7 @@ For Krutho data: the positive pole (valid, trusted, above threshold) uses signal
 
 ## Semantic Mode
 
-Semantic mode uses the existing semantic source tokens from the Krutho Colour System directly. No diagram-specific tokens are introduced for this mode.
+Semantic mode uses the semantic source tokens from the Krutho Colour System directly. No separate diagram tokens are defined for this mode.
 
 Status conditions map as follows.
 
@@ -181,10 +181,10 @@ The following conditions state every assessable rule in this specification.
 2. A diagram that cannot be assigned to any defined mode requires a specification addition before colour is applied. Using an existing mode for an unspecified purpose is a conformance failure.
 3. Maximum four categories in categorical mode. A fifth category is rendered neutral and documented in the diagram key.
 4. Where an entity satisfies more than one category definition, assign by primary function. Primary function is the function the entity exists to perform.
-5. Signal mode does not extend to connectors unless the connection itself represents a trust handoff.
-6. Semantic mode uses the semantic source tokens from the Krutho Colour System directly. No diagram-specific tokens are introduced for this mode.
-7. Diagram tokens are not used in UI components. Semantic tokens are not used in diagrams unless the diagram operates in semantic mode. This boundary is absolute.
-8. The gradient exception stated in Principle 4 of the Krutho Colour System applies to this surface: a single linear gradient between two stops of the same primitive ramp, used in illustrative diagrams to represent a continuous physical property. No other gradient use is permitted.
+5. Signal mode extends to connectors only where the connection represents a trust handoff.
+6. Semantic mode uses the semantic source tokens from the Krutho Colour System directly. No separate diagram tokens are defined for this mode.
+7. Diagram tokens are used in diagrams only. Semantic tokens are used in diagrams only when the diagram operates in semantic mode.
+8. The gradient exception stated in Principle 4 of the Krutho Colour System applies to this surface: a single linear gradient between two stops of the same primitive ramp, used in illustrative diagrams to represent a continuous physical property.
 
 ---
 

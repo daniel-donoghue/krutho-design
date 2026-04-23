@@ -1,111 +1,58 @@
 # Krutho Spacing System
 
-Last edit 21st April 2026
+Last edit 23rd April 2026
 
 ---
 
 ## Grounding Statement
 
-This document operates under the Krutho Design Philosophy. The terms precision, correctness, verifiability, and truth are used throughout in the senses defined there. Every decision in this document traces to a reason that excludes the alternatives.
+This document is the Krutho Spacing System. It operates under the Krutho Design Philosophy and derives from the Krutho Substrate. The substrate (2px), the substrate conformance test, the zone boundaries, the 10% derivation, and the production context are defined in that document.
 
-The Krutho spacing system is a derivation, not a selection. Every admitted value traces to a single base unit through arithmetic. Every rule in this document is a consequence of that derivation, not a design decision made independently of it.
-
-This document establishes the base unit, the generative rule, the zone structure that governs interval behaviour at different scales, the density registers that define the spatial character of each surface class, and the conditions under which surface-level extension is permitted.
-
-The zone structure established in this document is shared with the Krutho Typography System. Both documents derive from the same base unit and zone derivation. The zone structure is reproduced in full in each document because each must be independently verifiable. Any change to the base unit or zone derivation requires updating both documents.
+This document applies additional constraints to the substrate's scale: a spacing-specific conformance test, the generative rule, the zone intervals, density registers, and surface-level extension conditions.
 
 ---
 
 ## Terms
 
-Five terms are defined here. Each is used throughout this document in its defined sense only.
+Two terms are defined here. Each is used throughout this document in its defined sense only. Terms defined in the Krutho Substrate (medium, unit of medium, substrate, zone, interval) are used throughout in their substrate-defined senses.
 
-**Base unit.**
-The irreducible value from which all spacing values are derived. A value that is not a multiple of the base unit is not a valid spacing value.
+**Step.** A specific admitted spacing value. step(n) = n × 4px, where n is a positive integer. A step is identified by its multiplier: step 4 is 16px.
 
-**Step.**
-A specific multiple of the base unit. step(n) = n × 4px, where n is a positive integer. A step is identified by its multiplier: step 4 is 16px.
-
-**Zone.**
-A range of the scale within which a consistent interval applies. The interval is the step gap between consecutive admitted values within the zone. Zone boundaries are derived from the perceptibility threshold defined in the Zone Structure section.
-
-**Register.**
-A named configuration that defines the spatial character of a surface class: its information density, the behaviour of white space on that surface, and the subset of the spacing scale appropriate to it. A register is a selection from the scale, not a modification of it. Registers are defined and owned by this document. The Krutho Typography System defines type tokens and line height tokens as system-level primitives; surface specifications select from both the spacing register and the typography token sets independently.
-
-**Interval.**
-The step gap between consecutive values within a zone. The interval differs by zone. It is derived, not chosen.
+**Register.** A named configuration defining the spatial character of a surface class: its information density, white space behaviour, and the subset of the spacing scale appropriate to it. A register is a selection from the scale. Registers are defined and owned by this document.
 
 ---
 
-## Base Unit
+## Conformance Test
 
-The spacing base unit is **4px**.
+Spacing admits even multiples of the substrate.
 
-The spacing system and the typography system share an underlying unit of 2px. Spacing values are always even multiples of 2px, which is the same as multiples of 4px. The typography system uses 2px directly, admitting odd multiples of 2 (14px, 18px) for fine typographic resolution. The spacing system does not: spatial intervals do not require the same resolution as type sizes, and the 4px minimum provides a clean, stable, and practically complete range for spatial work. The type conformance test (value mod 2 = 0) is owned by the Krutho Typography System. This document owns the spacing conformance test.
+**Conformance test:** value mod 4 = 0.
 
-**Spacing conformance test:** value mod 4 = 0.
+**4px as the minimum spacing value.** A gap is a binary feature: present or absent. At 2px, a gap may round to 0 or 4 physical pixels on non-integer DPI displays. A value that renders inconsistently as separation does not perform the function of spacing. The minimum spacing value is therefore two substrate steps: 4px.
 
-A value that fails this test is not a spacing value. It is not an edge case or a near-miss. It does not exist in the spacing system.
+**Even multiples only.** From 4px, admitting odd multiples of the substrate (6, 10, 14) would place consecutive scale values 2px apart, reintroducing the unstable interval. Even multiples produce a scale whose step size matches its minimum value.
 
-**Why 4px and not an alternative.**
-
-The candidates are any even multiple of 2px: 2px, 4px, 6px, 8px, and larger values.
-
-2px fails because it is within the territory of rendering variation. On non-integer-scaled displays, 2px values can render as 1px or 3px depending on subpixel alignment. A spacing value that does not render predictably is not a spacing value. 2px is excluded on rendering grounds.
-
-6px fails because it does not produce clean multiples with common layout values. 6px does not divide into 16px, 24px, 32px, or 64px without a remainder. A base unit that creates fractional relationships with values it will routinely coexist with introduces arithmetic that cannot be verified by inspection. 6px is excluded on arithmetic grounds.
-
-8px passes the rendering and arithmetic tests. It is stable and produces clean multiples. It fails on range grounds: an 8px spacing minimum eliminates 4px and 12px. Both are required. 4px is the correct minimum for tight component spacing: icon-to-label gaps, internal padding in dense components, and inline element separation in compact surfaces all operate at 4px. 12px is required as a distinct step between 8px and 16px in the compact and standard registers. A spacing system without 4px and 12px is not complete for the surface classes this system governs. 8px is excluded because the designed range requires a finer minimum.
-
-4px renders consistently, produces clean multiples, and covers the full practical range of spacing needs from tight component internals to large-format layout intervals. It is also the physical correlate of approximately 1mm at 96dpi, the smallest spatial increment that reads as intentional at arm's length on a screen surface. These reasons converge on 4px and exclude all alternatives.
-
-**Surface-level layout units.**
-
-A surface spec may define a layout unit larger than the base for use within that surface. Any such layout unit is a spacing value: it must satisfy the spacing conformance test (value mod 4 = 0). Surface-level layout units are derived from the spacing base unit and defined by the surface spec, not by this document. The Krutho Surface System will document the layout units used by each surface class.
+**Surface-level layout units.** A surface spec may define a layout unit larger than 4px. Any such unit satisfies the spacing conformance test. Surface-level layout units are defined by the surface spec. The Krutho Surface System will document the layout units used by each surface class.
 
 ---
 
 ## Generative Rule
 
-The spacing scale is not a list. It is a rule.
+The spacing scale is a rule.
 
 step(n) = n × 4px, for any positive integer n.
 
-There is no upper bound. The scale extends as far as the surface requires. A value is valid if and only if it satisfies the spacing conformance test. A value that fails the test is not valid regardless of functional need.
+The scale extends as far as the surface requires with no upper bound. A value is valid if and only if it satisfies the spacing conformance test.
 
-The designed spacing set defined later in this document is a convenience layer. It represents the values a surface is most likely to need. It is not a constraint on the full scale. Surface-level extension beyond the designed set is permitted under the conditions stated in the Generative Escape section.
+The designed spacing set defined later in this document is a selection from the admitted scale, representing the values a surface is most likely to need. Surface-level extension beyond the designed set is permitted under the conditions stated in the Generative Escape section.
 
 ---
 
-## Zone Structure
+## Zone Intervals
 
-The scale is divided into zones. Within each zone, consecutive admitted values are separated by a fixed interval. The interval increases as sizes increase.
+Zone boundaries are defined in the Krutho Substrate: 20, 40, 80, 160, and 320 from the 10% threshold applied to the substrate's step sequence (2, 4, 8, 16, 32).
 
-### Derivation
-
-Zone boundaries are derived from the 2px substrate that underlies both the spacing and typography systems. The substrate step that defines a zone's boundary is the smallest value at which that step, at the largest size within the zone, represents at least 10% of that size. The boundary lattice produced by this derivation is shared with the Krutho Typography System. The interval admitted within each zone differs between the two systems because their base units differ.
-
-**Why 10% and not a different threshold.**
-
-The 10% threshold is not a perceptibility threshold. It is a hierarchy threshold. Perceptibility research places reliable size discrimination at approximately 5–7%. A size difference of 7% is detectable. It does not read as a deliberate step in a hierarchy. For a size step to signal hierarchy rather than variation, the difference must be obvious rather than merely detectable.
-
-The specific value of 10% is determined by the arithmetic of the substrate. At 10%, every zone boundary in a base-2 step system falls exactly on a multiple of 4px. At any lower threshold, the boundaries require rounding and are no longer exactly derivable. At 9%, the fine zone boundary falls at 2 / 0.09 = 22.2px, which is not on-grid and requires approximation. At 10%, 2 / 0.10 = 20px exactly. The 10% threshold is the smallest value at which the zone derivation is exact. This is the reason that excludes the alternatives.
-
-**Boundary derivation from the 2px substrate:**
-
-| Substrate step | Boundary derivation       | Zone upper boundary |
-|----------------|---------------------------|---------------------|
-| 2px            | 2 / 0.10 = 20px exactly   | 20px                |
-| 4px            | 4 / 0.10 = 40px exactly   | 40px                |
-| 8px            | 8 / 0.10 = 80px exactly   | 80px                |
-| 16px           | 16 / 0.10 = 160px exactly | 160px               |
-| 32px           | 32 / 0.10 = 320px exactly | 320px               |
-
-Every boundary is a multiple of 4px. This is a consequence of the derivation, not a separate decision.
-
-**Spacing intervals within each zone.**
-
-The spacing base unit is 4px, which is twice the substrate. Two consecutive admitted spacing values cannot be closer than 4px because any closer interval would produce a value that fails the spacing conformance test. The interval admitted within each zone in the spacing system is therefore twice the substrate step that defines that zone's boundary.
+The spacing conformance test admits even multiples of the substrate. Consecutive admitted spacing values are separated by at least 4px. The spacing interval within a zone is therefore twice the substrate step that defines the zone's boundary.
 
 | Zone      | Substrate step | Spacing interval |
 |-----------|----------------|------------------|
@@ -115,9 +62,7 @@ The spacing base unit is 4px, which is twice the substrate. Two consecutive admi
 | Large     | 16px           | 32px             |
 | Statement | 32px           | 64px             |
 
-The Krutho Typography System uses the substrate steps directly as its zone intervals because its base unit equals the substrate. The spacing system uses doubled intervals because its base unit is twice the substrate. The two systems share the boundary lattice. They do not share the zone intervals.
-
-### Zone table
+### Admitted spacing values per zone
 
 | Zone      | Interval | Upper boundary | Admitted spacing values |
 |-----------|----------|----------------|-------------------------|
@@ -127,7 +72,7 @@ The Krutho Typography System uses the substrate steps directly as its zone inter
 | Large     | 32px     | 160px          | 96, 128, 160            |
 | Statement | 64px     | 320px          | 192, 256, 320           |
 
-On-grid values that fall between admitted steps within a zone are not in the designed step set. The value 28px, for example, satisfies the spacing conformance test (28 mod 4 = 0) and falls within the mid zone (20px to 40px), but the mid zone admits values at an 8px interval (24, 32, 40). 28px is valid by the generative rule. Its use at surface level requires documented justification.
+On-grid values between admitted steps within a zone are valid by the generative rule but are not in the designed step set. 28px, for example, satisfies the spacing conformance test (28 mod 4 = 0) and falls within the mid zone (20px to 40px), but the mid zone admits values at an 8px interval (24, 32, 40). Use at surface level requires documented justification.
 
 ---
 
@@ -135,37 +80,37 @@ On-grid values that fall between admitted steps within a zone are not in the des
 
 A register defines a surface class. It specifies the information density and white space behaviour that characterise the class, and the subset of the spacing scale appropriate to it.
 
-Three registers are defined. A surface spec selects a register and applies the spatial values from this document. Typographic values are selected independently from the Krutho Typography System's token sets.
+Three registers are defined. A surface spec selects a register and applies the spatial values from this document.
 
-**Register selection.** The register is selected by matching the surface's characteristics against the register descriptions below. A surface spec states which register it uses and which characteristics of the surface determine that selection. The selection is verifiable: an independent party can read the surface spec's stated characteristics and confirm that they match the selected register's description. If no register matches without significant mismatch on multiple criteria, the surface spec documents the closest match and specifies the deviation.
+**Register selection.** The register is selected by matching the surface's characteristics against the register descriptions below. A surface spec states which register it uses and which characteristics determine that selection. The selection is verifiable: an independent party can read the surface spec's stated characteristics and confirm they match the selected register's description.
 
-Register selection cannot be fully derived by arithmetic. It requires judgment applied to the surface's functional requirements. This is a named gap in the specification: the register descriptions provide the criteria, but the application of those criteria to a given surface requires a human decision. That decision must be recorded in the surface spec.
+Register selection is principled judgment applied to the surface's functional requirements. The register descriptions provide the criteria; the application of those criteria to a given surface is a human decision, recorded in the surface spec.
 
-**Responsive surfaces.** A surface whose spatial character varies with its scale of operation may declare a register per scale class. Each declared register is selected per the Register selection rule above, applied independently to that scale class's characteristics. A multi-register surface's spacing values at each scale class are drawn from the designed set of that scale class's declared register. The surface specification states the scale classes, the register declared at each, and the characteristics that determine each selection.
+**Responsive surfaces.** A surface whose spatial character varies with scale may declare a register per scale class. Each register is selected by the rule above, applied to that scale class's characteristics. Spacing values at each scale class are drawn from the designed set of its declared register.
 
-The condition for declaring multiple registers is that the surface's spatial character genuinely varies across scale classes. A surface that uses different spacing values at different scales but retains the same information density and white space character across those scales is a single-register surface. The reality of the variation is the first inspection point.
+Multi-register declaration requires real variation in spatial character. A surface that uses different values at different scales but retains the same information density is a single-register surface. The reality of the variation is inspected before the declaration.
 
 ---
 
 ### Compact
 
-**Surface class:** High information density. White space is structural: it separates elements and aids scanning. It is not expressive. Examples: documentation, dense UI, mobile application.
+**Surface class:** High information density. White space separates elements and aids scanning. Examples: documentation, dense UI, mobile application.
 
-**Spatial character:** Tight internal spacing. Component padding and element gaps draw from the lower end of the spacing scale. Margins and section separation draw from the mid range. Display-scale spacing is not required within this register.
+**Spatial character:** Tight internal spacing. Component padding and element gaps draw from the lower end of the spacing scale. Margins and section separation draw from the mid range.
 
 **Designed spacing set:**
 
-| Token     | Value |
-|-----------|-------|
-| space-4   | 4px   |
-| space-8   | 8px   |
-| space-12  | 12px  |
-| space-16  | 16px  |
-| space-20  | 20px  |
-| space-24  | 24px  |
-| space-32  | 32px  |
-| space-40  | 40px  |
-| space-48  | 48px  |
+| Token    | Value |
+|----------|-------|
+| space-4  | 4px   |
+| space-8  | 8px   |
+| space-12 | 12px  |
+| space-16 | 16px  |
+| space-20 | 20px  |
+| space-24 | 24px  |
+| space-32 | 32px  |
+| space-40 | 40px  |
+| space-48 | 48px  |
 
 Extension beyond space-48 is available by the generative rule. Surface-level use requires documentation.
 
@@ -175,24 +120,24 @@ Extension beyond space-48 is available by the generative rule. Surface-level use
 
 **Surface class:** Medium information density. White space balances structural and expressive functions. Examples: web, tablet, presentation deck.
 
-**Spatial character:** Component padding and element gaps draw from the lower and mid ranges. Section separation and layout intervals draw from the mid and display ranges. Spacing values across the full designed set are in scope for this register.
+**Spatial character:** Component padding and element gaps draw from the lower and mid ranges. Section separation and layout intervals draw from the mid and display ranges. The full designed set is in scope.
 
 **Designed spacing set:**
 
-| Token     | Value |
-|-----------|-------|
-| space-4   | 4px   |
-| space-8   | 8px   |
-| space-12  | 12px  |
-| space-16  | 16px  |
-| space-20  | 20px  |
-| space-24  | 24px  |
-| space-32  | 32px  |
-| space-40  | 40px  |
-| space-48  | 48px  |
-| space-64  | 64px  |
-| space-80  | 80px  |
-| space-96  | 96px  |
+| Token    | Value |
+|----------|-------|
+| space-4  | 4px   |
+| space-8  | 8px   |
+| space-12 | 12px  |
+| space-16 | 16px  |
+| space-20 | 20px  |
+| space-24 | 24px  |
+| space-32 | 32px  |
+| space-40 | 40px  |
+| space-48 | 48px  |
+| space-64 | 64px  |
+| space-80 | 80px  |
+| space-96 | 96px  |
 
 Extension beyond space-96 is available by the generative rule. Surface-level use requires documentation.
 
@@ -224,31 +169,15 @@ Extension beyond space-192 is available by the generative rule. Surface-level us
 
 ---
 
-## Production Context
-
-The base unit is defined as a CSS logical pixel. This governs all screen surfaces.
-
-Print surfaces use a different native unit: the point (pt), where 1pt = 1/72 inch. The arithmetic is identical, but the unit differs.
-
-**Screen surfaces** (web, app, deck, screen-rendered PDF): base unit 4px. Conformance test: value mod 4 = 0.
-
-**Print surfaces** (physically printed A4, physical large-format): base unit 4pt. Conformance test: value mod 4 = 0pt.
-
-A surface spec declares its production context. That declaration determines which unit governs and which conformance test applies. A value that is on-grid for print is not automatically on-grid for screen. The surface spec resolves this by declaring context and working in the native unit for that context.
-
----
-
 ## Generative Escape
 
-The designed spacing set for each register covers the range a surface in that class is most likely to need. It is not exhaustive.
+The designed spacing set for each register covers the range a surface in that class is most likely to need. A value outside the designed set is permitted under the following conditions.
 
-When a required spacing value is outside the designed set, the following conditions apply.
+The value satisfies the spacing conformance test for its production context.
 
-The value must satisfy the spacing conformance test for its production context. A value that fails the conformance test is not admissible regardless of functional need.
+The value is documented at surface level with a functional reason. The reason traces to a specific surface requirement that the designed set does not meet. Preference is not a functional reason.
 
-The value must be documented at surface level with a stated reason. The reason must be functional: it must trace to a specific requirement of the surface that the designed set does not meet. A preference for a value not in the designed set is not a reason.
-
-The value does not modify the designed set or the register. It is a surface-level extension. If a surface consistently requires values outside its register's designed set, this is a signal that the register selection is incorrect for the surface class, not that the system requires modification.
+The value is a surface-level extension of the register's designed set. Consistent need for values outside a register's designed set signals that the register selection is incorrect.
 
 ---
 
@@ -256,42 +185,40 @@ The value does not modify the designed set or the register. It is a surface-leve
 
 The full designed spacing token set, from which register-level designed sets are drawn. All values satisfy the spacing conformance test.
 
-| Token      | Value | Step |
-|------------|-------|------|
-| space-4    | 4px   | 1    |
-| space-8    | 8px   | 2    |
-| space-12   | 12px  | 3    |
-| space-16   | 16px  | 4    |
-| space-20   | 20px  | 5    |
-| space-24   | 24px  | 6    |
-| space-32   | 32px  | 8    |
-| space-40   | 40px  | 10   |
-| space-48   | 48px  | 12   |
-| space-64   | 64px  | 16   |
-| space-80   | 80px  | 20   |
-| space-96   | 96px  | 24   |
-| space-128  | 128px | 32   |
-| space-160  | 160px | 40   |
-| space-192  | 192px | 48   |
+| Token     | Value | Step |
+|-----------|-------|------|
+| space-4   | 4px   | 1    |
+| space-8   | 8px   | 2    |
+| space-12  | 12px  | 3    |
+| space-16  | 16px  | 4    |
+| space-20  | 20px  | 5    |
+| space-24  | 24px  | 6    |
+| space-32  | 32px  | 8    |
+| space-40  | 40px  | 10   |
+| space-48  | 48px  | 12   |
+| space-64  | 64px  | 16   |
+| space-80  | 80px  | 20   |
+| space-96  | 96px  | 24   |
+| space-128 | 128px | 32   |
+| space-160 | 160px | 40   |
+| space-192 | 192px | 48   |
 
-The token set is the union of the admitted spacing values for each zone, as defined by the spacing intervals in the Zone Structure section. Within each zone, consecutive admitted values are separated by the zone's spacing interval: 4px in the fine zone, 8px in the mid zone, 16px in the display zone, 32px in the large zone, and 64px in the statement zone. The token set thins at the same rate as the zone intervals widen.
+The token set is the union of the admitted spacing values for each zone. Within each zone, consecutive admitted values are separated by the zone's spacing interval: 4px in the fine zone, 8px in the mid zone, 16px in the display zone, 32px in the large zone, and 64px in the statement zone. The token set thins as the zone intervals widen.
 
-On-grid values that fall between admitted steps within a zone are valid by the generative rule but are not in the designed set. Examples: 28 sits between mid zone admitted steps 24 and 32. 56 sits between display zone admitted steps 48 and 64. 112 sits between large zone admitted steps 96 and 128. Their absence is not an oversight. It is the consequence of the zone structure. If a surface requires one of these values, the generative escape conditions apply.
+On-grid values between admitted steps within a zone are valid by the generative rule but are not in the designed set. Examples: 28 between mid steps 24 and 32; 56 between display steps 48 and 64; 112 between large steps 96 and 128. Their absence follows from the zone structure. Use at surface level applies the generative escape conditions.
 
-Values above space-192 are available by the generative rule. No upper bound is defined. Surface-level use requires documentation.
+Values above space-192 are available by the generative rule with no upper bound. Surface-level use requires documentation.
 
 ---
 
 ## Governing Conditions
 
-The following conditions state every assessable rule in this specification. Each can be applied by inspection to any value or output.
+The following conditions state every assessable rule in this specification. Each can be applied by inspection to any value or output. Conditions that apply to the substrate (conformance at the 2px level, zone boundaries, production context declaration) are stated in the Krutho Substrate.
 
-1. A spacing value is valid if and only if value mod 4 = 0 (screen) or value mod 4 = 0pt (print).
-2. Zone boundaries are 20px, 40px, 80px, 160px, and 320px. These are derived from the 10% threshold and are not subject to surface-level modification.
-3. On-grid values that fall between admitted steps within a zone are valid by the generative rule but require surface-level documentation with a stated functional reason.
-4. Values outside the designed spacing set of a register are valid by the generative rule but require surface-level documentation with a stated functional reason.
-5. A preference is not a functional reason. A functional reason traces to a specific requirement of the surface that the designed set does not meet.
-6. The surface spec declares its production context. That declaration determines the unit and conformance test.
-7. The designed spacing sets defined in the Register section are a starting point. The generative rule governs. The designed sets govern only in the absence of a documented surface-level reason to extend them.
-8. Register selection requires human judgment applied against the register descriptions. The surface spec records the selection and states the characteristics that determine it. Consistent use of sizes outside the selected register's designed set signals an incorrect register selection, not a system deficiency.
-9. A responsive surface whose spatial character varies with scale may declare a register per scale class. Each declaration satisfies the Register selection rule independently. The surface specification states the scale classes, the register at each, and the characteristics that determine each selection. A surface whose character does not genuinely vary with scale is a single-register surface; multi-register declaration requires real variation in spatial character, not merely different values at different scales.
+1. A spacing value is valid if and only if value mod 4 = 0 in the unit of the declared production context.
+2. The spacing interval within each zone is stated in the Zone Intervals section. Spacing values on-grid for the substrate that fall between admitted spacing steps within a zone are valid by the generative rule. Surface-level use requires documentation with a functional reason.
+3. Values outside the designed spacing set of a register are valid by the generative rule. Surface-level use requires documentation with a functional reason.
+4. A functional reason traces to a specific surface requirement that the designed set does not meet. Preference is not a functional reason.
+5. The designed spacing sets govern by default. The generative rule extends them where a documented surface-level reason applies.
+6. Register selection is principled judgment applied against the register descriptions. The surface spec records the selection and the characteristics that determine it. Consistent use of values outside the selected register's designed set signals an incorrect register selection.
+7. A responsive surface whose spatial character varies with scale may declare a register per scale class. The surface specification states each scale class, the register at each, and the characteristics that determine each selection. Multi-register declaration requires real variation in spatial character.

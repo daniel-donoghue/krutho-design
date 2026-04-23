@@ -1,114 +1,38 @@
 # Krutho Typography System
 
-Last edit 21st April 2026
+Last edit 23rd April 2026
 
 ---
 
 ## Grounding Statement
 
-This document operates under the Krutho Design Philosophy. The terms precision, correctness, verifiability, and truth are used throughout in the senses defined there. Every decision in this document traces to a reason that excludes the alternatives.
+This document is the Krutho Typography System. It operates under the Krutho Design Philosophy and derives from the Krutho Substrate. Typography admits the substrate directly: its conformance test is the substrate conformance test.
 
-The Krutho typography system defines the type token set, the line height token set, the typeface tier model, and the weight vocabulary. These are the system-level primitives. Surface specifications select from these tokens and apply human judgment to assign them to roles, establish hierarchy, and respond to context. That judgment belongs at the surface layer, not here.
-
-The zone structure in this document is shared with the Krutho Spacing System and is reproduced here in full. Each document must be independently verifiable. Any change to the base unit or zone derivation requires updating both documents.
+This document establishes the typeface tier model, the weight vocabulary, the line height derivation, the type token set, and the line height token set. These are system-level primitives. Surface specifications derive from them, assigning roles, establishing hierarchy, and responding to context.
 
 ---
 
 ## Terms
 
-Six terms are defined here. Each is used throughout this document in its defined sense only.
+Four terms are defined here. Each is used throughout this document in its defined sense only. Terms defined in the Krutho Substrate (medium, unit of medium, substrate, zone, interval) are used throughout in their substrate-defined senses.
 
-**Base unit.**
-The irreducible value from which all type sizes are derived. A value that is not a multiple of the type base unit is not a valid type size.
+**Tier.** A typographic function category corresponding to a specific typeface. Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
-**Step.**
-A specific multiple of the base unit. step(n) = n × 2px, where n is a positive integer.
+**Tight.** The line height variant derived at ratio 1.2. The minimum ratio at which descender clearance is reliably maintained across typefaces without typeface-specific calibration.
 
-**Tier.**
-A typographic function category corresponding to a specific typeface. Three tiers are defined. Every typographic decision belongs to exactly one tier. The term tier is used in this document to avoid collision with the term layer defined in the Krutho Colour System, which carries a different meaning.
+**Default.** The line height variant derived at ratio 1.4. The ratio providing comfortable sustained reading across typefaces with differing x-height proportions.
 
-**Tight.**
-The line height variant derived at ratio 1.2. The minimum ratio at which descender clearance is reliably maintained across typefaces without typeface-specific calibration.
-
-**Default.**
-The line height variant derived at ratio 1.4. The ratio providing comfortable sustained reading across typefaces with differing x-height proportions.
-
-**Loose.**
-The line height variant derived at ratio 1.6. The ratio completing a three-step set at a consistent interval of 0.2 from Tight through Default.
+**Loose.** The line height variant derived at ratio 1.6. The ratio completing a three-step set at a consistent interval of 0.2 from Tight through Default.
 
 ---
 
-## Base Unit
+## Scale
 
-The type base unit is **2px**.
+Typography admits the substrate directly. A type size is valid if and only if it satisfies the substrate conformance test (value mod 2 = 0).
 
-This value is a CSS logical pixel: device-independent, defined by the W3C as 1/96th of an inch at arm's length viewing distance. It is not a physical pixel. On high-density displays, the rendering engine maps logical pixels to physical pixels. The logical pixel value remains stable.
+The zone structure and boundaries are defined in the Krutho Substrate. Within each zone, admitted type sizes are separated by the substrate step that defines the zone's boundary: 2px in the fine zone, 4px in the mid zone, 8px in the display zone, 16px in the large zone, and 32px in the statement zone.
 
-**Type conformance test:** value mod 2 = 0.
-
-A value that fails this test is not a valid type size.
-
-**Why 2px and not an alternative.**
-
-1px fails on rendering stability. On non-integer-scaled displays, 1px values may render as 0 or 2px depending on subpixel alignment. Type sizes must be stable. 1px is excluded.
-
-3px fails because it does not divide cleanly into the spacing base unit (4px). A 3px type base and a 4px spacing base share multiples only at 12px, 24px, 36px and their multiples. Values such as 16px, 20px, 28px, 32px, 40px, 48px, 64px would be valid for spacing but not for type, introducing a fractional relationship where a clean one is required.
-
-4px provides rendering stability and a clean relationship with the spacing base unit, but loses resolution at small sizes. The range 10, 12, 14, 16, 18, 20px must be available. At 4px granularity it is not.
-
-2px satisfies all three conditions: rendering stability, a clean divisor relationship with the spacing base unit (4 / 2 = 2, exact), and adequate resolution at small sizes. These conditions converge on 2px and exclude all alternatives.
-
-**Relationship to the spacing base unit.**
-
-The spacing base unit is 4px. The type base unit is 2px. Any spacing value is a valid type size. A type size is a valid spacing value only if it also satisfies the spacing conformance test (value mod 4 = 0). The type system admits 10px, 14px, and 18px; the spacing system does not. This asymmetry is structural and intentional.
-
----
-
-## Generative Rule
-
-The type scale is not a list. It is a rule.
-
-step(n) = n × 2px, for any positive integer n.
-
-There is no upper bound. A value is valid if and only if it satisfies the type conformance test. The type token set defined in this document is a designed convenience set, not a constraint on the full scale. A surface may use any conformant value not in the token set with a stated functional reason.
-
----
-
-## Zone Structure
-
-The scale is divided into zones. Within each zone, consecutive admitted values are separated by a fixed interval. The interval increases as sizes increase. Zones structure the intervals of the type token set. They are not carried on the tokens.
-
-This zone structure is reproduced in full from the Krutho Spacing System.
-
-### Derivation
-
-The interval for a zone is the smallest step value that, at the largest size within the zone, represents at least 10% of that size.
-
-**Why 10%.**
-
-The 10% threshold is a hierarchy threshold, not a perceptibility threshold. Perceptibility research places reliable size discrimination at approximately 5–7%. A difference of 7% is detectable but does not read as a deliberate hierarchy step. For a size step to signal hierarchy rather than variation, the difference must be obvious rather than merely detectable.
-
-The specific value of 10% is determined by the arithmetic of the base unit. At 10%, every zone boundary falls exactly on a multiple of 4px. At any lower threshold, boundaries require rounding. At 9%, the fine zone boundary falls at 2 / 0.09 = 22.2px, not on-grid. At 10%, 2 / 0.10 = 20px exactly. The 10% threshold is the smallest value at which the zone derivation is exact. This is the reason that excludes the alternatives.
-
-**Zone derivation:**
-
-| Interval | Boundary derivation       | Zone upper boundary |
-|----------|---------------------------|---------------------|
-| 2px      | 2 / 0.10 = 20px exactly   | 20px                |
-| 4px      | 4 / 0.10 = 40px exactly   | 40px                |
-| 8px      | 8 / 0.10 = 80px exactly   | 80px                |
-| 16px     | 16 / 0.10 = 160px exactly | 160px               |
-| 32px     | 32 / 0.10 = 320px exactly | 320px               |
-
-### Zone table
-
-| Zone      | Interval | Upper boundary |
-|-----------|----------|----------------|
-| Fine      | 2px      | 20px           |
-| Mid       | 4px      | 40px           |
-| Display   | 8px      | 80px           |
-| Large     | 16px     | 160px          |
-| Statement | 32px     | 320px          |
+The type token set is a selection from the admitted scale. A surface may use any conformant value outside the token set with a stated functional reason.
 
 ---
 
@@ -128,7 +52,7 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Applies to:** Content that is structured, verifiable, or system-generated: code, tokens, certificate identifiers, TTL values, logs, structured data, CLI representations, pseudo-code.
 
-**Admission test:** Could the content be independently verified by a machine without contextual interpretation? Content with a fixed schema, a correct value, and a determinable correctness condition qualifies. Content requiring editorial judgment does not. Tier 2 is never used for aesthetic contrast.
+**Admission test:** Could the content be independently verified by a machine without contextual interpretation? Content with a fixed schema, a correct value, and a determinable correctness condition qualifies. Tier 2 is never used for aesthetic contrast.
 
 ### Tier 3: Meaning, Enra
 
@@ -136,7 +60,7 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Applies to:** Content whose removal would deprive the surface of emphasis without removing a unit of content.
 
-**Admission test:** If the element is removed, does the surface lose emphasis or content? An element that carries content is a Tier 1 or Tier 2 decision. An element whose removal deprives the surface of emphasis without removing content is a candidate for Tier 3.
+**Admission test:** If the element is removed, does the surface lose emphasis without losing content? An element that carries content is a Tier 1 or Tier 2 decision.
 
 ---
 
@@ -144,68 +68,58 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 Four weights are admitted.
 
-**Regular (400).** The baseline weight. Applied to content whose function is continuous reading, and to content whose role carries presence through size, position, or typeface without requiring additional weight. This is the default weight across all tiers.
+**Regular (400).** The baseline weight across all tiers. Applied to continuous reading and to content whose presence is carried by size, position, or typeface.
 
-**Medium (500).** The display weight within Tier 1. Applied to content whose function is surface presence through size. At display sizes, size carries the role. Medium adds structural presence without introducing mass that would compete with display openness.
+**Medium (500).** The display weight within Tier 1. Applied to content whose role is surface presence at display size. Size carries the role; Medium adds structural presence without mass that would compete with display openness.
 
-**Semibold (600).** The structural weight within Tier 1. Applied to content whose function is visible division of continuous reading flow at sizes close to body scale. Semibold provides reliable division against body Regular at heading sizes where size alone would not sufficiently break the flow.
+**Semibold (600).** The structural weight within Tier 1. Applied to headings at sizes close to body scale, where size alone cannot reliably divide continuous reading flow. Semibold provides division against body Regular.
 
-**Bold (700).** The inline emphasis weight within Tier 1. Applied to inline content within body flow whose function is emphasis. Bold exceeds Semibold, the structural heading weight. This is required for inline emphasis to read as emphasis rather than as a structural division on surfaces where structural headings are present.
+**Bold (700).** The inline emphasis weight within Tier 1. Applied to emphasized inline content within body flow. Bold exceeds Semibold (the structural heading weight) so inline emphasis reads as emphasis rather than as a structural division.
 
 ---
 
 **Weight assignment within Tier 1.**
 
-Tier 1 content belongs to one of four functional categories. The weight is determined by the functional category. The functional category is determined at surface specification. Weight is not assigned independently of function.
+Tier 1 content belongs to one of four functional categories. The weight is determined by the functional category. The functional category is determined at surface specification.
 
-| Functional category | Weight        | Function                                               |
-|---------------------|---------------|--------------------------------------------------------|
-| Display             | Medium (500)  | Surface presence, sized to anchor the surface          |
-| Structural          | Semibold (600) | Visible division of continuous reading flow            |
-| Continuous reading  | Regular (400) | Body and body-adjacent content                         |
-| Inline emphasis     | Bold (700)    | Emphasis within continuous reading flow                |
+| Functional category | Weight         | Function                                      |
+|---------------------|----------------|-----------------------------------------------|
+| Display             | Medium (500)   | Surface presence, sized to anchor the surface |
+| Structural          | Semibold (600) | Visible division of continuous reading flow   |
+| Continuous reading  | Regular (400)  | Body and body-adjacent content                |
+| Inline emphasis     | Bold (700)     | Emphasis within continuous reading flow       |
 
-**Why four weights.**
-
-Two weights cannot encode four functional category distinctions. Structural content would share its weight with either display or body, collapsing the category distinction.
-
-Three weights cannot encode both structural division and inline emphasis. If the third weight serves structural division, inline emphasis has no weight distinct from structural content and cannot read as emphasis. If the third weight serves inline emphasis, structural content shares its weight with display or body.
-
-Five weights would introduce a distinction within a functional category (for example, H1 and H2 at different weights), which has no structural basis. Within a functional category, members share the weight assigned to the category. Distinction between members of the same category is made by size.
-
-Four weights is the smallest count that encodes all four functional categories without introducing distinctions that have no structural basis.
+**Four weights, derivation.** The four functional categories (display, structural, continuous reading, inline emphasis) require distinct weights to remain visually separable. Fewer than four collapses categories: structural shares with display, or inline emphasis cannot separate from structural. More than four introduces distinctions within a category, which size already handles. Four is the smallest count encoding each category distinctly.
 
 **Tier-level admission.**
 
-| Tier | Typeface     | Weights admitted                          |
-|------|--------------|-------------------------------------------|
-| 1    | Spline Sans  | Regular, Medium, Semibold, Bold           |
-| 2    | Spline Mono  | Regular                                   |
-| 3    | Enra         | Regular                                   |
+| Tier | Typeface    | Weights admitted                |
+|------|-------------|---------------------------------|
+| 1    | Spline Sans | Regular, Medium, Semibold, Bold |
+| 2    | Spline Mono | Regular                         |
+| 3    | Enra        | Regular                         |
 
-Tier 2 content is verifiable structure: code, tokens, certificate identifiers, CLI representations. Tier 2 at weights above Regular would compete with inline emphasis in surrounding body text. Code inline at Semibold or Bold would read as emphasis rather than as a distinct tier. The tier distinction is preserved through typeface alone, which is the correct mechanism for Tier 2.
+Tier 2 uses Regular only. Weight above Regular would read as emphasis rather than as a distinct tier, competing with inline Bold in surrounding body. The tier distinction is carried by typeface.
 
-Tier 3 content (Enra) draws its presence from the typeface itself. Additional weight would compound a mechanism the tier already carries. Regular is sufficient.
+Tier 3 uses Regular only. Enra draws its presence from the typeface itself. Additional weight would compound a mechanism the tier already carries.
 
 ---
 
 ## Line Height Derivation
 
-Line height tokens are derived from type sizes using three ratios corresponding to three line interval variants: Tight, Default, and Loose.
+Line height tokens are derived from type sizes using three ratios corresponding to three line interval variants: Tight, Default, Loose.
 
-**Ratios:**
+**Tight at 1.2.** The minimum ratio at which descender clearance is reliably maintained across typefaces. At 1.1, descenders and ascenders risk visual collision across typefaces with varying descender depth.
 
-| Variant | Ratio | Exclusion reasoning                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|---------|-------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Tight   | 1.2   | The minimum at which descender clearance is reliably maintained across typefaces without typeface-specific calibration. At 1.1, the vertical gap risks visual collision between descenders of one line and ascenders of the next across typefaces with varying descender depth. 1.1 is excluded on that ground. 1.2 is the smallest value that provides reliable clearance universally.                                                       |
-| Default | 1.4   | Typographic research places comfortable sustained reading at 120–145% of type size. The lower bound (1.2) is already the Tight ratio. 1.3 sits in the middle of the range but is excluded: typefaces with tall x-heights may still read tight at 1.3 because the x-height occupies a larger proportion of the line interval. 1.4 provides a margin sufficient to accommodate x-height variation without typeface-specific calibration. 1.3 does not. |
-| Loose   | 1.6   | The three ratios are separated by an equal interval of 0.2. This structural reason excludes all alternatives. 1.5 would produce an uneven interval (0.2 from Tight to Default, 0.1 from Default to Loose), making the step between the first two variants twice the magnitude of the step between the last two. A fourth variant at the 0.2 interval would require either 1.0 (below descender clearance minimum) or 1.8 (beyond practical use). Three variants at 1.2 / 1.4 / 1.6 is the smallest set covering the useful range at a consistent interval. These reasons converge on 1.6 and exclude the alternatives.                                                                                                             |
+**Default at 1.4.** Typographic research places comfortable sustained reading at 120 to 145% of type size. 1.4 accommodates x-height variation; 1.3 may read tight on typefaces with tall x-heights.
 
-**Rounding convention:** ceiling to the nearest even integer (mod 2 = 0).
+**Loose at 1.6.** The three ratios are separated by a consistent interval of 0.2. 1.5 would produce uneven intervals (0.2 from Tight to Default, 0.1 from Default to Loose). 1.6 completes the three-step set.
+
+**Rounding convention.** Ceiling to the nearest even integer (mod 2 = 0).
 
 lh = ⌈(size × ratio) / 2⌉ × 2
 
-This produces values that satisfy the type conformance test. Line heights are not required to satisfy the spacing conformance test.
+Line heights satisfy the substrate conformance test. They derive from type size, not from the spacing scale.
 
 **Derivation table:**
 
@@ -251,7 +165,7 @@ This produces values that satisfy the type conformance test. Line heights are no
 | type-128 | 128px |
 | type-192 | 192px |
 
-Values not in this set are available by the generative rule. Use requires a stated functional reason at surface level.
+Values outside this set are available by the generative rule. Use requires a stated functional reason at surface level.
 
 ---
 
@@ -259,83 +173,67 @@ Values not in this set are available by the generative rule. Use requires a stat
 
 Tokens are named by size and variant. The surface selects the token appropriate to its context.
 
-| Token           | Value |
-|-----------------|-------|
-| lh-10-tight     | 12px  |
-| lh-10-default   | 14px  |
-| lh-10-loose     | 16px  |
-| lh-12-tight     | 16px  |
-| lh-12-default   | 18px  |
-| lh-12-loose     | 20px  |
-| lh-14-tight     | 18px  |
-| lh-14-default   | 20px  |
-| lh-14-loose     | 24px  |
-| lh-16-tight     | 20px  |
-| lh-16-default   | 24px  |
-| lh-16-loose     | 26px  |
-| lh-18-tight     | 22px  |
-| lh-18-default   | 26px  |
-| lh-18-loose     | 30px  |
-| lh-20-tight     | 24px  |
-| lh-20-default   | 28px  |
-| lh-20-loose     | 32px  |
-| lh-24-tight     | 30px  |
-| lh-24-default   | 34px  |
-| lh-24-loose     | 40px  |
-| lh-28-tight     | 34px  |
-| lh-28-default   | 40px  |
-| lh-28-loose     | 46px  |
-| lh-32-tight     | 40px  |
-| lh-32-default   | 46px  |
-| lh-32-loose     | 52px  |
-| lh-40-tight     | 48px  |
-| lh-40-default   | 56px  |
-| lh-40-loose     | 64px  |
-| lh-48-tight     | 58px  |
-| lh-48-default   | 68px  |
-| lh-48-loose     | 78px  |
-| lh-64-tight     | 78px  |
-| lh-64-default   | 90px  |
-| lh-64-loose     | 104px |
-| lh-80-tight     | 96px  |
-| lh-80-default   | 112px |
-| lh-80-loose     | 128px |
-| lh-96-tight     | 116px |
-| lh-96-default   | 136px |
-| lh-96-loose     | 154px |
-| lh-128-tight    | 154px |
-| lh-128-default  | 180px |
-| lh-128-loose    | 206px |
-| lh-192-tight    | 232px |
-| lh-192-default  | 270px |
-| lh-192-loose    | 308px |
-
----
-
-## Production Context
-
-The base unit is defined as a CSS logical pixel. This governs all screen surfaces.
-
-Print surfaces use the point (pt), where 1pt = 1/72 inch. The arithmetic is identical, the unit differs.
-
-**Screen:** base unit 2px. Conformance test: value mod 2 = 0.
-
-**Print:** base unit 2pt. Conformance test: value mod 2 = 0pt.
-
-A surface specification declares its production context. That declaration determines which unit and conformance test govern.
+| Token          | Value |
+|----------------|-------|
+| lh-10-tight    | 12px  |
+| lh-10-default  | 14px  |
+| lh-10-loose    | 16px  |
+| lh-12-tight    | 16px  |
+| lh-12-default  | 18px  |
+| lh-12-loose    | 20px  |
+| lh-14-tight    | 18px  |
+| lh-14-default  | 20px  |
+| lh-14-loose    | 24px  |
+| lh-16-tight    | 20px  |
+| lh-16-default  | 24px  |
+| lh-16-loose    | 26px  |
+| lh-18-tight    | 22px  |
+| lh-18-default  | 26px  |
+| lh-18-loose    | 30px  |
+| lh-20-tight    | 24px  |
+| lh-20-default  | 28px  |
+| lh-20-loose    | 32px  |
+| lh-24-tight    | 30px  |
+| lh-24-default  | 34px  |
+| lh-24-loose    | 40px  |
+| lh-28-tight    | 34px  |
+| lh-28-default  | 40px  |
+| lh-28-loose    | 46px  |
+| lh-32-tight    | 40px  |
+| lh-32-default  | 46px  |
+| lh-32-loose    | 52px  |
+| lh-40-tight    | 48px  |
+| lh-40-default  | 56px  |
+| lh-40-loose    | 64px  |
+| lh-48-tight    | 58px  |
+| lh-48-default  | 68px  |
+| lh-48-loose    | 78px  |
+| lh-64-tight    | 78px  |
+| lh-64-default  | 90px  |
+| lh-64-loose    | 104px |
+| lh-80-tight    | 96px  |
+| lh-80-default  | 112px |
+| lh-80-loose    | 128px |
+| lh-96-tight    | 116px |
+| lh-96-default  | 136px |
+| lh-96-loose    | 154px |
+| lh-128-tight   | 154px |
+| lh-128-default | 180px |
+| lh-128-loose   | 206px |
+| lh-192-tight   | 232px |
+| lh-192-default | 270px |
+| lh-192-loose   | 308px |
 
 ---
 
 ## Governing Conditions
 
-The following conditions state every assessable rule in this specification.
+The following conditions state every assessable rule in this specification. Each can be applied by inspection to any value or output. Conditions that apply to the substrate (conformance at the 2px level, zone boundaries, production context declaration) are stated in the Krutho Substrate.
 
-1. A type size is valid if and only if value mod 2 = 0 (screen) or value mod 2 = 0pt (print).
-2. Zone boundaries are 20px, 40px, 80px, 160px, and 320px. These are derived values and are not subject to modification.
-3. Every typographic decision belongs to exactly one tier. The tier determines the typeface. A decision may not use a typeface from a different tier.
-4. Tier 2 (Spline Mono) is admitted only where the content satisfies the admission test: could the content be independently verified by a machine without contextual interpretation? Tier 2 is never used for aesthetic contrast.
-5. Tier 3 (Enra) is admitted only where the admission test is satisfied: if the element were removed, would the surface lose emphasis or content? Tier 3 carries emphasis, not content.
-6. Admitted weights are Regular (400), Medium (500), Semibold (600), and Bold (700). Tier 2 and Tier 3 use Regular (400) only. Within Tier 1, weight is assigned by functional category per the Weight Vocabulary section: Display uses Medium; Structural uses Semibold; Continuous reading uses Regular; Inline emphasis uses Bold.
-7. Line height tokens are derived by the rule stated in the Line Height Derivation section. The derivation is the specification. Derived values satisfy the type conformance test.
-8. Type sizes not in the designed token set are valid by the generative rule. Use at surface level requires a stated functional reason.
-9. A surface specification declares its production context. That declaration determines the unit and conformance test.
+1. A type size is valid if and only if it satisfies the substrate conformance test (value mod 2 = 0 in the unit of the declared production context).
+2. Every typographic decision belongs to exactly one tier. The tier determines the typeface.
+3. Tier 2 (Spline Mono) is admitted only where the content satisfies the admission test: could the content be independently verified by a machine without contextual interpretation? Tier 2 is never used for aesthetic contrast.
+4. Tier 3 (Enra) is admitted only where the admission test is satisfied: if the element were removed, would the surface lose emphasis without losing content?
+5. Admitted weights are Regular (400), Medium (500), Semibold (600), and Bold (700). Tier 2 and Tier 3 use Regular only. Within Tier 1, weight is assigned by functional category: Display uses Medium, Structural uses Semibold, Continuous reading uses Regular, Inline emphasis uses Bold.
+6. Line height tokens are derived by the rule stated in the Line Height Derivation section. Derived values satisfy the substrate conformance test.
+7. Type sizes outside the designed token set are valid by the generative rule. Use at surface level requires a stated functional reason.

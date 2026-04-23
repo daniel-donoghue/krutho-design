@@ -1,24 +1,24 @@
 # Krutho Wordmark
 
-Last edit 10th April 2026
+Last edit 23rd April 2026
 
 ---
 
 ## Grounding Statement
 
-This document operates under the Krutho Design Philosophy. The terms precision, correctness, verifiability, and truth are used throughout in the senses defined there. Every decision in this document traces to a reason that excludes the alternatives.
+This document is the Krutho Wordmark specification. It operates under the Krutho Design Philosophy.
 
 ---
 
 ## Intent
 
-The Krutho wordmark was designed to a standard of correctness. Each letterform was constructed through a strict geometric process. The construction is not incidental: it is the specification.
+The Krutho wordmark was designed to a standard of correctness. Each letterform was constructed through a strict geometric process. The construction is the specification.
 
 The wordmark was constructed against a 16-unit grid. The stroke width is 4 grid units. The cap height is 27 grid units. Every relationship in the construction derives from these values.
 
-The slight awkwardness that emerges from strict geometric process is not a failure of the system. It is evidence of the system. Pure geometry applied without modification produces something that is correct but not legible at the optical level. The small human modifications introduced to achieve correct optical reading are themselves system decisions: each traces to a legibility condition, not to preference. The wordmark is precise after those modifications, not before them.
+The slight awkwardness that emerges from strict geometric process is evidence of the system. Pure geometry applied without modification produces something correct but not optically legible. The small human modifications introduced to achieve correct optical reading are themselves system decisions: each traces to a legibility condition. The wordmark is precise after those modifications.
 
-The truncated r, a stem and arm with no bowl, is the most visible expression of this logic. It is a correct letterform, produced by the same construction constraints governing every other character in the wordmark. Its code-adjacent appearance is a consequence of process.
+The truncated r, a stem and arm with no bowl, is the most visible expression of this logic. It is a correct letterform, produced by the same construction constraints that govern every other character. Its code-adjacent appearance is a consequence of process.
 
 ---
 
@@ -26,7 +26,7 @@ The truncated r, a stem and arm with no bowl, is the most visible expression of 
 
 The wordmark letterforms were constructed geometrically. The following properties are registered as construction invariants. These are the criteria against which a given instance of the wordmark is assessed for correctness.
 
-**Stroke weight.** A single stroke weight is used throughout. The stroke width is 4 grid units. No letterform departs from this weight. Optical corrections that appear to modify weight do so through geometry, not through a change in the underlying stroke value.
+**Stroke weight.** A single stroke weight is used throughout. The stroke width is 4 grid units. No letterform departs from this weight. Optical corrections that appear to modify weight do so through geometry, preserving the underlying stroke value.
 
 **Bowl geometry.** Round characters derive their bowl shapes from circular construction. The circles are defined as exact geometric primitives. Curvature deviates from the circle only where optical correction requires it, and each such deviation is a minimum necessary adjustment.
 
@@ -34,11 +34,11 @@ The wordmark letterforms were constructed geometrically. The following propertie
 
 **Human modifications.** Three optical corrections were applied to the geometrically constructed forms. Each traces to a specific legibility condition.
 
-Overshoot: round characters extend fractionally beyond the cap height and baseline. Without this correction, round forms read as smaller than flat-topped characters at the same metric height.
+*Overshoot.* Round characters extend fractionally beyond the cap height and baseline. Without this correction, round forms read as smaller than flat-topped characters at the same metric height.
 
-Junction compensation: where the K diagonals meet the vertical stem, the intersection mass is reduced. Unmodified, diagonal-to-stem junctions accumulate optically and read as heavier than the surrounding stroke weight.
+*Junction compensation.* Where the K diagonals meet the vertical stem, the intersection mass is reduced. Unmodified, diagonal-to-stem junctions accumulate optically and read as heavier than the surrounding stroke weight.
 
-Terminal refinement: the truncated r arm terminus is adjusted to resolve cleanly. The arm ends without a bowl. The termination requires precision to read as a construction decision rather than an incomplete form.
+*Terminal refinement.* The truncated r arm terminus is adjusted to resolve cleanly. The arm ends without a bowl. The termination requires precision to read as a construction decision rather than an incomplete form.
 
 ---
 
@@ -78,7 +78,7 @@ The wordmark is not tinted, gradiated, or placed against a background that reduc
 
 Clear space is the minimum protected boundary around the wordmark. No element may enter this boundary.
 
-The registered unit for clear space is the stroke width of the wordmark at its rendered size, applied equally on all four sides. The boundary protecting the mark is measured in the same unit that defines it. The relationship is derivable without reference to a separate value. At any given rendering size, the stroke width can be derived from the construction. The clear space value is self-contained.
+The registered unit for clear space is the stroke width of the wordmark at its rendered size, applied equally on all four sides. The stroke width is derivable from the construction at any rendering size. The clear space value is self-contained.
 
 ---
 
@@ -92,7 +92,7 @@ The first is mathematical. Signal Blue on near-black and white does not reach th
 
 The second is optical. The truncated r, as the character with the least redundant geometry, is the performance indicator at small sizes. It reads correctly at this threshold.
 
-Both conditions are satisfied at 24px cap height. The minimum is not a compromise between them. It is the point at which both hold.
+Both conditions are satisfied at 24px cap height. It is the point at which both conditions hold.
 
 The wordmark is not used below this size.
 
@@ -100,13 +100,13 @@ The wordmark is not used below this size.
 
 ## Layout
 
-**Orientation.** The wordmark is always horizontal. No rotation is permitted.
+**Orientation.** The wordmark is always horizontal.
 
 **Position.** The wordmark is placed top left on all surfaces where content is present.
 
-This position is governed by what the wordmark does, not by convention. Krutho is not a brand assertion. It is a source identifier: the mark indicates that what follows is verifiable. A source identifier precedes the content it covers. Top left is the entry point on any left-to-right surface. The wordmark at the entry point is correct for this function. The position is derivable from the function, and the function excludes all other positions.
+This position is governed by what the wordmark does. Krutho is a source identifier: the mark indicates that what follows is verifiable. A source identifier precedes the content it covers. Top left is the entry point on any left-to-right surface. The wordmark at the entry point is correct for this function.
 
-On surfaces where the wordmark is the sole content element, including loading states, standalone brand artifacts, and title slides where no body content is present, the source-identifier function has no content to precede. The wordmark is centered. This is the only condition under which top left does not apply.
+On surfaces where the wordmark is the sole content element (loading states, standalone brand artifacts, title slides where no body content is present), the source-identifier function has no content to precede. The wordmark is centered.
 
 ---
 
@@ -132,8 +132,8 @@ This document references surface and brand context tokens defined in the Krutho 
 
 The wordmark is admitted on the following surfaces in light and dark modes. Values are the resolved hex of the named token.
 
-| Token                  | Light mode | Dark mode |
-|------------------------|------------|-----------|
+| Token                   | Light mode | Dark mode |
+|-------------------------|------------|-----------|
 | --color-surface-overlay | `#FFFFFF`  | `#343434` |
 | --color-surface-raised  | `#FAFAFA`  | `#202020` |
 | --color-surface-base    | `#F2F2F2`  | `#181818` |
@@ -142,19 +142,17 @@ The wordmark is admitted on the following surfaces in light and dark modes. Valu
 
 Structural deep base values used for diagram headers and dark narrative backgrounds. The wordmark in Signal Blue is admissible against deep-base-a at all registered sizes.
 
-| Token                    | Hex     |
-|--------------------------|---------|
-| --primitive-deep-base-a  | `#000035` |
-| --primitive-deep-base-b  | `#010364` |
+| Token                   | Hex       |
+|-------------------------|-----------|
+| --primitive-deep-base-a | `#000035` |
+| --primitive-deep-base-b | `#010364` |
 
 ### Layer reference
 
 The Krutho Colour System defines three operating contexts as Layers. The wordmark Colour section references Layer 3 in connection with brand expression usage of Signal Blue.
 
-| Layer | Name              | Function                                                              |
-|-------|-------------------|-----------------------------------------------------------------------|
-| 1     | Core Technology   | Product surfaces. Krutho itself.                                      |
-| 2     | Enterprise Context | Krutho rendered within client environments.                          |
-| 3     | Brand Expression  | Narrative, investor, and positioning contexts. Signal Blue admitted.  |
-
-The Layer reference here is to the Krutho Colour System's defined term, not to the Krutho Typography System's Tier model.
+| Layer | Name               | Function                                                              |
+|-------|--------------------|-----------------------------------------------------------------------|
+| 1     | Core Technology    | Product surfaces. Krutho itself.                                      |
+| 2     | Enterprise Context | Krutho rendered within client environments.                           |
+| 3     | Brand Expression   | Narrative, investor, and positioning contexts. Signal Blue admitted.  |

@@ -1,24 +1,22 @@
 # Krutho Web Surface
 
-Last edit 21st April 2026
+Last edit 23rd April 2026
 
 ---
 
 ## Grounding Statement
 
-This document operates under the Krutho Design Philosophy. The terms precision, correctness, verifiability, and truth are used throughout in the senses defined there. Every decision in this document traces to a reason that excludes the alternatives.
+This document is the Krutho Web Surface specification. It operates under the Krutho Design Philosophy and derives from the Krutho Spacing System, the Krutho Typography System, the Krutho Grid System, the Krutho Layout System, and the Krutho Colour System.
 
-The Krutho Web Surface specification declares how the foundation documents are realised on content surfaces rendered in a web browser. It selects from foundation primitives and applies them to the conditions a web content surface operates in. It introduces no new values. Every value in this document traces to the Krutho Spacing System, the Krutho Typography System, the Krutho Grid System, the Krutho Layout System, or the Krutho Colour System.
+The Web Surface specification declares how the foundation documents are realised on content surfaces rendered in a web browser. Every value in this document traces to a foundation document. Reference tables from the foundations are reproduced at the end so that output can be verified against this specification directly.
 
-**Dependencies.** This document requires the Krutho Design Philosophy, Krutho Spacing System, Krutho Typography System, Krutho Grid System, Krutho Layout System, and Krutho Colour System. Reference tables from the foundation are reproduced at the end of this document so that any output can be verified against this specification without consulting additional documents.
-
-**Scope.** This specification governs content surfaces on the web: marketing, documentation, narrative, and informational pages. Product and application UI surfaces are governed by a separate surface specification and are outside the scope of this document. Colour assignment at surface level is outside the scope of this draft and will be added in a subsequent revision.
+**Scope.** This specification governs content surfaces on the web: marketing, documentation, narrative, and informational pages. Product and application UI surfaces are governed by a separate surface specification. Colour assignment at surface level will be added in a subsequent revision.
 
 ---
 
 ## Terms
 
-The following terms are defined here. Terms not defined here inherit their definitions from the foundation documents named in the Dependencies section.
+The following terms are defined here. Terms not defined here inherit their definitions from the foundation documents named in the Grounding Statement.
 
 **Breakpoint.** A viewport width threshold at which the surface adapts its structure or its typographic assignments. Two categories are defined in this document.
 
@@ -28,7 +26,7 @@ The following terms are defined here. Terms not defined here inherit their defin
 
 **Role.** A content function assigned to a specific combination of typeface tier, type size, weight, and line height. Roles are declared in the Type Role Set section.
 
-**Tier 1 functional category.** A functional category per the Krutho Typography System Weight Vocabulary. Four categories are defined there for Tier 1 content: Display, Structural, Continuous reading, Inline emphasis. Each Tier 1 role in this specification is assigned to one category. Tier 2 roles are not assigned a functional category; their typeface and weight are determined by tier alone per the foundation.
+**Tier 1 functional category.** A functional category per the Krutho Typography System Weight Vocabulary: Display, Structural, Continuous reading, Inline emphasis. Each Tier 1 role in this specification is assigned to one category. Tier 2 roles are determined by tier alone.
 
 ---
 
@@ -40,16 +38,16 @@ This surface declares its production context as screen. All spacing values are i
 
 ## Density Register
 
-The Web Surface is a responsive surface per the Krutho Spacing System's Responsive Surfaces provision. Its spatial character varies across scale classes, so a register is declared at each structural scale class. Registers at Display breakpoints hold the LG register because those breakpoints preserve the LG grid and add only type role advancement, not structural change.
+The Web Surface is a responsive surface per the Krutho Spacing System's Responsive Surfaces provision. Its spatial character varies across scale classes, so a register is declared at each structural scale class. Registers at Display breakpoints hold the LG register because those breakpoints preserve the LG grid and add only type role advancement.
 
-| Breakpoint | Column count | Register | Characteristics determining register |
-|------------|--------------|----------|---------------------------------------|
-| SM | 2 | Compact | High information density relative to surface width. Content is tight. White space is structural, separating content rather than expressing it. |
-| MD | 8 | Standard | Medium information density. White space balances structural and expressive functions. |
-| LG | 16 | Expressive | Lower information density than MD. White space begins to express, not only structure. Content intervals grow into the mid and display zones. |
-| Display-SM | 16 | Expressive | Inherits LG register. Expressive character intensifies as column width grows. |
-| Display-MD | 16 | Expressive | Inherits LG register. Expressive character intensifies as column width grows. |
-| Display-LG | 16 | Expressive | Inherits LG register. Expressive character is strongest at viewports above 1856. |
+| Breakpoint | Column count | Register   | Characteristics determining register                                                                                                             |
+|------------|--------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| SM         | 2            | Compact    | High information density relative to surface width. Content is tight. White space is structural, separating content rather than expressing it.   |
+| MD         | 8            | Standard   | Medium information density. White space balances structural and expressive functions.                                                            |
+| LG         | 16           | Expressive | Lower information density than MD. White space begins to express, not only structure. Content intervals grow into the mid and display zones.    |
+| Display-SM | 16           | Expressive | Inherits LG register. Expressive character intensifies as column width grows.                                                                    |
+| Display-MD | 16           | Expressive | Inherits LG register. Expressive character intensifies as column width grows.                                                                    |
+| Display-LG | 16           | Expressive | Inherits LG register. Expressive character is strongest at viewports above 1856.                                                                 |
 
 Each register declaration satisfies the Register selection rule independently per the Krutho Spacing System: the characteristics stated above match the register descriptions in the foundation.
 
@@ -61,20 +59,20 @@ At each breakpoint, the spacing values available to the surface are those in the
 
 Six breakpoints are declared. Three are structural and three are display.
 
-| Breakpoint | Viewport range | Category |
-|------------|----------------|----------|
-| SM | 320 to 575 | Structural |
-| MD | 576 to 1087 | Structural |
-| LG | 1088 to 1343 | Structural |
-| Display-SM | 1344 to 1599 | Display |
-| Display-MD | 1600 to 1855 | Display |
-| Display-LG | 1856 and above | Display |
+| Breakpoint | Viewport range | Category   |
+|------------|----------------|------------|
+| SM         | 320 to 575     | Structural |
+| MD         | 576 to 1087    | Structural |
+| LG         | 1088 to 1343   | Structural |
+| Display-SM | 1344 to 1599   | Display    |
+| Display-MD | 1600 to 1855   | Display    |
+| Display-LG | 1856 and above | Display    |
 
 **Structural breakpoint derivation.**
 
 Structural breakpoints trigger at the smallest viewport producing column width at least 32px (mid zone first admitted step per the Krutho Spacing System) under the breakpoint's column count, margin, and gutter.
 
-SM triggers at 320. This is the smallest viewport the specification addresses. Viewports below 320 are not addressable by this specification; surface instances requiring support below 320 document the extension under the generative escape rule.
+SM triggers at 320. This is the smallest viewport the specification addresses. Viewports below 320 are outside this specification; surface instances requiring support below 320 document the extension under the generative escape rule.
 
 MD triggers at 576. At 576, 8 columns with margin 48 and gutter 32 produce column width 32.
 
@@ -90,7 +88,7 @@ Display-MD triggers at 1600. Column width is 64 (display zone middle admitted st
 
 Display-LG triggers at 1856. Column width is 80 (display zone upper boundary).
 
-No further breakpoint is admitted. Beyond Display-LG, column width would cross into the large zone, which governs page-scale structural intervals rather than element-scale modules. A column occupying page-scale territory is not a column in the sense the Krutho Layout System defines. The Content Lock section declares the surface behaviour at viewports beyond 1856.
+Beyond Display-LG, column width would cross into the large zone, which governs page-scale structural intervals rather than element-scale modules. A column occupying page-scale territory is structurally a different entity. The Content Lock section declares surface behaviour at viewports beyond 1856.
 
 **SM column count admission.**
 
@@ -98,7 +96,7 @@ SM uses 2 columns. The Krutho Layout System admits 2 columns at scales where a b
 
 **SM margin selection.**
 
-SM uses margin 16. At viewports 320 to 575, margin 48 would consume approximately 30 percent of surface width in edge buffer, a disproportionate allocation at small viewport scale. Margin 16 reduces the edge buffer to approximately 10 percent at the SM minimum viewport, matching the proportional balance of larger breakpoints. This margin is a fine zone admitted spacing value.
+SM uses margin 16. At viewports 320 to 575, margin 48 would consume approximately 30 percent of surface width in edge buffer, a disproportionate allocation at small viewport scale. Margin 16 reduces the edge buffer to approximately 10 percent at the SM minimum viewport, matching the proportional balance of larger breakpoints. Margin 16 is a fine zone admitted spacing value.
 
 ---
 
@@ -107,13 +105,13 @@ SM uses margin 16. At viewports 320 to 575, margin 48 would consume approximatel
 The Web Surface declares column count, margin, gutter, primary grid value, and derived column width at each breakpoint.
 
 | Breakpoint | Cols | Margin | Gutter | Primary grid | Col width at min |
-|------------|------|--------|--------|--------------|-------------------|
-| SM | 2 | 16 | 32 | grid-16 | 128 |
-| MD | 8 | 48 | 32 | grid-16 | 32 |
-| LG | 16 | 48 | 32 | grid-16 | 32 |
-| Display-SM | 16 | 48 | 32 | grid-16 | 48 |
-| Display-MD | 16 | 48 | 32 | grid-16 | 64 |
-| Display-LG | 16 | 48 | 32 | grid-16 | 80 |
+|------------|------|--------|--------|--------------|------------------|
+| SM         | 2    | 16     | 32     | grid-16      | 128              |
+| MD         | 8    | 48     | 32     | grid-16      | 32               |
+| LG         | 16   | 48     | 32     | grid-16      | 32               |
+| Display-SM | 16   | 48     | 32     | grid-16      | 48               |
+| Display-MD | 16   | 48     | 32     | grid-16      | 64               |
+| Display-LG | 16   | 48     | 32     | grid-16      | 80               |
 
 **Margin values.**
 
@@ -127,7 +125,7 @@ Gutter 32 (mid zone middle admitted step) at all breakpoints.
 
 At MD through Display-LG, gutter 32 is two-thirds of margin 48. Gutter 32 does not exceed margin 48, satisfying Governing Condition 5 of the Krutho Layout System at column counts of 4 and above.
 
-At SM, column count is 2. Per the Krutho Layout System Governing Condition 5, the gutter-margin relationship at column count 2 is governed by this surface specification. The declared values at SM are margin 16 and gutter 32. The reason: at column count 2, content is grouped as two halves rather than as a flowing series. The gutter governs the visible split between the two halves. A small gutter would produce an ambiguous boundary between the halves, which would read as a single continuous column rather than as two halves. A gutter larger than the margin at column count 2 makes the binary split visually clear, which is the correct reading at SM's single-column-with-splits content structure. The margin remains smaller than the gutter because the margin's function (edge buffer) does not require the same visual weight as the intra-content split.
+At SM, column count is 2. Per the Krutho Layout System Governing Condition 5, the gutter-margin relationship at column count 2 is governed by this surface specification. SM declares margin 16 and gutter 32. Content at column count 2 is grouped as two halves rather than as a flowing series; the gutter governs the visible split between halves. A gutter smaller than the margin would make the binary split ambiguous. A gutter larger than the margin makes the binary split visually clear. The margin remains smaller because its function (edge buffer) does not require the same visual weight as the intra-content split.
 
 **Primary grid.**
 
@@ -137,7 +135,7 @@ Larger admitted grid values (grid-32, grid-64) do not divide margin 48 without a
 
 **Derived column width.**
 
-Column width is derived from the surface configuration per the Krutho Layout System. The column width values in the table above are computed at the breakpoint minimum viewport. Within each breakpoint's range, column width varies fluidly with viewport. It is not fixed.
+Column width is derived from the surface configuration per the Krutho Layout System. The column width values in the table above are computed at the breakpoint minimum viewport. Within each breakpoint's range, column width varies fluidly with viewport.
 
 ---
 
@@ -155,22 +153,22 @@ At viewport 1856 and above, content area is locked at 1760. Margins expand symme
 
 The Web Surface declares ten content roles. The role set is canonical across Krutho web content surfaces. Product and application UI surfaces declare their own role set.
 
-| Role | Tier | Typeface | Weight | Tier 1 functional category |
-|------|------|----------|--------|-----------------------------|
-| Display 1 | 1 | Spline Sans | Medium (500) | Display |
-| Display 2 | 1 | Spline Sans | Medium (500) | Display |
-| Heading 1 | 1 | Spline Sans | Semibold (600) | Structural |
-| Heading 2 | 1 | Spline Sans | Semibold (600) | Structural |
-| Heading 3 | 1 | Spline Sans | Semibold (600) | Structural |
-| Heading 4 | 1 | Spline Sans | Semibold (600) | Structural |
-| Lead | 1 | Spline Sans | Regular (400) | Continuous reading |
-| Body | 1 | Spline Sans | Regular (400) | Continuous reading |
-| Caption | 1 | Spline Sans | Regular (400) | Continuous reading |
-| Code | 2 | Spline Mono | Regular (400) |  |
+| Role      | Tier | Typeface    | Weight         | Tier 1 functional category |
+|-----------|------|-------------|----------------|----------------------------|
+| Display 1 | 1    | Spline Sans | Medium (500)   | Display                    |
+| Display 2 | 1    | Spline Sans | Medium (500)   | Display                    |
+| Heading 1 | 1    | Spline Sans | Semibold (600) | Structural                 |
+| Heading 2 | 1    | Spline Sans | Semibold (600) | Structural                 |
+| Heading 3 | 1    | Spline Sans | Semibold (600) | Structural                 |
+| Heading 4 | 1    | Spline Sans | Semibold (600) | Structural                 |
+| Lead      | 1    | Spline Sans | Regular (400)  | Continuous reading         |
+| Body      | 1    | Spline Sans | Regular (400)  | Continuous reading         |
+| Caption   | 1    | Spline Sans | Regular (400)  | Continuous reading         |
+| Code      | 2    | Spline Mono | Regular (400)  |                            |
 
-The Tier 1 functional category column applies only to roles using Tier 1 per the Krutho Typography System Weight Vocabulary. Code is Tier 2 and is not assigned a functional category. Code's typeface and weight are determined by tier: Spline Mono, Regular, per the foundation's tier-level admission.
+The Tier 1 functional category column applies only to Tier 1 roles. Code is Tier 2; its typeface and weight are determined by tier: Spline Mono, Regular.
 
-Inline body emphasis is applied as Bold (700) within Body flow where emphasis is functionally required. Inline emphasis is not a role in this set; it is a weight variant applied to Body content under the Inline emphasis functional category per the Krutho Typography System.
+Inline body emphasis is Bold (700) applied within Body flow where emphasis is functionally required. It is a weight variant, not a role: the Inline emphasis functional category per the Krutho Typography System.
 
 **Role definitions.**
 
@@ -192,7 +190,7 @@ Inline body emphasis is applied as Bold (700) within Body flow where emphasis is
 
 **Caption.** Secondary supporting text. Metadata, image captions, annotations, fine print.
 
-**Code.** Tier 2 content per the Krutho Typography System. The Code role is the mechanism for rendering code, tokens, CLI representations, and other structured or verifiable content in monospaced type. Differentiation from Tier 1 is carried by the typeface, not by weight or size.
+**Code.** Tier 2 content per the Krutho Typography System. The Code role is the mechanism for rendering code, tokens, CLI representations, and other structured or verifiable content in monospaced type. Differentiation from Tier 1 is carried by the typeface.
 
 ---
 
@@ -200,24 +198,22 @@ Inline body emphasis is applied as Bold (700) within Body flow where emphasis is
 
 Each role is assigned a type token from the Krutho Typography System at each breakpoint. Values in the table are type token sizes in px.
 
-| Role | SM | MD | LG | Display-SM | Display-MD | Display-LG |
-|------|------|------|------|------------|------------|------------|
-| Display 1 | 48 | 48 | 48 | 64 | 80 | 96 |
-| Display 2 | 40 | 40 | 40 | 48 | 64 | 80 |
-| Heading 1 | 32 | 32 | 32 | 40 | 48 | 64 |
-| Heading 2 | 24 | 24 | 24 | 32 | 40 | 48 |
-| Heading 3 | 20 | 20 | 20 | 24 | 32 | 40 |
-| Heading 4 | 18 | 18 | 18 | 20 | 24 | 32 |
-| Lead | 18 | 18 | 18 | 18 | 18 | 24 |
-| Body | 16 | 16 | 16 | 16 | 16 | 20 |
-| Caption | 12 | 12 | 12 | 12 | 12 | 14 |
-| Code | 14 | 14 | 14 | 14 | 14 | 16 |
+| Role      | SM | MD | LG | Display-SM | Display-MD | Display-LG |
+|-----------|----|----|----|------------|------------|------------|
+| Display 1 | 48 | 48 | 48 | 64         | 80         | 96         |
+| Display 2 | 40 | 40 | 40 | 48         | 64         | 80         |
+| Heading 1 | 32 | 32 | 32 | 40         | 48         | 64         |
+| Heading 2 | 24 | 24 | 24 | 32         | 40         | 48         |
+| Heading 3 | 20 | 20 | 20 | 24         | 32         | 40         |
+| Heading 4 | 18 | 18 | 18 | 20         | 24         | 32         |
+| Lead      | 18 | 18 | 18 | 18         | 18         | 24         |
+| Body      | 16 | 16 | 16 | 16         | 16         | 20         |
+| Caption   | 12 | 12 | 12 | 12         | 12         | 14         |
+| Code      | 14 | 14 | 14 | 14         | 14         | 16         |
 
 **Progression rule for SM, MD, LG.**
 
-SM, MD, and LG share a single token assignment. The three structural breakpoints represent a single typographic scale.
-
-The reason the scale does not change across SM, MD, LG: each role's token at LG is sized for 16-column composition at column width 32. At MD and SM, the column count differs (8 and 2 respectively) but the per-column density of content remains equivalent. A role's presence relative to its column does not change across structural breakpoints, so the token assignment does not change.
+SM, MD, and LG share a single token assignment. Each role's token at LG is sized for 16-column composition at column width 32. At MD and SM, the column count differs (8 and 2) but the per-column content density is equivalent. A role's presence relative to its column holds across structural breakpoints.
 
 **Progression rule for Display breakpoints.**
 
@@ -225,14 +221,14 @@ At Display breakpoints, column width grows past its LG minimum. Display and stru
 
 Zone-admitted spacing steps, per the Krutho Spacing System, used for this progression:
 
-| Zone | Admitted steps |
-|------|----------------|
-| Fine | 20 |
-| Mid | 24, 32, 40 |
-| Display | 48, 64, 80 |
-| Large | 96 |
+| Zone    | Admitted steps |
+|---------|----------------|
+| Fine    | 20             |
+| Mid     | 24, 32, 40     |
+| Display | 48, 64, 80     |
+| Large   | 96             |
 
-Type tokens not aligned with the spacing admitted step progression (type-14, type-18, type-28) appear at the LG baseline for roles where that specific token matches the role's function. They are not default progression values for display or structural advancement.
+Type tokens outside the spacing admitted step progression (type-14, type-18, type-28) appear at the LG baseline for roles where that specific token matches the role's function. They are baseline values, not progression values for display or structural advancement.
 
 **Progression rule for Continuous reading roles and Code.**
 
@@ -240,9 +236,9 @@ Lead, Body, Caption, and Code hold their token assignment across SM through Disp
 
 Two rules govern the advancements. Body is the anchor; the others follow.
 
-**Body advances per the spacing-admitted step progression.** Body advances from type-16 to type-20. The spacing-admitted steps in the fine zone are 4, 8, 12, 16, 20; type-20 is the next admitted step after type-16. Type-18 is a designed type token but is not on the spacing-admitted progression and is therefore not a progression step for Body. Body's position on the spacing-admitted progression is preserved, which keeps Body's size in a known structural relationship to the spacing values used on the surface.
+**Body advances per the spacing-admitted step progression.** Body advances from type-16 to type-20. The spacing-admitted steps in the fine zone are 4, 8, 12, 16, 20; type-20 is the next admitted step after type-16. Type-18 is a designed type token outside this progression and is not a progression step for Body. Body's position on the spacing-admitted progression is preserved, keeping Body's size in a known structural relationship to the spacing values on the surface.
 
-**Lead, Caption, and Code advance to the next designed type token above baseline that preserves the baseline ordering Lead > Body > Code > Caption.** This rule does not apply to Body; Body's advancement is governed by the spacing-admitted progression rule above.
+**Lead, Caption, and Code advance to the next designed type token above baseline that preserves the baseline ordering Lead > Body > Code > Caption.** This rule applies to Lead, Caption, and Code. Body's advancement is governed by the rule above.
 
 Applying the second rule:
 
@@ -267,14 +263,14 @@ Line heights are drawn from the Krutho Typography System Line Height Token Set. 
 **Variant assignment.**
 
 | Tier 1 functional category | Variant |
-|-----------------------------|---------|
-| Display | Tight |
-| Structural | Tight |
-| Continuous reading | Default |
+|----------------------------|---------|
+| Display                    | Tight   |
+| Structural                 | Tight   |
+| Continuous reading         | Default |
 
 Display and structural roles use Tight because their function is hierarchical signalling within a composition. Inter-line space within a display or heading is tight relative to the space around it, which is produced by spacing tokens rather than line height. Continuous reading roles use Default for sustained reading.
 
-**Code (Tier 2).** Code uses the Default variant. Code is not assigned a Tier 1 functional category. The Default variant is declared directly for Code so that code matches body reading cadence when it appears inline within body content.
+**Code (Tier 2).** Code uses the Default variant, declared directly. Default matches body reading cadence where code appears inline within body content.
 
 **Resolution.**
 
@@ -290,7 +286,7 @@ The following conditions state the assessable rules in this specification. Each 
 
 1. The production context is screen. All values are in CSS logical pixels (px).
 2. The surface is a responsive surface per the Krutho Spacing System's Responsive Surfaces provision. The density register is declared per breakpoint per the Density Register table: SM is Compact, MD is Standard, LG and Display breakpoints are Expressive. Each declared register satisfies the Register selection rule independently.
-3. The six breakpoints are SM (320 to 575), MD (576 to 1087), LG (1088 to 1343), Display-SM (1344 to 1599), Display-MD (1600 to 1855), Display-LG (1856 and above). No other breakpoint is admitted.
+3. The six breakpoints are SM (320 to 575), MD (576 to 1087), LG (1088 to 1343), Display-SM (1344 to 1599), Display-MD (1600 to 1855), Display-LG (1856 and above).
 4. The column count is 2 at SM, 8 at MD, and 16 at LG through Display-LG. SM admission of 2 columns traces to the Krutho Layout System's scale-conditional admission.
 5. Margin is 16 at SM. Margin is 48 at MD through Display-LG. Gutter is 32 at all breakpoints.
 6. Primary grid is grid-16 at all breakpoints. Sub-grid, where declared by a composition, follows the Krutho Grid System.
@@ -298,7 +294,7 @@ The following conditions state the assessable rules in this specification. Each 
 8. Type role assignments follow the Type Role Size Assignment table. SM, MD, LG share a single token assignment. Display-SM, Display-MD, Display-LG each have a distinct token assignment per role.
 9. Weight assignments follow the Type Role Set table and the Krutho Typography System Weight Vocabulary. Bold (700) is admitted only as an inline weight variant for Body emphasis.
 10. Line height assignments follow the Line Height Assignment section. Instance-level extension to Loose variant requires documentation under the generative escape rule.
-11. Any value used in this specification that is not derived from a foundation document is a failure of specification. This specification introduces no new values.
+11. Every value in this specification derives from a foundation document.
 
 ---
 
@@ -308,44 +304,44 @@ Reproduced from foundation documents for independent verification. Values are no
 
 **Spacing tokens referenced by this specification.** Reproduced from the Krutho Spacing System.
 
-| Token | Value |
-|-------|-------|
-| space-4 | 4px |
-| space-12 | 12px |
-| space-16 | 16px |
-| space-20 | 20px |
-| space-24 | 24px |
-| space-32 | 32px |
-| space-40 | 40px |
-| space-48 | 48px |
-| space-64 | 64px |
-| space-80 | 80px |
-| space-96 | 96px |
+| Token     | Value |
+|-----------|-------|
+| space-4   | 4px   |
+| space-12  | 12px  |
+| space-16  | 16px  |
+| space-20  | 20px  |
+| space-24  | 24px  |
+| space-32  | 32px  |
+| space-40  | 40px  |
+| space-48  | 48px  |
+| space-64  | 64px  |
+| space-80  | 80px  |
+| space-96  | 96px  |
 
 **Zone structure.** Reproduced from the Krutho Spacing System.
 
-| Zone | Interval | Upper boundary | Admitted spacing values |
-|------|----------|----------------|--------------------------|
-| Fine | 4 | 20 | 4, 8, 12, 16, 20 |
-| Mid | 8 | 40 | 24, 32, 40 |
-| Display | 16 | 80 | 48, 64, 80 |
-| Large | 32 | 160 | 96, 128, 160 |
-| Statement | 64 | 320 | 192, 256, 320 |
+| Zone      | Interval | Upper boundary | Admitted spacing values |
+|-----------|----------|----------------|-------------------------|
+| Fine      | 4        | 20             | 4, 8, 12, 16, 20        |
+| Mid       | 8        | 40             | 24, 32, 40              |
+| Display   | 16       | 80             | 48, 64, 80              |
+| Large     | 32       | 160            | 96, 128, 160            |
+| Statement | 64       | 320            | 192, 256, 320           |
 
 **Grid values.** Reproduced from the Krutho Grid System.
 
-| Token | Value |
-|-------|-------|
-| grid-4 | 4px |
-| grid-8 | 8px |
-| grid-16 | 16px |
-| grid-32 | 32px |
-| grid-64 | 64px |
+| Token   | Value |
+|---------|-------|
+| grid-4  | 4px   |
+| grid-8  | 8px   |
+| grid-16 | 16px  |
+| grid-32 | 32px  |
+| grid-64 | 64px  |
 
 **Type tokens referenced by this specification.** Reproduced from the Krutho Typography System Type Token Set.
 
-| Token | Size |
-|-------|------|
+| Token   | Size |
+|---------|------|
 | type-12 | 12px |
 | type-14 | 14px |
 | type-16 | 16px |
@@ -361,25 +357,25 @@ Reproduced from foundation documents for independent verification. Values are no
 
 **Weight vocabulary.** Reproduced from the Krutho Typography System Weight Vocabulary.
 
-| Weight | Value | Functional category within Tier 1 |
-|--------|-------|------------------------------------|
-| Regular | 400 | Continuous reading |
-| Medium | 500 | Display |
-| Semibold | 600 | Structural |
-| Bold | 700 | Inline emphasis |
+| Weight   | Value | Functional category within Tier 1 |
+|----------|-------|-----------------------------------|
+| Regular  | 400   | Continuous reading                |
+| Medium   | 500   | Display                           |
+| Semibold | 600   | Structural                        |
+| Bold     | 700   | Inline emphasis                   |
 
 **Typography tiers.** Reproduced from the Krutho Typography System Typeface Tier Model.
 
-| Tier | Typeface | Function |
-|------|----------|----------|
-| 1 | Spline Sans | Operational clarity. The primary voice of the system. |
-| 2 | Spline Mono | Verifiable structure. System-derived output. |
-| 3 | Enra | Interpretive weight. Significance. |
+| Tier | Typeface    | Function                                              |
+|------|-------------|-------------------------------------------------------|
+| 1    | Spline Sans | Operational clarity. The primary voice of the system. |
+| 2    | Spline Mono | Verifiable structure. System-derived output.          |
+| 3    | Enra        | Interpretive weight. Significance.                    |
 
 **Density registers.** Reproduced from the Krutho Spacing System and the Krutho Layout System.
 
-| Register | Information density | Typical column counts (Layout System) |
-|----------|---------------------|---------------------------------------|
-| Compact | High | 2, 4 |
-| Standard | Medium | 8, 12 |
-| Expressive | Low | 16 |
+| Register   | Information density | Typical column counts (Layout System) |
+|------------|---------------------|---------------------------------------|
+| Compact    | High                | 2, 4                                  |
+| Standard   | Medium              | 8, 12                                 |
+| Expressive | Low                 | 16                                    |
