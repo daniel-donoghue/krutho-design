@@ -151,7 +151,7 @@ At viewport 1856 and above, content area is locked at 1760. Margins expand symme
 
 ## Type Role Set
 
-The Web Surface declares ten content roles. The role set is canonical across Krutho web content surfaces. Product and application UI surfaces declare their own role set.
+The Web Surface declares eleven content roles. The role set is canonical across Krutho web content surfaces. Product and application UI surfaces declare their own role set.
 
 | Role      | Tier | Typeface         | Weight         | Tier 1 functional category |
 |-----------|------|------------------|----------------|----------------------------|
@@ -165,8 +165,9 @@ The Web Surface declares ten content roles. The role set is canonical across Kru
 | Body      | 1    | Spline Sans      | Regular (400)  | Continuous reading         |
 | Caption   | 1    | Spline Sans      | Regular (400)  | Continuous reading         |
 | Code      | 2    | Spline Sans Mono | Regular (400)  |                            |
+| Eyebrow   | 2    | Spline Sans Mono | Regular (400)  |                            |
 
-The Tier 1 functional category column applies only to Tier 1 roles. Code is Tier 2; its typeface and weight are determined by tier: Spline Sans Mono, Regular.
+The Tier 1 functional category column applies only to Tier 1 roles. Code and Eyebrow are Tier 2; their typeface and weight are determined by tier: Spline Sans Mono, Regular.
 
 Inline body emphasis is Bold (700) applied within Body flow where emphasis is functionally required. It is a weight variant, not a role: the Inline emphasis functional category per the Krutho Typography System.
 
@@ -192,6 +193,8 @@ Inline body emphasis is Bold (700) applied within Body flow where emphasis is fu
 
 **Code.** Tier 2 content per the Krutho Typography System. The Code role is the mechanism for rendering code, tokens, CLI representations, and other structured or verifiable content in monospaced type. Differentiation from Tier 1 is carried by the typeface.
 
+**Eyebrow.** An identifier placed above a heading. Carries a schema-defined value: section number, taxonomy path, kind-of-content tag, or other identifier drawn from a fixed set. Eyebrow content satisfies the Tier 2 admission test per the Krutho Typography System: the value is an identifier with determinable correctness against its schema. Differentiation from Tier 1 is carried by the typeface. Eyebrow renders in uppercase per the Case Assignment section and carries tracking per the Tracking Assignment section.
+
 ---
 
 ## Type Role Size Assignment
@@ -210,6 +213,7 @@ Each role is assigned a type token from the Krutho Typography System at each bre
 | Body      | 16 | 16 | 16 | 16         | 16         | 20         |
 | Caption   | 12 | 12 | 12 | 12         | 12         | 14         |
 | Code      | 14 | 14 | 14 | 14         | 14         | 16         |
+| Eyebrow   | 12 | 12 | 12 | 12         | 12         | 14         |
 
 **Progression rule for SM, MD, LG.**
 
@@ -230,23 +234,24 @@ Zone-admitted spacing steps, per the Krutho Spacing System, used for this progre
 
 Type tokens outside the spacing admitted step progression (type-14, type-18, type-28) appear at the LG baseline for roles where that specific token matches the role's function. They are baseline values, not progression values for display or structural advancement.
 
-**Progression rule for Continuous reading roles and Code.**
+**Progression rule for Continuous reading roles and Tier 2 roles.**
 
-Lead, Body, Caption, and Code hold their token assignment across SM through Display-MD. At Display-LG, all four roles advance to maintain readability at viewing distances typical of displays at 1856 viewport and above.
+Lead, Body, Caption, Code, and Eyebrow hold their token assignment across SM through Display-MD. At Display-LG, all five roles advance to maintain readability at viewing distances typical of displays at 1856 viewport and above.
 
 Two rules govern the advancements. Body is the anchor; the others follow.
 
 **Body advances per the spacing-admitted step progression.** Body advances from type-16 to type-20. The spacing-admitted steps in the fine zone are 4, 8, 12, 16, 20; type-20 is the next admitted step after type-16. Type-18 is a designed type token outside this progression and is not a progression step for Body. Body's position on the spacing-admitted progression is preserved, keeping Body's size in a known structural relationship to the spacing values on the surface.
 
-**Lead, Caption, and Code advance to the next designed type token above baseline that preserves the baseline ordering Lead > Body > Code > Caption.** This rule applies to Lead, Caption, and Code. Body's advancement is governed by the rule above.
+**Lead, Caption, Code, and Eyebrow advance to the next designed type token above baseline that preserves the baseline ordering Lead > Body > Code > Caption.** This rule applies to Lead, Caption, Code, and Eyebrow. Eyebrow shares Caption's baseline token and tracks Caption's advancement so that the two roles hold a shared size at every breakpoint. Body's advancement is governed by the rule above.
 
 Applying the second rule:
 
 - Lead baseline type-18 advances to type-24. The designed type tokens above type-18 are type-20 and type-24. Body at Display-LG occupies type-20. Lead advances to type-24 to remain above Body.
 - Caption baseline type-12 advances to type-14. Type-14 is the next designed type token above type-12 and is below Body's type-20, preserving Caption's position below Body.
 - Code baseline type-14 advances to type-16. Type-16 is the next designed type token above type-14 and is below Body's type-20, preserving Code's position below Body.
+- Eyebrow baseline type-12 advances to type-14. Eyebrow shares Caption's baseline; the same advancement applies, preserving Eyebrow's position below Body and its shared size with Caption.
 
-Each advancement is the minimum step that satisfies its governing rule. The two rules together produce the Display-LG assignments for continuous reading and Code.
+Each advancement is the minimum step that satisfies its governing rule. The two rules together produce the Display-LG assignments for continuous reading and Tier 2.
 
 **Excluded progression patterns.**
 
@@ -258,7 +263,7 @@ Proportional scaling to column width is not admitted. Doubling column width from
 
 ## Line Height Assignment
 
-Line heights are drawn from the Krutho Typography System Line Height Token Set. For Tier 1 roles, the variant is determined by the role's Tier 1 functional category. For Tier 2 roles (Code), the variant is declared directly.
+Line heights are drawn from the Krutho Typography System Line Height Token Set. For Tier 1 roles, the variant is determined by the role's Tier 1 functional category. For Tier 2 roles, the variant is declared directly.
 
 **Variant assignment.**
 
@@ -270,13 +275,47 @@ Line heights are drawn from the Krutho Typography System Line Height Token Set. 
 
 Display and structural roles use Tight because their function is hierarchical signalling within a composition. Inter-line space within a display or heading is tight relative to the space around it, which is produced by spacing tokens rather than line height. Continuous reading roles use Default for sustained reading.
 
-**Code (Tier 2).** Code uses the Default variant, declared directly. Default matches body reading cadence where code appears inline within body content.
+**Code and Eyebrow (Tier 2).** Both Tier 2 roles use the Default variant, declared directly. Default matches body reading cadence for Code, which appears inline within body content. Eyebrow uses Default for consistency with Caption, whose type token assignment it shares at every breakpoint.
 
 **Resolution.**
 
-For each role at each breakpoint, the line height token is lh-{size}-{variant}, where size is the role's type token size and variant is the category variant above (Tier 1 roles) or the declared variant for Code (Tier 2). The lh token resolves to a specific px value per the Krutho Typography System Line Height Token Set.
+For each role at each breakpoint, the line height token is lh-{size}-{variant}, where size is the role's type token size and variant is the category variant above (Tier 1 roles) or the declared variant for the role (Tier 2). The lh token resolves to a specific px value per the Krutho Typography System Line Height Token Set.
 
 Surface instances may declare Loose variant for specific contexts (extended documentation, accessibility-led reading surfaces). Instance-level extension follows the generative escape rule.
+
+---
+
+## Case Assignment
+
+Each role renders at a declared case. Case is a presentation-layer transform; it does not alter the stored content.
+
+| Role    | Case     |
+|---------|----------|
+| Eyebrow | Upper    |
+| All others | Original |
+
+**Original.** The role renders at the authored case of its content. This is the default and applies to every role except Eyebrow.
+
+**Upper.** The role renders in uppercase. Eyebrow uses Upper because its content is a schema-defined identifier rather than reading copy. Upper makes the identifier visually distinct from surrounding continuous reading text and matches the monospaced Tier 2 treatment that signals machine-verifiable content.
+
+**Resolution.** Upper is applied at render time via CSS text-transform: uppercase. The underlying content string holds its schema-defined case; no transformation is applied to the source value.
+
+---
+
+## Tracking Assignment
+
+Each role declares a tracking value. Tracking is expressed as a percentage of type size so the value scales with size across breakpoints.
+
+| Role    | Tracking |
+|---------|----------|
+| Eyebrow | +5%      |
+| All others | 0 (Normal) |
+
+**Normal.** Default letter-spacing as set by the typeface. This is the default and applies to every role except Eyebrow.
+
+**+5% Eyebrow tracking.** Eyebrow renders in uppercase at small type tokens (type-12, type-14). At these sizes, uppercase letterforms in Spline Sans Mono set without tracking produce visually tight counters and neighbouring-letter spacing. +5% restores optical balance at identifier scale. The value is the minimum tracking that achieves this without introducing letterform isolation, which would read as emphasis rather than as a label.
+
+**Resolution.** The percentage is applied as CSS letter-spacing expressed in em (+5% resolves to 0.05em). Figma text styles store the equivalent value as letterSpacing with unit PERCENT.
 
 ---
 
@@ -294,7 +333,9 @@ The following conditions state the assessable rules in this specification. Each 
 8. Type role assignments follow the Type Role Size Assignment table. SM, MD, LG share a single token assignment. Display-SM, Display-MD, Display-LG each have a distinct token assignment per role.
 9. Weight assignments follow the Type Role Set table and the Krutho Typography System Weight Vocabulary. Bold (700) is admitted only as an inline weight variant for Body emphasis.
 10. Line height assignments follow the Line Height Assignment section. Instance-level extension to Loose variant requires documentation under the generative escape rule.
-11. Every value in this specification derives from a foundation document.
+11. Case assignments follow the Case Assignment section. Eyebrow renders in uppercase; all other roles render at Original case. Case is a presentation-layer transform and does not alter the stored content.
+12. Tracking assignments follow the Tracking Assignment section. Eyebrow carries +5% tracking; all other roles carry Normal tracking. Tracking is expressed as a percentage of type size.
+13. Every value in this specification derives from a foundation document.
 
 ---
 

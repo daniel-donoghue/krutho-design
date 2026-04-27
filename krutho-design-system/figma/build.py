@@ -207,10 +207,14 @@ WEIGHT_STYLE: dict[int, str] = {
 # ---------------------------------------------------------------------------
 
 # Website text roles. Source: surfaces/website.md.
-# Each entry: (role-name, tier, weight, {breakpoint-key: size}, lh-variant).
+# Each entry: (role-name, tier, weight, {breakpoint-key: size}, lh-variant,
+# text-case, tracking-percent).
 # Breakpoint keys match WEBSITE_BREAKPOINTS. The lh-variant is a key into
 # LH_RATIOS: "tight" for Display and Structural categories, "default" for
-# Continuous reading and Code.
+# Continuous reading and Tier 2. The text-case value matches the Figma
+# TextStyle.textCase enum: "ORIGINAL" (default), "UPPER", "LOWER", "TITLE".
+# The tracking-percent value is applied as Figma letterSpacing with unit
+# PERCENT; 0 is Normal (no emitted field).
 WEBSITE_BREAKPOINTS: tuple[tuple[str, str], ...] = (
     ("SM",         "SM (320-575)"),
     ("MD",         "MD (576-1087)"),
@@ -221,16 +225,17 @@ WEBSITE_BREAKPOINTS: tuple[tuple[str, str], ...] = (
 )
 
 WEBSITE_ROLES: list[tuple] = [
-    ("Display 1", 1, 500, {"SM": 48, "MD": 48, "LG": 48, "Display-SM": 64, "Display-MD": 80, "Display-LG": 96}, "tight"),
-    ("Display 2", 1, 500, {"SM": 40, "MD": 40, "LG": 40, "Display-SM": 48, "Display-MD": 64, "Display-LG": 80}, "tight"),
-    ("Heading 1", 1, 600, {"SM": 32, "MD": 32, "LG": 32, "Display-SM": 40, "Display-MD": 48, "Display-LG": 64}, "tight"),
-    ("Heading 2", 1, 600, {"SM": 24, "MD": 24, "LG": 24, "Display-SM": 32, "Display-MD": 40, "Display-LG": 48}, "tight"),
-    ("Heading 3", 1, 600, {"SM": 20, "MD": 20, "LG": 20, "Display-SM": 24, "Display-MD": 32, "Display-LG": 40}, "tight"),
-    ("Heading 4", 1, 600, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 20, "Display-MD": 24, "Display-LG": 32}, "tight"),
-    ("Lead",      1, 400, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 18, "Display-MD": 18, "Display-LG": 24}, "default"),
-    ("Body",      1, 400, {"SM": 16, "MD": 16, "LG": 16, "Display-SM": 16, "Display-MD": 16, "Display-LG": 20}, "default"),
-    ("Caption",   1, 400, {"SM": 12, "MD": 12, "LG": 12, "Display-SM": 12, "Display-MD": 12, "Display-LG": 14}, "default"),
-    ("Code",      2, 400, {"SM": 14, "MD": 14, "LG": 14, "Display-SM": 14, "Display-MD": 14, "Display-LG": 16}, "default"),
+    ("Display 1", 1, 500, {"SM": 48, "MD": 48, "LG": 48, "Display-SM": 64, "Display-MD": 80, "Display-LG": 96}, "tight",   "ORIGINAL", 0),
+    ("Display 2", 1, 500, {"SM": 40, "MD": 40, "LG": 40, "Display-SM": 48, "Display-MD": 64, "Display-LG": 80}, "tight",   "ORIGINAL", 0),
+    ("Heading 1", 1, 600, {"SM": 32, "MD": 32, "LG": 32, "Display-SM": 40, "Display-MD": 48, "Display-LG": 64}, "tight",   "ORIGINAL", 0),
+    ("Heading 2", 1, 600, {"SM": 24, "MD": 24, "LG": 24, "Display-SM": 32, "Display-MD": 40, "Display-LG": 48}, "tight",   "ORIGINAL", 0),
+    ("Heading 3", 1, 600, {"SM": 20, "MD": 20, "LG": 20, "Display-SM": 24, "Display-MD": 32, "Display-LG": 40}, "tight",   "ORIGINAL", 0),
+    ("Heading 4", 1, 600, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 20, "Display-MD": 24, "Display-LG": 32}, "tight",   "ORIGINAL", 0),
+    ("Lead",      1, 400, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 18, "Display-MD": 18, "Display-LG": 24}, "default", "ORIGINAL", 0),
+    ("Body",      1, 400, {"SM": 16, "MD": 16, "LG": 16, "Display-SM": 16, "Display-MD": 16, "Display-LG": 20}, "default", "ORIGINAL", 0),
+    ("Caption",   1, 400, {"SM": 12, "MD": 12, "LG": 12, "Display-SM": 12, "Display-MD": 12, "Display-LG": 14}, "default", "ORIGINAL", 0),
+    ("Code",      2, 400, {"SM": 14, "MD": 14, "LG": 14, "Display-SM": 14, "Display-MD": 14, "Display-LG": 16}, "default", "ORIGINAL", 0),
+    ("Eyebrow",   2, 400, {"SM": 12, "MD": 12, "LG": 12, "Display-SM": 12, "Display-MD": 12, "Display-LG": 14}, "default", "UPPER",    5),
 ]
 
 WEBSITE_STYLE_PREFIX = "Website"
@@ -458,15 +463,20 @@ def build_surface_website() -> dict:
     styles: list[dict] = []
     grid_styles: list[dict] = []
     for bp_key, bp_label in WEBSITE_BREAKPOINTS:
-        for role_name, tier, weight, sizes, lh_variant in WEBSITE_ROLES:
+        for role_name, tier, weight, sizes, lh_variant, text_case, tracking in WEBSITE_ROLES:
             size = sizes[bp_key]
-            styles.append({
+            style: dict = {
                 "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}/{role_name}",
                 "fontFamily": TIER_TYPEFACE[tier],
                 "fontStyle": WEIGHT_STYLE[weight],
                 "fontSize": size,
                 "lineHeight": derive_lh(size, LH_RATIOS[lh_variant]),
-            })
+            }
+            if text_case != "ORIGINAL":
+                style["textCase"] = text_case
+            if tracking != 0:
+                style["letterSpacingPercent"] = tracking
+            styles.append(style)
         cols, margin, gutter = WEBSITE_GRIDS[bp_key]
         grid_styles.append({
             "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}",

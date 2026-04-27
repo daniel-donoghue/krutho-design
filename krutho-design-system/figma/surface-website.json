@@ -73,6 +73,15 @@
       "lineHeight": 20
     },
     {
+      "name": "Website/SM (320-575)/Eyebrow",
+      "fontFamily": "Spline Sans Mono",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18,
+      "textCase": "UPPER",
+      "letterSpacingPercent": 5
+    },
+    {
       "name": "Website/MD (576-1087)/Display 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
@@ -141,6 +150,15 @@
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
+    },
+    {
+      "name": "Website/MD (576-1087)/Eyebrow",
+      "fontFamily": "Spline Sans Mono",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18,
+      "textCase": "UPPER",
+      "letterSpacingPercent": 5
     },
     {
       "name": "Website/LG (1088-1343)/Display 1",
@@ -213,6 +231,15 @@
       "lineHeight": 20
     },
     {
+      "name": "Website/LG (1088-1343)/Eyebrow",
+      "fontFamily": "Spline Sans Mono",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18,
+      "textCase": "UPPER",
+      "letterSpacingPercent": 5
+    },
+    {
       "name": "Website/Display-SM (1344-1599)/Display 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
@@ -281,6 +308,15 @@
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Eyebrow",
+      "fontFamily": "Spline Sans Mono",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18,
+      "textCase": "UPPER",
+      "letterSpacingPercent": 5
     },
     {
       "name": "Website/Display-MD (1600-1855)/Display 1",
@@ -353,6 +389,15 @@
       "lineHeight": 20
     },
     {
+      "name": "Website/Display-MD (1600-1855)/Eyebrow",
+      "fontFamily": "Spline Sans Mono",
+      "fontStyle": "Regular",
+      "fontSize": 12,
+      "lineHeight": 18,
+      "textCase": "UPPER",
+      "letterSpacingPercent": 5
+    },
+    {
       "name": "Website/Display-LG (1856+)/Display 1",
       "fontFamily": "Spline Sans",
       "fontStyle": "Medium",
@@ -421,6 +466,15 @@
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Eyebrow",
+      "fontFamily": "Spline Sans Mono",
+      "fontStyle": "Regular",
+      "fontSize": 14,
+      "lineHeight": 20,
+      "textCase": "UPPER",
+      "letterSpacingPercent": 5
     }
   ],
   "gridStyles": [

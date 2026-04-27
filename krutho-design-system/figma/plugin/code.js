@@ -208,6 +208,12 @@ async function importTextStyles(styleSpecs) {
     if (typeof spec.lineHeight === "number") {
       style.lineHeight = { unit: "PIXELS", value: spec.lineHeight };
     }
+    if (typeof spec.textCase === "string") {
+      style.textCase = spec.textCase;
+    }
+    if (typeof spec.letterSpacingPercent === "number") {
+      style.letterSpacing = { unit: "PERCENT", value: spec.letterSpacingPercent };
+    }
     created++;
   }
 
