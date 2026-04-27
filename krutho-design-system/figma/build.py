@@ -225,8 +225,8 @@ WEBSITE_BREAKPOINTS: tuple[tuple[str, str], ...] = (
 )
 
 WEBSITE_ROLES: list[tuple] = [
-    ("Display 1", 1, 500, {"SM": 48, "MD": 48, "LG": 48, "Display-SM": 64, "Display-MD": 80, "Display-LG": 96}, "tight",   "ORIGINAL", 0),
-    ("Display 2", 1, 500, {"SM": 40, "MD": 40, "LG": 40, "Display-SM": 48, "Display-MD": 64, "Display-LG": 80}, "tight",   "ORIGINAL", 0),
+    ("Display 1", 3, 400, {"SM": 48, "MD": 48, "LG": 48, "Display-SM": 64, "Display-MD": 80, "Display-LG": 96}, "tight",   "ORIGINAL", 0),
+    ("Display 2", 3, 400, {"SM": 40, "MD": 40, "LG": 40, "Display-SM": 48, "Display-MD": 64, "Display-LG": 80}, "tight",   "ORIGINAL", 0),
     ("Heading 1", 1, 600, {"SM": 32, "MD": 32, "LG": 32, "Display-SM": 40, "Display-MD": 48, "Display-LG": 64}, "tight",   "ORIGINAL", 0),
     ("Heading 2", 1, 600, {"SM": 24, "MD": 24, "LG": 24, "Display-SM": 32, "Display-MD": 40, "Display-LG": 48}, "tight",   "ORIGINAL", 0),
     ("Heading 3", 1, 600, {"SM": 20, "MD": 20, "LG": 20, "Display-SM": 24, "Display-MD": 32, "Display-LG": 40}, "tight",   "ORIGINAL", 0),

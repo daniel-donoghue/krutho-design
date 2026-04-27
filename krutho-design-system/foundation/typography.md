@@ -1,6 +1,6 @@
 # Krutho Typography System
 
-Last edit 23rd April 2026
+Last edit 27th April 2026
 
 ---
 
@@ -58,9 +58,12 @@ Three tiers are defined. Every typographic decision belongs to exactly one tier.
 
 **Function:** Interpretive weight. Significance.
 
-**Applies to:** Content whose removal would deprive the surface of emphasis without removing a unit of content.
+**Applies to:** Elements whose function is significance. Two cases qualify:
 
-**Admission test:** If the element is removed, does the surface lose emphasis without losing content? An element that carries content is a Tier 1 or Tier 2 decision.
+- Elements whose removal would deprive the surface of emphasis without removing a unit of content.
+- Display roles declared in a surface specification, where typographic voice constitutes part of how the surface's presence statement is communicated.
+
+**Admission test:** The element satisfies one of the two cases above. Tier 3 is never used for aesthetic contrast. Where neither case applies, the element is a Tier 1 or Tier 2 decision.
 
 ---
 
@@ -233,7 +236,7 @@ The following conditions state every assessable rule in this specification. Each
 1. A type size is valid if and only if it satisfies the substrate conformance test (value mod 2 = 0 in the unit of the declared production context).
 2. Every typographic decision belongs to exactly one tier. The tier determines the typeface.
 3. Tier 2 (Spline Sans Mono) is admitted only where the content satisfies the admission test: could the content be independently verified by a machine without contextual interpretation? Tier 2 is never used for aesthetic contrast.
-4. Tier 3 (Enra) is admitted only where the admission test is satisfied: if the element were removed, would the surface lose emphasis without losing content?
+4. Tier 3 (Enra) is admitted where the element satisfies one of the two Tier 3 admission cases: removal loses emphasis without losing content, or the element is a Display role declared in a surface specification. Tier 3 is never used for aesthetic contrast.
 5. Admitted weights are Regular (400), Medium (500), Semibold (600), and Bold (700). Tier 2 and Tier 3 use Regular only. Within Tier 1, weight is assigned by functional category: Display uses Medium, Structural uses Semibold, Continuous reading uses Regular, Inline emphasis uses Bold.
 6. Line height tokens are derived by the rule stated in the Line Height Derivation section. Derived values satisfy the substrate conformance test.
 7. Type sizes outside the designed token set are valid by the generative rule. Use at surface level requires a stated functional reason.

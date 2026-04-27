@@ -4,15 +4,15 @@
   "textStyles": [
     {
       "name": "Website/SM (320-575)/Display 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
       "name": "Website/SM (320-575)/Display 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 40,
       "lineHeight": 48
     },
@@ -83,15 +83,15 @@
     },
     {
       "name": "Website/MD (576-1087)/Display 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
       "name": "Website/MD (576-1087)/Display 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 40,
       "lineHeight": 48
     },
@@ -162,15 +162,15 @@
     },
     {
       "name": "Website/LG (1088-1343)/Display 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
       "name": "Website/LG (1088-1343)/Display 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 40,
       "lineHeight": 48
     },
@@ -241,15 +241,15 @@
     },
     {
       "name": "Website/Display-SM (1344-1599)/Display 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 64,
       "lineHeight": 78
     },
     {
       "name": "Website/Display-SM (1344-1599)/Display 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
@@ -320,15 +320,15 @@
     },
     {
       "name": "Website/Display-MD (1600-1855)/Display 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 80,
       "lineHeight": 96
     },
     {
       "name": "Website/Display-MD (1600-1855)/Display 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 64,
       "lineHeight": 78
     },
@@ -399,15 +399,15 @@
     },
     {
       "name": "Website/Display-LG (1856+)/Display 1",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 96,
       "lineHeight": 116
     },
     {
       "name": "Website/Display-LG (1856+)/Display 2",
-      "fontFamily": "Spline Sans",
-      "fontStyle": "Medium",
+      "fontFamily": "Enra",
+      "fontStyle": "Regular",
       "fontSize": 80,
       "lineHeight": 96
     },
