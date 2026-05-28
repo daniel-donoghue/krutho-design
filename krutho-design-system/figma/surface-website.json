@@ -4,477 +4,465 @@
   "textStyles": [
     {
       "name": "Website/SM (320-575)/Display 1",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 48,
-      "lineHeight": 58
-    },
-    {
-      "name": "Website/SM (320-575)/Display 2",
-      "fontFamily": "Inter",
-      "fontStyle": "Regular",
-      "fontSize": 40,
-      "lineHeight": 48
-    },
-    {
-      "name": "Website/SM (320-575)/Heading 1",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
-      "name": "Website/SM (320-575)/Heading 2",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 24,
-      "lineHeight": 30
+      "name": "Website/SM (320-575)/Display 2",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 32,
+      "lineHeight": 40
     },
     {
-      "name": "Website/SM (320-575)/Heading 3",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "name": "Website/SM (320-575)/Heading 1",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 28,
+      "lineHeight": 34
+    },
+    {
+      "name": "Website/SM (320-575)/Heading 2",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 20,
       "lineHeight": 24
     },
     {
-      "name": "Website/SM (320-575)/Heading 4",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "name": "Website/SM (320-575)/Heading 3",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 18,
-      "lineHeight": 22
+      "lineHeight": 26
+    },
+    {
+      "name": "Website/SM (320-575)/Heading 4",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "SemiBold",
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/SM (320-575)/Lead",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 18,
       "lineHeight": 26
     },
     {
       "name": "Website/SM (320-575)/Body",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
       "name": "Website/SM (320-575)/Caption",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
       "name": "Website/SM (320-575)/Code",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Mono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/SM (320-575)/Eyebrow",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18,
-      "textCase": "UPPER",
-      "letterSpacingPercent": 5.0
+      "fontSize": 18,
+      "lineHeight": 22
     },
     {
       "name": "Website/MD (576-1087)/Display 1",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 64,
+      "lineHeight": 78
+    },
+    {
+      "name": "Website/MD (576-1087)/Display 2",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
-      "name": "Website/MD (576-1087)/Display 2",
-      "fontFamily": "Inter",
+      "name": "Website/MD (576-1087)/Heading 1",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 40,
       "lineHeight": 48
     },
     {
-      "name": "Website/MD (576-1087)/Heading 1",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 32,
-      "lineHeight": 40
-    },
-    {
       "name": "Website/MD (576-1087)/Heading 2",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 24,
       "lineHeight": 30
     },
     {
       "name": "Website/MD (576-1087)/Heading 3",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 20,
-      "lineHeight": 24
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
+      "fontSize": 18,
+      "lineHeight": 26
     },
     {
       "name": "Website/MD (576-1087)/Heading 4",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "SemiBold",
-      "fontSize": 18,
-      "lineHeight": 22
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/MD (576-1087)/Lead",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 18,
       "lineHeight": 26
     },
     {
       "name": "Website/MD (576-1087)/Body",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
       "name": "Website/MD (576-1087)/Caption",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
       "name": "Website/MD (576-1087)/Code",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Mono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/MD (576-1087)/Eyebrow",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18,
-      "textCase": "UPPER",
-      "letterSpacingPercent": 5.0
+      "fontSize": 18,
+      "lineHeight": 22
     },
     {
       "name": "Website/LG (1088-1343)/Display 1",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 64,
+      "lineHeight": 78
+    },
+    {
+      "name": "Website/LG (1088-1343)/Display 2",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
-      "name": "Website/LG (1088-1343)/Display 2",
-      "fontFamily": "Inter",
+      "name": "Website/LG (1088-1343)/Heading 1",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 40,
       "lineHeight": 48
     },
     {
-      "name": "Website/LG (1088-1343)/Heading 1",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 32,
-      "lineHeight": 40
-    },
-    {
       "name": "Website/LG (1088-1343)/Heading 2",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 24,
       "lineHeight": 30
     },
     {
       "name": "Website/LG (1088-1343)/Heading 3",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 20,
-      "lineHeight": 24
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
+      "fontSize": 18,
+      "lineHeight": 26
     },
     {
       "name": "Website/LG (1088-1343)/Heading 4",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "SemiBold",
-      "fontSize": 18,
-      "lineHeight": 22
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/LG (1088-1343)/Lead",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 18,
       "lineHeight": 26
     },
     {
       "name": "Website/LG (1088-1343)/Body",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
       "name": "Website/LG (1088-1343)/Caption",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
       "name": "Website/LG (1088-1343)/Code",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Mono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/LG (1088-1343)/Eyebrow",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18,
-      "textCase": "UPPER",
-      "letterSpacingPercent": 5.0
+      "fontSize": 18,
+      "lineHeight": 22
     },
     {
       "name": "Website/Display-SM (1344-1599)/Display 1",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 80,
+      "lineHeight": 96
+    },
+    {
+      "name": "Website/Display-SM (1344-1599)/Display 2",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 64,
       "lineHeight": 78
     },
     {
-      "name": "Website/Display-SM (1344-1599)/Display 2",
-      "fontFamily": "Inter",
+      "name": "Website/Display-SM (1344-1599)/Heading 1",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 48,
       "lineHeight": 58
     },
     {
-      "name": "Website/Display-SM (1344-1599)/Heading 1",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 40,
-      "lineHeight": 48
-    },
-    {
       "name": "Website/Display-SM (1344-1599)/Heading 2",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 32,
-      "lineHeight": 40
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
+      "fontSize": 28,
+      "lineHeight": 34
     },
     {
       "name": "Website/Display-SM (1344-1599)/Heading 3",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 24,
-      "lineHeight": 30
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
+      "fontSize": 20,
+      "lineHeight": 28
     },
     {
       "name": "Website/Display-SM (1344-1599)/Heading 4",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "SemiBold",
-      "fontSize": 20,
-      "lineHeight": 24
+      "fontSize": 18,
+      "lineHeight": 26
     },
     {
       "name": "Website/Display-SM (1344-1599)/Lead",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 18,
       "lineHeight": 26
     },
     {
       "name": "Website/Display-SM (1344-1599)/Body",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
       "name": "Website/Display-SM (1344-1599)/Caption",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
       "name": "Website/Display-SM (1344-1599)/Code",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Mono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/Display-SM (1344-1599)/Eyebrow",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18,
-      "textCase": "UPPER",
-      "letterSpacingPercent": 5.0
+      "fontSize": 18,
+      "lineHeight": 22
     },
     {
       "name": "Website/Display-MD (1600-1855)/Display 1",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 96,
+      "lineHeight": 116
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Display 2",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 80,
       "lineHeight": 96
     },
     {
-      "name": "Website/Display-MD (1600-1855)/Display 2",
-      "fontFamily": "Inter",
+      "name": "Website/Display-MD (1600-1855)/Heading 1",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 64,
       "lineHeight": 78
     },
     {
-      "name": "Website/Display-MD (1600-1855)/Heading 1",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 48,
-      "lineHeight": 58
-    },
-    {
       "name": "Website/Display-MD (1600-1855)/Heading 2",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 40,
-      "lineHeight": 48
-    },
-    {
-      "name": "Website/Display-MD (1600-1855)/Heading 3",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 32,
       "lineHeight": 40
     },
     {
-      "name": "Website/Display-MD (1600-1855)/Heading 4",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "name": "Website/Display-MD (1600-1855)/Heading 3",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 24,
-      "lineHeight": 30
+      "lineHeight": 34
+    },
+    {
+      "name": "Website/Display-MD (1600-1855)/Heading 4",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "SemiBold",
+      "fontSize": 20,
+      "lineHeight": 28
     },
     {
       "name": "Website/Display-MD (1600-1855)/Lead",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 18,
       "lineHeight": 26
     },
     {
       "name": "Website/Display-MD (1600-1855)/Body",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
       "name": "Website/Display-MD (1600-1855)/Caption",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 14,
       "lineHeight": 20
     },
     {
       "name": "Website/Display-MD (1600-1855)/Code",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Mono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20
+      "fontSize": 16,
+      "lineHeight": 24
     },
     {
       "name": "Website/Display-MD (1600-1855)/Eyebrow",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 12,
-      "lineHeight": 18,
-      "textCase": "UPPER",
-      "letterSpacingPercent": 5.0
+      "fontSize": 18,
+      "lineHeight": 22
     },
     {
       "name": "Website/Display-LG (1856+)/Display 1",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Fono Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 128,
+      "lineHeight": 154
+    },
+    {
+      "name": "Website/Display-LG (1856+)/Display 2",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 96,
       "lineHeight": 116
     },
     {
-      "name": "Website/Display-LG (1856+)/Display 2",
-      "fontFamily": "Inter",
+      "name": "Website/Display-LG (1856+)/Heading 1",
+      "fontFamily": "Aeonik Fono Pro VF",
       "fontStyle": "Regular",
       "fontSize": 80,
       "lineHeight": 96
     },
     {
-      "name": "Website/Display-LG (1856+)/Heading 1",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 64,
-      "lineHeight": 78
-    },
-    {
       "name": "Website/Display-LG (1856+)/Heading 2",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 48,
-      "lineHeight": 58
-    },
-    {
-      "name": "Website/Display-LG (1856+)/Heading 3",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
       "fontSize": 40,
       "lineHeight": 48
     },
     {
-      "name": "Website/Display-LG (1856+)/Heading 4",
-      "fontFamily": "Inter",
-      "fontStyle": "SemiBold",
-      "fontSize": 32,
+      "name": "Website/Display-LG (1856+)/Heading 3",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Medium",
+      "fontSize": 28,
       "lineHeight": 40
     },
     {
-      "name": "Website/Display-LG (1856+)/Lead",
-      "fontFamily": "Inter",
-      "fontStyle": "Regular",
+      "name": "Website/Display-LG (1856+)/Heading 4",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "SemiBold",
       "fontSize": 24,
       "lineHeight": 34
     },
     {
-      "name": "Website/Display-LG (1856+)/Body",
-      "fontFamily": "Inter",
+      "name": "Website/Display-LG (1856+)/Lead",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 20,
       "lineHeight": 28
     },
     {
+      "name": "Website/Display-LG (1856+)/Body",
+      "fontFamily": "Aeonik Pro VF",
+      "fontStyle": "Regular",
+      "fontSize": 18,
+      "lineHeight": 26
+    },
+    {
       "name": "Website/Display-LG (1856+)/Caption",
-      "fontFamily": "Inter",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
       "fontSize": 16,
       "lineHeight": 24
     },
     {
       "name": "Website/Display-LG (1856+)/Code",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Mono Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 16,
-      "lineHeight": 24
+      "fontSize": 18,
+      "lineHeight": 26
     },
     {
       "name": "Website/Display-LG (1856+)/Eyebrow",
-      "fontFamily": "JetBrains Mono",
+      "fontFamily": "Aeonik Pro VF",
       "fontStyle": "Regular",
-      "fontSize": 14,
-      "lineHeight": 20,
-      "textCase": "UPPER",
-      "letterSpacingPercent": 5.0
+      "fontSize": 20,
+      "lineHeight": 24
     }
   ],
   "gridStyles": [

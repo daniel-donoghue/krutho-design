@@ -1,4 +1,4 @@
-# Danieldonoghue Design System
+# Krutho Design System
 
 This document is the entry point. It orients a reader to the structure of the system and how its documents relate.
 
@@ -28,14 +28,6 @@ Source files live in [foundation/](foundation/).
 ## Rationale
 
 The reasoning behind the system, including why each foundation exists and why each value was chosen, is captured in [rationale.md](rationale.md). It is brand-agnostic; specific values (typefaces, colour anchors) belong to consuming projects.
-
----
-
-## Brands
-
-A brand layer overrides foundation defaults with brand-specific values: typefaces, colour anchors, additional ramps. The base system is brand-agnostic and works with system defaults; a brand layer makes it specific.
-
-The active brand configuration lives in [brand/](brand/). Only one brand is active at a time. A template documenting the shape of a brand config is at [brand/_template.md](brand/_template.md). Krutho is the current brand: [brand/krutho.md](brand/krutho.md).
 
 ---
 

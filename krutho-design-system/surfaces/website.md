@@ -79,31 +79,31 @@ At viewport 1856 and above, content area is locked at 1760. Margins expand symme
 
 ## Type role set
 
-A role specifies how a content function is rendered: type style, size, weight, line height, case, and tracking. The web surface declares eleven content roles. The role set is canonical across web content surfaces. Product and application UI surfaces declare their own role set.
+A role specifies how a content function is rendered: type style, size, weight, and line height. The web surface declares eleven content roles. The role set is canonical across web content surfaces. Product and application UI surfaces declare their own role set.
 
-| Role      | Style | Weight         |
-|-----------|-------|----------------|
-| Display 1 | sans  | Regular (400)  |
-| Display 2 | sans  | Regular (400)  |
-| Heading 1 | sans  | Semibold (600) |
-| Heading 2 | sans  | Semibold (600) |
-| Heading 3 | sans  | Semibold (600) |
-| Heading 4 | sans  | Semibold (600) |
-| Lead      | sans  | Regular (400)  |
-| Body      | sans  | Regular (400)  |
-| Caption   | sans  | Regular (400)  |
-| Code      | mono  | Regular (400)  |
-| Eyebrow   | mono  | Regular (400)  |
+| Role      | Style   | Weight         |
+|-----------|---------|----------------|
+| Display 1 | display | Regular (400)  |
+| Display 2 | display | Regular (400)  |
+| Heading 1 | display | Regular (400)  |
+| Heading 2 | sans    | Medium (500)   |
+| Heading 3 | sans    | Medium (500)   |
+| Heading 4 | sans    | Semibold (600) |
+| Lead      | sans    | Regular (400)  |
+| Body      | sans    | Regular (400)  |
+| Caption   | sans    | Regular (400)  |
+| Code      | mono    | Regular (400)  |
+| Eyebrow   | sans    | Regular (400)  |
 
-The Style column references the typography foundation's style slots. Each slot resolves to a system default or a brand-supplied typeface. Inline body emphasis is Bold (700) applied within Body flow where emphasis is functionally required. It is a weight variant, not a role.
+The Style column references the typography foundation's style slots. The display slot carries the three largest roles (Display 1, Display 2, Heading 1); sans carries the structural headings and the reading roles; mono carries Code. Inline body emphasis is Bold (700) applied within Body flow where emphasis is functionally required. It is a weight variant, not a role.
 
 **Role definitions.**
 
 **Display 1.** The largest type on a surface. Reserved for surfaces where a single statement is the surface's reason for existing. Hero surfaces, title slides, landing pages.
 
-**Display 2.** Secondary display size. Admitted where Display 1 exceeds the surface instance's line-count threshold at its assigned column span, or where a stepped relationship to Display 1 is required in a multi-display composition.
+**Display 2.** Secondary display size. Admitted where Display 1 exceeds the surface instance's line-count threshold at its assigned column span, or where a stepped relationship to Display 1 is required in a multi-display composition. The two converge at SM, where both cap at type-32.
 
-**Heading 1.** The top of the structural hierarchy within content. Page title where Display roles are not present. Primary section title where Display roles are present.
+**Heading 1.** The top of the structural hierarchy within content. Rendered in the display typeface. Page title where Display roles are not present. Primary section title where Display roles are present.
 
 **Heading 2.** Section divisions within content.
 
@@ -119,7 +119,7 @@ The Style column references the typography foundation's style slots. Each slot r
 
 **Code.** Renders code, tokens, CLI representations, and other structured or verifiable content.
 
-**Eyebrow.** An identifier placed above a heading: section number, taxonomy path, kind-of-content tag, or other identifier drawn from a fixed set. Renders in uppercase per the Case assignment section and carries tracking per the Tracking assignment section.
+**Eyebrow.** A short identifier placed above a heading: section number, taxonomy path, or kind-of-content tag. Rendered in sans at the Lead size, differentiated from Lead by its tight line height and its position above a heading.
 
 ---
 
@@ -127,31 +127,33 @@ The Style column references the typography foundation's style slots. Each slot r
 
 | Role      | SM | MD | LG | Display-SM | Display-MD | Display-LG |
 |-----------|----|----|----|------------|------------|------------|
-| Display 1 | 48 | 48 | 48 | 64         | 80         | 96         |
-| Display 2 | 40 | 40 | 40 | 48         | 64         | 80         |
-| Heading 1 | 32 | 32 | 32 | 40         | 48         | 64         |
-| Heading 2 | 24 | 24 | 24 | 32         | 40         | 48         |
-| Heading 3 | 20 | 20 | 20 | 24         | 32         | 40         |
-| Heading 4 | 18 | 18 | 18 | 20         | 24         | 32         |
-| Lead      | 18 | 18 | 18 | 18         | 18         | 24         |
-| Body      | 16 | 16 | 16 | 16         | 16         | 20         |
+| Display 1 | 32 | 64 | 64 | 80         | 96         | 128        |
+| Display 2 | 32 | 48 | 48 | 64         | 80         | 96         |
+| Heading 1 | 28 | 40 | 40 | 48         | 64         | 80         |
+| Heading 2 | 20 | 24 | 24 | 28         | 32         | 40         |
+| Heading 3 | 18 | 18 | 18 | 20         | 24         | 28         |
+| Heading 4 | 16 | 16 | 16 | 18         | 20         | 24         |
+| Lead      | 18 | 18 | 18 | 18         | 18         | 20         |
+| Body      | 16 | 16 | 16 | 16         | 16         | 18         |
 | Caption   | 14 | 14 | 14 | 14         | 14         | 16         |
-| Code      | 14 | 14 | 14 | 14         | 14         | 16         |
-| Eyebrow   | 12 | 12 | 12 | 12         | 12         | 14         |
+| Code      | 16 | 16 | 16 | 16         | 16         | 18         |
+| Eyebrow   | 18 | 18 | 18 | 18         | 18         | 20         |
 
-SM, MD, and LG share a single token assignment per role. Per-column content density is equivalent across these breakpoints; column count differs but role presence relative to its column holds.
+The table is the authoritative per-role, per-breakpoint size assignment. Three behaviours shape it.
 
-At Display breakpoints, Display and Heading roles advance one type token per breakpoint. Lead, Body, Caption, Code, and Eyebrow hold through Display-MD and advance at Display-LG only, where viewing distance increases.
+**Display and heading roles scale with viewport.** Display 1, Display 2, Heading 1, and the structural headings advance through larger type tokens as the viewport widens, so the hierarchy reads at the surface's scale.
 
-At Display-LG, Body advances from type-16 to type-20. Lead, Code, Caption, and Eyebrow advance to the next type token above their baseline that preserves the baseline ordering Lead > Body > Code = Caption > Eyebrow.
+**SM caps the display roles.** At SM, Display 1 and Display 2 share type-32, the largest size that wraps cleanly at a 320 viewport, and Heading 1 sits at type-28. A larger display size breaks across too many lines to function at 320.
 
-Scaling down from LG and proportional scaling to column width are not admitted.
+**Content roles hold, then advance once.** Lead, Body, Caption, Code, and Eyebrow hold a single size from SM through Display-MD, where per-column reading density is equivalent. At Display-LG each advances one type token, where the larger display's viewing distance warrants it.
+
+MD and LG share a single size assignment per role. Proportional scaling of type to column width is not admitted: each breakpoint takes a fixed token.
 
 ---
 
 ## Line height assignment
 
-Each role uses a line height variant.
+Each role uses a line height variant. For each role at each breakpoint, the line height token is `lh-{size}-{variant}`.
 
 | Role      | Variant |
 |-----------|---------|
@@ -159,36 +161,12 @@ Each role uses a line height variant.
 | Display 2 | Tight   |
 | Heading 1 | Tight   |
 | Heading 2 | Tight   |
-| Heading 3 | Tight   |
-| Heading 4 | Tight   |
+| Heading 3 | Default |
+| Heading 4 | Default |
 | Lead      | Default |
 | Body      | Default |
 | Caption   | Default |
 | Code      | Default |
-| Eyebrow   | Default |
+| Eyebrow   | Tight   |
 
-For each role at each breakpoint, the line height token is `lh-{size}-{variant}`. Surface instances may declare Loose for specific contexts with a stated functional reason.
-
----
-
-## Case assignment
-
-| Role       | Case     |
-|------------|----------|
-| Eyebrow    | Upper    |
-| All others | Original |
-
-Upper applies as CSS `text-transform: uppercase` at render time. The underlying content holds its schema-defined case.
-
----
-
-## Tracking assignment
-
-Tracking is expressed as a percentage of type size so the value scales with size across breakpoints.
-
-| Role       | Tracking |
-|------------|----------|
-| Eyebrow    | +5%      |
-| All others | 0        |
-
-+5% restores optical balance for Eyebrow's uppercase identifier rendering at type-12 and type-14. The percentage applies as CSS `letter-spacing` in em (0.05em) and as Figma `letterSpacing` with unit PERCENT.
+Surface instances may declare Loose for specific contexts with a stated functional reason.

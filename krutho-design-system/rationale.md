@@ -104,11 +104,13 @@ The same logic extends to grids and column counts: each foundation that has a us
 
 ## Typography
 
-**Three typeface styles: sans, serif, mono.**
+**Three typeface styles: sans, mono, display.**
 
-These are the standard typographic categories. Together they cover most use cases without exhaustion. A system that admitted only one (e.g., sans-only) would constrain expression unnecessarily; one that admitted more (display, slab, condensed, etc.) introduces selection logic that surface-level decisions handle better.
+Three is the smallest set that covers the system's functional needs without redundancy. Sans carries continuous reading and structural hierarchy. Mono carries code and any context where character alignment is functional. Display carries type at the largest sizes, where the scale makes the letterforms legible as a design element and a distinct cut earns its place.
 
-The base system ships system-default typefaces for each slot (CSS system font keywords). A brand layer overrides with specific typefaces. Surfaces reference roles by style rather than typeface, so brand changes propagate without surface changes.
+Serif is excluded. The medium is screen, where serif's print-reading advantage does not apply, and the system's typographic character is carried by the sans and display cuts. A surface that needs a serif can supply one, with a stated reason.
+
+The foundation names a specific typeface for each slot, with a fallback to the platform's native typeface in that style. Surfaces reference roles by style rather than by typeface, so a typeface change propagates without surface changes.
 
 **Four weights: Regular (400), Medium (500), Semibold (600), Bold (700).**
 

@@ -331,9 +331,15 @@ def parse_lh_assignment(md: str) -> dict[str, str]:
 
 
 def parse_role_attribute(md: str, heading: str, column: str) -> dict[str, str]:
-    """{role: value}. Used for case and tracking. Includes the 'All others' fallback."""
-    tbl = first_table(find_section(md, heading, level=2))
-    return {row["Role"]: row[column] for row in tbl}
+    """{role: value}. Used for case and tracking. Includes the 'All others' fallback.
+
+    Returns {} when the surface omits the section, so callers fall back to
+    their defaults (Original case, 0 tracking)."""
+    try:
+        section = find_section(md, heading, level=2)
+    except KeyError:
+        return {}
+    return {row["Role"]: row[column] for row in first_table(section)}
 
 
 # ---------------------------------------------------------------------------

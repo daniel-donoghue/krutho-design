@@ -12,13 +12,13 @@ Sizes outside the token set remain valid where they satisfy the conformance test
 
 ## Typefaces
 
-| Style | Default                                       |
-|-------|-----------------------------------------------|
-| sans  | `Inter, system-ui, sans-serif`                |
-| serif | `Source Serif 4, ui-serif, serif`             |
-| mono  | `JetBrains Mono, ui-monospace, monospace`     |
+| Style   | Default                                       |
+|---------|-----------------------------------------------|
+| sans    | `Aeonik Pro VF, system-ui, sans-serif`        |
+| mono    | `Aeonik Mono Pro VF, ui-monospace, monospace` |
+| display | `Aeonik Fono Pro VF, system-ui, sans-serif`   |
 
-Each default names a specific typeface with a fallback to the platform's native typeface in the named style. A brand layer overrides with specific typefaces. Surfaces tailor usage per case.
+Each default names a specific typeface with a fallback to the platform's native typeface in the named style. Surfaces tailor usage per case.
 
 ## Weights
 
