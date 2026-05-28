@@ -1,4 +1,4 @@
-// Krutho Tokens Import
+// Tokens Import
 // Reads a payload JSON at runtime and materialises variable collections,
 // modes, variables, aliases, and text styles into the current file.
 
@@ -170,30 +170,58 @@ async function importTextStyles(styleSpecs) {
     figma.ui.postMessage({ type: "progress", message: `Deleted ${deleted} existing text style(s).` });
   }
 
-  // Collect unique (family, style) pairs and try to load each. Setting
-  // fontName on a TextStyle requires the font to be loaded first even
-  // though the style stores only a reference.
+  // Resolve each requested (family, style) against Figma's actual available
+  // font list. Style names vary across foundries: "SemiBold" vs "Semi Bold",
+  // "ExtraLight" vs "Extra Light". Match case- and space-insensitively so
+  // small naming differences don't silently drop styles.
+  const availableFonts = await figma.listAvailableFontsAsync();
+  const availableByFamily = new Map();
+  for (const f of availableFonts) {
+    const family = f.fontName.family;
+    if (!availableByFamily.has(family)) availableByFamily.set(family, []);
+    availableByFamily.get(family).push(f.fontName.style);
+  }
+  const normalise = (s) => s.toLowerCase().replace(/\s+/g, "");
+
   const fontPairs = new Map();
   for (const s of styleSpecs) {
     const key = `${s.fontFamily}__${s.fontStyle}`;
     if (!fontPairs.has(key)) fontPairs.set(key, { family: s.fontFamily, style: s.fontStyle });
   }
+
+  // Map each requested key to a resolved fontName (or null if unresolvable).
+  const resolved = new Map();
+  for (const [key, req] of fontPairs.entries()) {
+    const styles = availableByFamily.get(req.family);
+    if (!styles) { resolved.set(key, null); continue; }
+    const wanted = normalise(req.style);
+    const match = styles.find((s) => normalise(s) === wanted);
+    resolved.set(key, match ? { family: req.family, style: match } : null);
+  }
+
   figma.ui.postMessage({ type: "progress", message: `Loading ${fontPairs.size} font(s)...` });
 
   const loadedKeys = new Set();
   const failedFonts = [];
-  await Promise.all([...fontPairs.entries()].map(async ([key, font]) => {
+  await Promise.all([...fontPairs.entries()].map(async ([key, req]) => {
+    const fontName = resolved.get(key);
+    if (!fontName) { failedFonts.push(req); return; }
     try {
-      await figma.loadFontAsync(font);
+      await figma.loadFontAsync(fontName);
       loadedKeys.add(key);
     } catch (err) {
-      failedFonts.push(font);
+      failedFonts.push(req);
     }
   }));
 
   if (failedFonts.length > 0) {
-    const list = failedFonts.map((f) => `${f.family} ${f.style}`).join(", ");
-    figma.ui.postMessage({ type: "progress", message: `Skipping styles using unavailable fonts: ${list}.` });
+    const skipped = styleSpecs.filter((s) => !loadedKeys.has(`${s.fontFamily}__${s.fontStyle}`));
+    const fontList = failedFonts.map((f) => `${f.family} ${f.style}`).join(", ");
+    figma.ui.postMessage({
+      type: "warn",
+      message: `Skipping ${skipped.length} text style(s) — fonts unavailable: ${fontList}.`,
+      items: skipped.map((s) => s.name),
+    });
   }
 
   figma.ui.postMessage({ type: "progress", message: `Creating text style(s)...` });
@@ -203,7 +231,7 @@ async function importTextStyles(styleSpecs) {
     if (!loadedKeys.has(key)) continue;
     const style = figma.createTextStyle();
     style.name = spec.name;
-    style.fontName = { family: spec.fontFamily, style: spec.fontStyle };
+    style.fontName = resolved.get(key);
     style.fontSize = spec.fontSize;
     if (typeof spec.lineHeight === "number") {
       style.lineHeight = { unit: "PIXELS", value: spec.lineHeight };

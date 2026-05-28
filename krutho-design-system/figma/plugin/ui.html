@@ -85,7 +85,7 @@
 </style>
 </head>
 <body>
-  <h1>Krutho Tokens Import</h1>
+  <h1>Tokens Import</h1>
   <p>Select a payload JSON to create collections, modes, variables, aliases, text styles, and grid styles in this file.</p>
 
   <label class="drop" id="drop">
@@ -192,6 +192,11 @@
       importBtn.disabled = false;
     } else if (msg.type === 'progress') {
       writeLog(msg.message);
+    } else if (msg.type === 'warn') {
+      writeLog(msg.message, 'err');
+      if (Array.isArray(msg.items) && msg.items.length > 0) {
+        for (const item of msg.items) writeLog('  - ' + item, 'err');
+      }
     } else if (msg.type === 'done') {
       writeLog(msg.message, 'ok');
       importBtn.disabled = false;

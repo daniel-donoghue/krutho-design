@@ -1,382 +1,384 @@
-"""Generate Krutho Figma plugin payloads from foundation and surface specs.
+"""Compile Figma plugin payloads from foundation and surface specs.
 
-Emits separate files so foundation can be imported into all Figma files
-and surfaces added individually where needed.
+The spec docs in foundation/ and surfaces/ are the source of truth. This
+script parses the markdown tables and emits importable JSON for the Figma
+plugin. Editing a spec doc and re-running this script propagates the change
+to the Figma output without any duplication in code.
 
-Foundation emits variable collections only. Surfaces emit variable
-collections and/or text styles. Text styles are a surface-layer concept:
-they bundle typography variables into role-specific applicable styles
-(h1, body, button, etc.) and inherit the typographic rules declared by
-the surface specification.
+Foundation emits variable collections (primitives, semantic, spacing, grid,
+typography). The website surface emits text styles and grid styles, one
+set per breakpoint.
 
 Usage:
-  python build.py                          Build foundation + all surfaces
-  python build.py foundation               Build foundation only
-  python build.py surface diagrams         Build diagrams surface only
-  python build.py surface website          Build website surface only
-
-Output files:
-  foundation.json                Colour primitives, colour semantic, spacing,
-                                 grid, and typography collections.
-  surface-diagrams.json          Diagram colour collection.
-  surface-website.json           Website text styles and grid styles, one set
-                                 per breakpoint.
+  python build.py                     Build foundation + all surfaces
+  python build.py foundation          Build foundation only
+  python build.py surface website     Build the website surface only
 """
 
 from __future__ import annotations
 
 import json
-import math
+import re
 import sys
 from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
-# Data: Foundation
+# Paths and names
 # ---------------------------------------------------------------------------
 
-# Primitive colour ramps. Source: foundation/colour.md
-PRIMITIVES: dict[str, dict] = {
-    "neutral": {
-        0: "#FFFFFF", 50: "#FAFAFA", 100: "#F2F2F2", 200: "#E6E6E6",
-        300: "#D6D6D6", 400: "#C4C4C4", 450: "#AFAFAF", 500: "#9A9A9A",
-        600: "#707070", 700: "#505050", 800: "#343434", 825: "#2A2A2A",
-        850: "#202020", 900: "#181818", 950: "#0A0A0A",
-    },
-    "signal-blue": {
-        50: "#EBF3FF", 100: "#C5DBFF", 200: "#94BBFF", 300: "#5C9AFF",
-        400: "#3D85FF", 500: "#1A6FFF", 600: "#0055DD", 700: "#0044BB",
-        800: "#003399", 900: "#001F6B", 950: "#000E40",
-    },
-    "secondary-signal": {
-        50: "#EEEEFF", 100: "#D0D2F8", 200: "#B0B3F0", 300: "#9092E8",
-        400: "#7476DC", 500: "#5C60D6", 600: "#4448BF", 700: "#3234A8",
-        800: "#20228A", 900: "#10126A", 950: "#06084A",
-    },
-    "teal": {
-        50: "#E0F4FA", 100: "#B0E0EF", 200: "#7DCAE3", 300: "#40B0D4",
-        400: "#1A96BE", 500: "#0A7CA4", 600: "#086688", 700: "#004964",
-        800: "#003550", 900: "#00203A", 950: "#000E22",
-    },
-    "amber": {
-        50: "#FFF5E6", 100: "#FFDFB0", 200: "#F5C478", 300: "#E8A840",
-        400: "#D68E22", 500: "#C47B1A", 600: "#A86210", 700: "#8A4C08",
-        800: "#6C3804", 900: "#4E2602", 950: "#301600",
-    },
-    "error": {
-        50: "#FEF2F2", 100: "#FFCFCF", 200: "#FFAAAA", 300: "#FF7A7A",
-        400: "#F04848", 500: "#E02828", 600: "#C0251D", 700: "#9B1C1C",
-        800: "#7B1414", 900: "#5A0C0C", 950: "#380606",
-    },
-    "success": {
-        50: "#F0FDF4", 100: "#CBFADE", 200: "#9AEEC0", 300: "#5EDE9A",
-        400: "#30C478", 500: "#18A85A", 600: "#128C46", 700: "#166534",
-        800: "#0F4826", 900: "#083018", 950: "#03160C",
-    },
-    "warning": {
-        50: "#FFFBEB", 100: "#FDEFC8", 200: "#FAD88E", 300: "#F5BC50",
-        400: "#E89A20", 500: "#CC7A0A", 600: "#AA5E08", 700: "#92400E",
-        800: "#7A2E08", 900: "#5A1E04", 950: "#3A1002",
-    },
-    "deep-base": {
-        "a": "#000035",
-        "b": "#010364",
-    },
-}
-
-# Semantic colour tokens. Tuple = (light, dark).
-SEMANTIC: dict[str, tuple[str, str]] = {
-    "source/error": ("error.600", "error.200"),
-    "source/success": ("success.700", "success.200"),
-    "source/warning": ("warning.700", "warning.300"),
-    "source/info": ("signal-blue.500", "signal-blue.300"),
-
-    "surface/overlay": ("neutral.0", "neutral.800"),
-    "surface/raised": ("neutral.50", "neutral.850"),
-    "surface/base": ("neutral.100", "neutral.900"),
-    "surface/sunken": ("neutral.200", "neutral.950"),
-    "surface/inverse": ("neutral.900", "neutral.200"),
-    "surface/error": ("error.50", "#2C1A19"),
-    "surface/warning": ("warning.50", "#271D17"),
-    "surface/success": ("success.50", "#18211B"),
-    "surface/info": ("signal-blue.50", "#182234"),
-
-    "text/strong": ("neutral.900", "neutral.50"),
-    "text/default": ("neutral.800", "neutral.200"),
-    "text/subtle": ("neutral.600", "neutral.500"),
-    "text/faint": ("neutral.500", "neutral.600"),
-    "text/disabled": ("neutral.400", "neutral.700"),
-    "text/placeholder": ("neutral.450", "neutral.700"),
-    "text/inverse": ("neutral.100", "neutral.900"),
-    "text/on-accent": ("neutral.0", "neutral.0"),
-    "text/link": ("signal-blue.500", "signal-blue.300"),
-    "text/error": ("error.600", "error.200"),
-    "text/success": ("success.700", "success.200"),
-    "text/warning": ("warning.700", "warning.300"),
-    "text/info": ("signal-blue.500", "signal-blue.300"),
-
-    "border/strong": ("neutral.600", "neutral.500"),
-    "border/default": ("neutral.300", "neutral.800"),
-    "border/subtle": ("neutral.200", "neutral.825"),
-    "border/focus": ("signal-blue.500", "signal-blue.500"),
-    "border/inverse": ("neutral.800", "neutral.300"),
-    "border/error": ("error.600", "error.200"),
-    "border/success": ("success.700", "success.200"),
-    "border/warning": ("warning.700", "warning.300"),
-    "border/info": ("signal-blue.500", "signal-blue.300"),
-
-    "icon/strong": ("neutral.900", "neutral.50"),
-    "icon/default": ("neutral.800", "neutral.200"),
-    "icon/subtle": ("neutral.600", "neutral.500"),
-    "icon/faint": ("neutral.500", "neutral.600"),
-    "icon/disabled": ("neutral.400", "neutral.700"),
-    "icon/inverse": ("neutral.100", "neutral.900"),
-    "icon/on-accent": ("neutral.0", "neutral.0"),
-    "icon/link": ("signal-blue.500", "signal-blue.300"),
-    "icon/error": ("error.600", "error.200"),
-    "icon/success": ("success.700", "success.200"),
-    "icon/warning": ("warning.700", "warning.300"),
-    "icon/info": ("signal-blue.500", "signal-blue.300"),
-
-    "action/primary": ("signal-blue.500", "signal-blue.500"),
-    "action/primary-hover": ("signal-blue.600", "signal-blue.400"),
-    "action/primary-active": ("signal-blue.700", "signal-blue.300"),
-    "action/primary-text": ("neutral.0", "neutral.0"),
-    "action/secondary": ("transparent", "transparent"),
-    "action/secondary-hover": ("neutral.100", "neutral.850"),
-    "action/secondary-active": ("neutral.200", "neutral.825"),
-    "action/secondary-border": ("neutral.300", "neutral.800"),
-    "action/secondary-border-hover": ("neutral.500", "neutral.500"),
-    "action/secondary-border-active": ("neutral.800", "neutral.200"),
-    "action/secondary-text": ("neutral.900", "neutral.200"),
-    "action/ghost": ("transparent", "transparent"),
-    "action/ghost-hover": ("neutral.100", "neutral.850"),
-    "action/ghost-active": ("neutral.200", "neutral.825"),
-    "action/ghost-text": ("neutral.900", "neutral.200"),
-    "action/destructive": ("error.600", "error.600"),
-    "action/destructive-hover": ("error.700", "error.400"),
-    "action/destructive-active": ("error.800", "error.200"),
-    "action/destructive-text": ("neutral.0", "neutral.0"),
-    "action/disabled": ("neutral.200", "neutral.825"),
-    "action/disabled-text": ("neutral.500", "neutral.700"),
-
-    "feedback/error-surface": ("error.50", "#2C1A19"),
-    "feedback/error-text": ("error.600", "error.200"),
-    "feedback/error-border": ("error.600", "error.200"),
-    "feedback/error-icon": ("error.600", "error.200"),
-    "feedback/warning-surface": ("warning.50", "#271D17"),
-    "feedback/warning-text": ("warning.700", "warning.300"),
-    "feedback/warning-border": ("warning.700", "warning.300"),
-    "feedback/warning-icon": ("warning.700", "warning.300"),
-    "feedback/success-surface": ("success.50", "#18211B"),
-    "feedback/success-text": ("success.700", "success.200"),
-    "feedback/success-border": ("success.700", "success.200"),
-    "feedback/success-icon": ("success.700", "success.200"),
-    "feedback/info-surface": ("signal-blue.50", "#182234"),
-    "feedback/info-text": ("signal-blue.500", "signal-blue.300"),
-    "feedback/info-border": ("signal-blue.500", "signal-blue.300"),
-    "feedback/info-icon": ("signal-blue.500", "signal-blue.300"),
-}
-
-SPACING: list[int] = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192]
-GRID: list[int] = [4, 8, 16, 32, 64]
-
-# Type token set. Source: foundation/typography.md
-TYPE_SIZES: list[int] = [10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 80, 96, 128, 192]
-
-# Line height variants. Ratio and rounding: lh = ceil(size * ratio / 2) * 2
-LH_RATIOS: dict[str, float] = {"tight": 1.2, "default": 1.4, "loose": 1.6}
-
-# Typeface tier to family. Source: foundation/typography.md.
-TIER_TYPEFACE: dict[int, str] = {
-    1: "Spline Sans",
-    2: "Spline Sans Mono",
-    3: "Enra",
-}
-
-# Weight to Figma font-style name.
-WEIGHT_STYLE: dict[int, str] = {
-    400: "Regular",
-    500: "Medium",
-    600: "SemiBold",
-}
-
-
-# ---------------------------------------------------------------------------
-# Data: Surfaces
-# ---------------------------------------------------------------------------
-
-# Website text roles. Source: surfaces/website.md.
-# Each entry: (role-name, tier, weight, {breakpoint-key: size}, lh-variant,
-# text-case, tracking-percent).
-# Breakpoint keys match WEBSITE_BREAKPOINTS. The lh-variant is a key into
-# LH_RATIOS: "tight" for Display and Structural categories, "default" for
-# Continuous reading and Tier 2. The text-case value matches the Figma
-# TextStyle.textCase enum: "ORIGINAL" (default), "UPPER", "LOWER", "TITLE".
-# The tracking-percent value is applied as Figma letterSpacing with unit
-# PERCENT; 0 is Normal (no emitted field).
-WEBSITE_BREAKPOINTS: tuple[tuple[str, str], ...] = (
-    ("SM",         "SM (320-575)"),
-    ("MD",         "MD (576-1087)"),
-    ("LG",         "LG (1088-1343)"),
-    ("Display-SM", "Display-SM (1344-1599)"),
-    ("Display-MD", "Display-MD (1600-1855)"),
-    ("Display-LG", "Display-LG (1856+)"),
-)
-
-WEBSITE_ROLES: list[tuple] = [
-    ("Display 1", 3, 400, {"SM": 48, "MD": 48, "LG": 48, "Display-SM": 64, "Display-MD": 80, "Display-LG": 96}, "tight",   "ORIGINAL", 0),
-    ("Display 2", 3, 400, {"SM": 40, "MD": 40, "LG": 40, "Display-SM": 48, "Display-MD": 64, "Display-LG": 80}, "tight",   "ORIGINAL", 0),
-    ("Heading 1", 1, 600, {"SM": 32, "MD": 32, "LG": 32, "Display-SM": 40, "Display-MD": 48, "Display-LG": 64}, "tight",   "ORIGINAL", 0),
-    ("Heading 2", 1, 600, {"SM": 24, "MD": 24, "LG": 24, "Display-SM": 32, "Display-MD": 40, "Display-LG": 48}, "tight",   "ORIGINAL", 0),
-    ("Heading 3", 1, 600, {"SM": 20, "MD": 20, "LG": 20, "Display-SM": 24, "Display-MD": 32, "Display-LG": 40}, "tight",   "ORIGINAL", 0),
-    ("Heading 4", 1, 600, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 20, "Display-MD": 24, "Display-LG": 32}, "tight",   "ORIGINAL", 0),
-    ("Lead",      1, 400, {"SM": 18, "MD": 18, "LG": 18, "Display-SM": 18, "Display-MD": 18, "Display-LG": 24}, "default", "ORIGINAL", 0),
-    ("Body",      1, 400, {"SM": 16, "MD": 16, "LG": 16, "Display-SM": 16, "Display-MD": 16, "Display-LG": 20}, "default", "ORIGINAL", 0),
-    ("Caption",   1, 400, {"SM": 12, "MD": 12, "LG": 12, "Display-SM": 12, "Display-MD": 12, "Display-LG": 14}, "default", "ORIGINAL", 0),
-    ("Code",      2, 400, {"SM": 14, "MD": 14, "LG": 14, "Display-SM": 14, "Display-MD": 14, "Display-LG": 16}, "default", "ORIGINAL", 0),
-    ("Eyebrow",   2, 400, {"SM": 12, "MD": 12, "LG": 12, "Display-SM": 12, "Display-MD": 12, "Display-LG": 14}, "default", "UPPER",    5),
-]
-
-WEBSITE_STYLE_PREFIX = "Website"
-
-# Website grid structure per breakpoint. Source: surfaces/website.md.
-# (columns, margin, gutter). Applied to frames via Figma grid styles with
-# STRETCH alignment, so columns fluidly fill within a breakpoint range.
-# The Display-LG content lock at 1760 is a frame-level convention: apply
-# the Display-LG grid to a 1760-wide content frame centred in a >=1856
-# outer frame. It is not expressed as a separate grid style.
-WEBSITE_GRIDS: dict[str, tuple[int, int, int]] = {
-    "SM":         (2,  16, 32),
-    "MD":         (8,  48, 32),
-    "LG":         (16, 48, 32),
-    "Display-SM": (16, 48, 32),
-    "Display-MD": (16, 48, 32),
-    "Display-LG": (16, 48, 32),
-}
-
-
-# Diagram colour tokens. Source: surfaces/diagrams.md. Tuple = (light, dark).
-DIAGRAM: dict[str, tuple[str, str]] = {
-    "signal/trust-fill": ("signal-blue.50", "signal-blue.900"),
-    "signal/trust-border": ("signal-blue.500", "signal-blue.500"),
-    "signal/trust-text": ("signal-blue.800", "signal-blue.200"),
-    "signal/human-border": ("neutral.900", "neutral.50"),
-
-    "categorical/trust-fill": ("signal-blue.50", "signal-blue.900"),
-    "categorical/trust-border": ("signal-blue.500", "signal-blue.500"),
-    "categorical/trust-text": ("signal-blue.800", "signal-blue.200"),
-    "categorical/integration-fill": ("secondary-signal.50", "secondary-signal.900"),
-    "categorical/integration-border": ("secondary-signal.500", "secondary-signal.500"),
-    "categorical/integration-text": ("secondary-signal.800", "secondary-signal.200"),
-    "categorical/transport-fill": ("teal.50", "teal.900"),
-    "categorical/transport-border": ("teal.500", "teal.500"),
-    "categorical/transport-text": ("teal.800", "teal.200"),
-    "categorical/state-fill": ("amber.50", "amber.900"),
-    "categorical/state-border": ("amber.500", "amber.500"),
-    "categorical/state-text": ("amber.800", "amber.200"),
-
-    "sequential/1": ("signal-blue.50", "signal-blue.50"),
-    "sequential/2": ("signal-blue.200", "signal-blue.200"),
-    "sequential/3": ("signal-blue.400", "signal-blue.400"),
-    "sequential/4": ("signal-blue.500", "signal-blue.500"),
-    "sequential/5": ("signal-blue.700", "signal-blue.700"),
-    "sequential/alt-1": ("teal.50", "teal.50"),
-    "sequential/alt-2": ("teal.200", "teal.200"),
-    "sequential/alt-3": ("teal.400", "teal.400"),
-    "sequential/alt-4": ("teal.500", "teal.500"),
-    "sequential/alt-5": ("teal.700", "teal.700"),
-
-    "diverging/negative-strong": ("amber.600", "amber.600"),
-    "diverging/negative-subtle": ("amber.200", "amber.200"),
-    "diverging/midpoint": ("neutral.300", "neutral.300"),
-    "diverging/positive-subtle": ("signal-blue.200", "signal-blue.200"),
-    "diverging/positive-strong": ("signal-blue.600", "signal-blue.600"),
-
-    "structural/header-bg": ("deep-base.b", "deep-base.b"),
-    "structural/header-text": ("neutral.0", "neutral.0"),
-    "structural/node-fill": ("neutral.0", "neutral.850"),
-    "structural/node-border": ("neutral.500", "neutral.600"),
-    "structural/node-text": ("neutral.900", "neutral.200"),
-    "structural/node-decision-border": ("neutral.500", "neutral.600"),
-    "structural/annotation-fill": ("neutral.200", "neutral.825"),
-    "structural/annotation-text": ("neutral.700", "neutral.400"),
-    "structural/connector": ("neutral.500", "neutral.600"),
-    "structural/connector-trust": ("signal-blue.500", "signal-blue.500"),
-    "structural/connector-optional": ("neutral.400", "neutral.600"),
-    "structural/boundary-physical": ("neutral.600", "neutral.500"),
-    "structural/boundary-logical": ("neutral.400", "neutral.600"),
-    "structural/lane-divider": ("neutral.200", "neutral.825"),
-}
-
-
-# ---------------------------------------------------------------------------
-# Collection names
-# ---------------------------------------------------------------------------
+ROOT = Path(__file__).resolve().parent.parent
 
 PRIMITIVES_COLLECTION = "Colour Primitives"
 SEMANTIC_COLLECTION = "Colour Semantic"
-DIAGRAM_COLLECTION = "Colour Diagram"
 SPACING_COLLECTION = "Spacing"
 GRID_COLLECTION = "Grid"
 TYPOGRAPHY_COLLECTION = "Typography"
 
+WEBSITE_STYLE_PREFIX = "Website"
+
+# Mid-dot used in token references: `ramp · stop`, `semantic · state`.
+DOT = "·"
+
+RAMP_HEADINGS = ("Neutral", "Accent", "Error", "Success", "Warning")
+FEEDBACK_STATES = ("error", "warning", "success", "info")
+LH_VARIANTS = ("tight", "default", "loose")
+
 
 # ---------------------------------------------------------------------------
-# Helpers
+# Markdown helpers
 # ---------------------------------------------------------------------------
 
-def derive_lh(size: int, ratio: float) -> int:
-    return math.ceil(size * ratio / 2) * 2
+def read_md(rel: str) -> str:
+    return (ROOT / rel).read_text()
 
 
-def hex_to_rgba_floats(h: str) -> dict:
+def find_section(md: str, heading: str, level: int | None = None) -> str:
+    """Return the body of a section named `heading`.
+
+    Body runs from after the heading to the next heading at the same or
+    shallower level. If `level` is given, the heading must be at that level.
+    """
+    level_pat = f"{{{level}}}" if level else "{1,6}"
+    pat = re.compile(rf"^(#{level_pat})\s+{re.escape(heading)}\s*$", re.MULTILINE)
+    m = pat.search(md)
+    if not m:
+        raise KeyError(f"Section not found: {heading!r}")
+    found = len(m.group(1))
+    body_start = m.end()
+    end_pat = re.compile(rf"^#{{1,{found}}}\s+", re.MULTILINE)
+    em = end_pat.search(md, body_start)
+    return md[body_start : em.start() if em else len(md)]
+
+
+def parse_tables(section: str) -> list[list[dict[str, str]]]:
+    """Return every markdown table in `section` as a list of row dicts."""
+    tables: list[list[dict[str, str]]] = []
+    current: list[str] = []
+    for line in section.split("\n"):
+        if line.lstrip().startswith("|"):
+            current.append(line)
+        else:
+            if len(current) >= 2:
+                tables.append(_rows(current))
+            current = []
+    if len(current) >= 2:
+        tables.append(_rows(current))
+    return tables
+
+
+def first_table(section: str) -> list[dict[str, str]]:
+    tables = parse_tables(section)
+    if not tables:
+        raise ValueError("No tables found in section")
+    return tables[0]
+
+
+def _rows(lines: list[str]) -> list[dict[str, str]]:
+    header = _cells(lines[0])
+    out: list[dict[str, str]] = []
+    for line in lines[2:]:
+        cells = _cells(line)
+        if len(cells) == len(header):
+            out.append(dict(zip(header, cells)))
+    return out
+
+
+def _cells(line: str) -> list[str]:
+    s = line.strip()
+    if s.startswith("|"):
+        s = s[1:]
+    if s.endswith("|"):
+        s = s[:-1]
+    return [c.strip() for c in s.split("|")]
+
+
+def _int_px(s: str) -> int:
+    m = re.search(r"(\d+)", s)
+    if not m:
+        raise ValueError(f"No integer in {s!r}")
+    return int(m.group(1))
+
+
+# ---------------------------------------------------------------------------
+# Reference parsing
+# ---------------------------------------------------------------------------
+
+def parse_ref(value: str) -> dict:
+    """Parse a single reference cell into a tagged dict."""
+    s = value.strip()
+    if s == "transparent":
+        return {"kind": "transparent"}
+    if s == "derived":
+        return {"kind": "derived"}
+    if s == "inherits":
+        return {"kind": "inherits"}
+    if s.startswith("#"):
+        return {"kind": "hex", "hex": s}
+    if DOT in s:
+        parts = [p.strip() for p in s.split(DOT)]
+        if len(parts) == 2:
+            head, tail = parts
+            if head == "semantic":
+                return {"kind": "semantic", "state": tail}
+            return {"kind": "primitive", "ramp": head, "stop": tail}
+    raise ValueError(f"Unrecognised reference: {s!r}")
+
+
+def parse_value_cell(cell: str) -> tuple[dict, dict]:
+    """Parse a single cell that may contain `light / dark` or one value for both."""
+    s = cell.strip()
+    if "/" in s and DOT in s:
+        parts = [p.strip() for p in s.split("/")]
+        if len(parts) == 2:
+            return parse_ref(parts[0]), parse_ref(parts[1])
+    r = parse_ref(s)
+    return r, r
+
+
+# ---------------------------------------------------------------------------
+# Colour parsing
+# ---------------------------------------------------------------------------
+
+def parse_ramps(md: str) -> dict[str, dict[str, str]]:
+    """{ramp_name: {stop: hex}} for each primitive ramp."""
+    section = find_section(md, "Primitive scales", level=2)
+    out: dict[str, dict[str, str]] = {}
+    for name in RAMP_HEADINGS:
+        body = find_section(section, name, level=3)
+        out[name.lower()] = {row["Stop"]: row["Hex"] for row in first_table(body)}
+    return out
+
+
+def parse_sources(md: str) -> dict[str, tuple[dict, dict]]:
+    """{state: (light_ref, dark_ref)} for each semantic source token."""
+    section = find_section(md, "Source tokens", level=3)
+    out: dict[str, tuple[dict, dict]] = {}
+    for row in first_table(section):
+        m = re.match(r"--color-semantic-(\w+)", row["Token"])
+        if m:
+            out[m.group(1)] = (parse_ref(row["Light"]), parse_ref(row["Dark"]))
+    return out
+
+
+def parse_derived(md: str) -> dict[str, str]:
+    """{state: derived_dark_hex} from the dark feedback surface derivation table."""
+    section = find_section(md, "Dark feedback surface derivation", level=3)
+    tables = parse_tables(section)
+    if not tables:
+        return {}
+    out: dict[str, str] = {}
+    for row in tables[0]:
+        m = re.match(r"--color-surface-(\w+)\s+dark", row["Token"])
+        if m:
+            out[m.group(1)] = row["Derived dark value"].strip()
+    return out
+
+
+def parse_components(md: str) -> list[tuple[str, str, dict, dict]]:
+    """[(category, name, light_ref, dark_ref), ...] in document order."""
+    section = find_section(md, "Component tokens", level=2)
+    out: list[tuple[str, str, dict, dict]] = []
+    for tbl in parse_tables(section):
+        if not tbl:
+            continue
+        cols = list(tbl[0].keys())
+        for row in tbl:
+            m = re.match(r"--color-([\w-]+?)-(.+)", row["Token"])
+            if not m:
+                continue
+            category = m.group(1)
+            name = m.group(2)
+            if "Light" in cols and "Dark" in cols:
+                light = parse_ref(row["Light"])
+                dark = parse_ref(row["Dark"])
+            elif "Value" in cols:
+                light, dark = parse_value_cell(row["Value"])
+            else:
+                continue
+            out.append((category, name, light, dark))
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Spacing, grid, typography parsing
+# ---------------------------------------------------------------------------
+
+def parse_spacing(md: str) -> list[int]:
+    tbl = first_table(find_section(md, "Token set", level=2))
+    return [_int_px(row["Value"]) for row in tbl]
+
+
+def parse_grid(md: str) -> list[int]:
+    tbl = first_table(find_section(md, "Admitted values", level=2))
+    return [_int_px(row["Value"]) for row in tbl]
+
+
+def parse_type_sizes(md: str) -> list[int]:
+    tbl = first_table(find_section(md, "Type tokens", level=2))
+    return [_int_px(row["Size"]) for row in tbl]
+
+
+def parse_weights(md: str) -> dict[str, int]:
+    """{weight_name: weight_value}."""
+    tbl = first_table(find_section(md, "Weights", level=2))
+    return {row["Weight"]: int(row["Value"]) for row in tbl}
+
+
+def parse_typefaces(md: str) -> dict[str, str]:
+    """{slot: family}. Slot resolves to the leading family in the foundation default stack."""
+    tbl = first_table(find_section(md, "Typefaces", level=2))
+    out: dict[str, str] = {}
+    for row in tbl:
+        slot = row["Style"].strip().lower()
+        stack = row["Default"].strip().strip("`")
+        out[slot] = stack.split(",")[0].strip()
+    return out
+
+
+def parse_lh_tokens(md: str) -> dict[int, dict[str, int]]:
+    """{size: {variant: line_height}}. Values read directly from the doc table."""
+    tbl = first_table(find_section(md, "Line height tokens", level=2))
+    out: dict[int, dict[str, int]] = {}
+    for row in tbl:
+        size = int(row["Type token"].split("-")[1])
+        # Header cells include the ratio in parentheses, e.g. "Tight (×1.2)".
+        # Match by leading variant name (case-insensitive).
+        variants: dict[str, int] = {}
+        for header, value in row.items():
+            for variant in LH_VARIANTS:
+                if header.lower().startswith(variant):
+                    variants[variant] = _int_px(value)
+                    break
+        out[size] = variants
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Website surface parsing
+# ---------------------------------------------------------------------------
+
+def parse_breakpoints(md: str) -> list[tuple[str, str]]:
+    """[(bp_key, bp_label), ...]. Label includes the viewport range."""
+    tbl = first_table(find_section(md, "Breakpoint system", level=2))
+    out: list[tuple[str, str]] = []
+    for row in tbl:
+        key = row["Breakpoint"]
+        rng = row["Viewport range"]
+        if "above" in rng:
+            n = re.search(r"(\d+)", rng).group(1)
+            label_range = f"{n}+"
+        else:
+            m = re.match(r"(\d+)\s+to\s+(\d+)", rng)
+            label_range = f"{m.group(1)}-{m.group(2)}" if m else rng
+        out.append((key, f"{key} ({label_range})"))
+    return out
+
+
+def parse_grid_structure(md: str) -> dict[str, tuple[int, int, int]]:
+    """{bp_key: (cols, margin, gutter)}."""
+    tbl = first_table(find_section(md, "Grid structure", level=2))
+    out: dict[str, tuple[int, int, int]] = {}
+    for row in tbl:
+        out[row["Breakpoint"]] = (int(row["Cols"]), int(row["Margin"]), int(row["Gutter"]))
+    return out
+
+
+def parse_roles(md: str) -> list[tuple[str, str, int]]:
+    """[(role, style_slot, weight_value), ...] in document order."""
+    tbl = first_table(find_section(md, "Type role set", level=2))
+    out: list[tuple[str, str, int]] = []
+    for row in tbl:
+        wm = re.search(r"(\d+)", row["Weight"])
+        if wm:
+            out.append((row["Role"], row["Style"].strip().lower(), int(wm.group(1))))
+    return out
+
+
+def parse_role_sizes(md: str) -> dict[str, dict[str, int]]:
+    """{role: {bp_key: size}}."""
+    tbl = first_table(find_section(md, "Type role size assignment", level=2))
+    out: dict[str, dict[str, int]] = {}
+    for row in tbl:
+        out[row["Role"]] = {k: int(v) for k, v in row.items() if k != "Role"}
+    return out
+
+
+def parse_lh_assignment(md: str) -> dict[str, str]:
+    """{role: variant}."""
+    tbl = first_table(find_section(md, "Line height assignment", level=2))
+    return {row["Role"]: row["Variant"].lower() for row in tbl}
+
+
+def parse_role_attribute(md: str, heading: str, column: str) -> dict[str, str]:
+    """{role: value}. Used for case and tracking. Includes the 'All others' fallback."""
+    tbl = first_table(find_section(md, heading, level=2))
+    return {row["Role"]: row[column] for row in tbl}
+
+
+# ---------------------------------------------------------------------------
+# Resolver: refs to Figma variable values
+# ---------------------------------------------------------------------------
+
+def hex_to_rgba(h: str) -> dict[str, float]:
     h = h.lstrip("#")
-    r, g, b = int(h[0:2], 16) / 255, int(h[2:4], 16) / 255, int(h[4:6], 16) / 255
+    r = int(h[0:2], 16) / 255
+    g = int(h[2:4], 16) / 255
+    b = int(h[4:6], 16) / 255
     a = int(h[6:8], 16) / 255 if len(h) == 8 else 1.0
     return {"r": round(r, 8), "g": round(g, 8), "b": round(b, 8), "a": round(a, 8)}
 
 
-def resolve_alias(ref: str) -> tuple[str, str] | None:
-    """Return (collection, var_path) if ref is a primitive alias; else None."""
-    if ref == "transparent" or ref.startswith("#"):
-        return None
-    ramp, stop = ref.split(".", 1)
-    stop_key: object = stop if not stop.isdigit() else int(stop)
-    if ramp not in PRIMITIVES or stop_key not in PRIMITIVES[ramp]:
-        raise KeyError(f"Unknown primitive alias: {ref}")
-    return (PRIMITIVES_COLLECTION, f"{ramp}/{stop}")
+def make_resolver(derived: dict[str, str]):
+    """Returns a function that resolves a ref dict to a Figma variable value."""
+    def resolve(ref: dict, ctx_state: str | None = None, paired: dict | None = None) -> dict:
+        kind = ref["kind"]
+        if kind == "hex":
+            return {"color": hex_to_rgba(ref["hex"])}
+        if kind == "transparent":
+            return {"color": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.0}}
+        if kind == "primitive":
+            return {"alias": f"{PRIMITIVES_COLLECTION}.{ref['ramp']}/{ref['stop']}"}
+        if kind == "semantic":
+            return {"alias": f"{SEMANTIC_COLLECTION}.source/{ref['state']}"}
+        if kind == "derived":
+            if ctx_state is None or ctx_state not in derived:
+                raise ValueError(f"Cannot resolve 'derived' without a known state (got {ctx_state!r})")
+            return {"color": hex_to_rgba(derived[ctx_state])}
+        if kind == "inherits":
+            if paired is None:
+                raise ValueError("Cannot resolve 'inherits' without a paired ref")
+            return resolve(paired, ctx_state=ctx_state)
+        raise ValueError(f"Unknown ref kind: {kind}")
+    return resolve
 
 
-def color_value(ref: str):
-    if ref == "transparent":
-        return {"color": {"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.0}}
-    if ref.startswith("#"):
-        return {"color": hex_to_rgba_floats(ref)}
-    target = resolve_alias(ref)
-    assert target is not None
-    return {"alias": f"{target[0]}.{target[1]}"}
-
-
-def write_payload(filename: str, payload: dict) -> int:
-    out_path = Path(__file__).parent / filename
-    out_path.write_text(json.dumps(payload, indent=2) + "\n")
-    collections = payload.get("collections", [])
-    text_styles = payload.get("textStyles", [])
-    grid_styles = payload.get("gridStyles", [])
-    n_vars = sum(len(c["variables"]) for c in collections)
-    n_colls = len(collections)
-    n_styles = len(text_styles)
-    n_grids = len(grid_styles)
-    parts: list[str] = []
-    if n_vars:
-        parts.append(f"{n_vars} variables across {n_colls} collections")
-    if n_styles:
-        parts.append(f"{n_styles} text styles")
-    if n_grids:
-        parts.append(f"{n_grids} grid styles")
-    print(f"  {filename}: {', '.join(parts) if parts else 'empty payload'}")
-    return n_vars + n_styles + n_grids
+def state_for(name: str) -> str | None:
+    """Extract a semantic state name (error/warning/success/info) from a token name."""
+    for state in FEEDBACK_STATES:
+        if state in name:
+            return state
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -384,27 +386,51 @@ def write_payload(filename: str, payload: dict) -> int:
 # ---------------------------------------------------------------------------
 
 def build_foundation() -> dict:
+    colour_md = read_md("foundation/colour.md")
+    spacing_md = read_md("foundation/spacing.md")
+    grid_md = read_md("foundation/grid.md")
+    typo_md = read_md("foundation/typography.md")
+
+    ramps = parse_ramps(colour_md)
+    sources = parse_sources(colour_md)
+    derived = parse_derived(colour_md)
+    components = parse_components(colour_md)
+    resolve = make_resolver(derived)
+
     collections: list[dict] = []
 
     # Primitives
-    p_vars = []
-    for ramp, stops in PRIMITIVES.items():
+    p_vars: list[dict] = []
+    for ramp_name, stops in ramps.items():
         for stop, hex_val in stops.items():
             p_vars.append({
-                "path": f"{ramp}/{stop}",
+                "path": f"{ramp_name}/{stop}",
                 "type": "COLOR",
                 "scopes": ["ALL_SCOPES"],
-                "values": {"Default": {"color": hex_to_rgba_floats(hex_val)}},
+                "values": {"Default": {"color": hex_to_rgba(hex_val)}},
             })
     collections.append({"name": PRIMITIVES_COLLECTION, "modes": ["Default"], "variables": p_vars})
 
-    # Semantic
-    s_vars = [{
-        "path": path,
-        "type": "COLOR",
-        "scopes": ["ALL_SCOPES"],
-        "values": {"Light": color_value(light), "Dark": color_value(dark)},
-    } for path, (light, dark) in SEMANTIC.items()]
+    # Semantic: source tokens first, then component tokens
+    s_vars: list[dict] = []
+    for state, (light, dark) in sources.items():
+        s_vars.append({
+            "path": f"source/{state}",
+            "type": "COLOR",
+            "scopes": ["ALL_SCOPES"],
+            "values": {"Light": resolve(light), "Dark": resolve(dark)},
+        })
+    for category, name, light, dark in components:
+        ctx = state_for(name)
+        s_vars.append({
+            "path": f"{category}/{name}",
+            "type": "COLOR",
+            "scopes": ["ALL_SCOPES"],
+            "values": {
+                "Light": resolve(light, ctx_state=ctx, paired=dark),
+                "Dark": resolve(dark, ctx_state=ctx, paired=light),
+            },
+        })
     collections.append({"name": SEMANTIC_COLLECTION, "modes": ["Light", "Dark"], "variables": s_vars})
 
     # Spacing
@@ -413,7 +439,7 @@ def build_foundation() -> dict:
         "type": "FLOAT",
         "scopes": ["ALL_SCOPES"],
         "values": {"Default": {"number": px}},
-    } for px in SPACING]
+    } for px in parse_spacing(spacing_md)]
     collections.append({"name": SPACING_COLLECTION, "modes": ["Default"], "variables": sp_vars})
 
     # Grid
@@ -422,62 +448,84 @@ def build_foundation() -> dict:
         "type": "FLOAT",
         "scopes": ["ALL_SCOPES"],
         "values": {"Default": {"number": px}},
-    } for px in GRID]
+    } for px in parse_grid(grid_md)]
     collections.append({"name": GRID_COLLECTION, "modes": ["Default"], "variables": g_vars})
 
     # Typography
-    t_vars = []
-    for size in TYPE_SIZES:
+    type_sizes = parse_type_sizes(typo_md)
+    lh_tokens = parse_lh_tokens(typo_md)
+    t_vars: list[dict] = []
+    for size in type_sizes:
         t_vars.append({
             "path": f"type-{size}/size",
             "type": "FLOAT",
             "scopes": ["ALL_SCOPES"],
             "values": {"Default": {"number": size}},
         })
-        for variant, ratio in LH_RATIOS.items():
+        for variant in LH_VARIANTS:
             t_vars.append({
                 "path": f"type-{size}/lh-{variant}",
                 "type": "FLOAT",
                 "scopes": ["ALL_SCOPES"],
-                "values": {"Default": {"number": derive_lh(size, ratio)}},
+                "values": {"Default": {"number": lh_tokens[size][variant]}},
             })
     collections.append({"name": TYPOGRAPHY_COLLECTION, "modes": ["Default"], "variables": t_vars})
 
     return {"version": 1, "collections": collections}
 
 
-def build_surface_diagrams() -> dict:
-    d_vars = [{
-        "path": path,
-        "type": "COLOR",
-        "scopes": ["ALL_SCOPES"],
-        "values": {"Light": color_value(light), "Dark": color_value(dark)},
-    } for path, (light, dark) in DIAGRAM.items()]
-
-    return {"version": 1, "collections": [
-        {"name": DIAGRAM_COLLECTION, "modes": ["Light", "Dark"], "variables": d_vars},
-    ]}
+# Map a parsed weight name to the Figma fontStyle convention.
+FIGMA_FONT_STYLE = {"Semibold": "SemiBold"}
 
 
 def build_surface_website() -> dict:
-    styles: list[dict] = []
+    typo_md = read_md("foundation/typography.md")
+    website_md = read_md("surfaces/website.md")
+
+    weights = parse_weights(typo_md)
+    weight_to_style = {v: FIGMA_FONT_STYLE.get(k, k) for k, v in weights.items()}
+    lh_tokens = parse_lh_tokens(typo_md)
+    typefaces = parse_typefaces(typo_md)
+
+    breakpoints = parse_breakpoints(website_md)
+    grid_struct = parse_grid_structure(website_md)
+    roles = parse_roles(website_md)
+    role_sizes = parse_role_sizes(website_md)
+    lh_assign = parse_lh_assignment(website_md)
+    case_assign = parse_role_attribute(website_md, "Case assignment", "Case")
+    track_assign = parse_role_attribute(website_md, "Tracking assignment", "Tracking")
+
+    def case_for(role: str) -> str:
+        return case_assign.get(role, case_assign.get("All others", "Original"))
+
+    def tracking_for(role: str) -> float:
+        raw = track_assign.get(role, track_assign.get("All others", "0"))
+        m = re.search(r"([+-]?\d+(?:\.\d+)?)", raw)
+        return float(m.group(1)) if m else 0.0
+
+    text_styles: list[dict] = []
     grid_styles: list[dict] = []
-    for bp_key, bp_label in WEBSITE_BREAKPOINTS:
-        for role_name, tier, weight, sizes, lh_variant, text_case, tracking in WEBSITE_ROLES:
-            size = sizes[bp_key]
+    for bp_key, bp_label in breakpoints:
+        for role, slot, weight in roles:
+            size = role_sizes[role][bp_key]
+            variant = lh_assign[role]
+            lh = lh_tokens[size][variant]
             style: dict = {
-                "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}/{role_name}",
-                "fontFamily": TIER_TYPEFACE[tier],
-                "fontStyle": WEIGHT_STYLE[weight],
+                "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}/{role}",
+                "fontFamily": typefaces[slot],
+                "fontStyle": weight_to_style[weight],
                 "fontSize": size,
-                "lineHeight": derive_lh(size, LH_RATIOS[lh_variant]),
+                "lineHeight": lh,
             }
-            if text_case != "ORIGINAL":
-                style["textCase"] = text_case
+            case = case_for(role).strip().upper()
+            if case != "ORIGINAL":
+                style["textCase"] = case
+            tracking = tracking_for(role)
             if tracking != 0:
                 style["letterSpacingPercent"] = tracking
-            styles.append(style)
-        cols, margin, gutter = WEBSITE_GRIDS[bp_key]
+            text_styles.append(style)
+
+        cols, margin, gutter = grid_struct[bp_key]
         grid_styles.append({
             "name": f"{WEBSITE_STYLE_PREFIX}/{bp_label}",
             "layoutGrids": [{
@@ -488,16 +536,37 @@ def build_surface_website() -> dict:
                 "gutterSize": gutter,
             }],
         })
+
     return {
         "version": 1,
         "collections": [],
-        "textStyles": styles,
+        "textStyles": text_styles,
         "gridStyles": grid_styles,
     }
 
 
+# ---------------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------------
+
+def write_payload(filename: str, payload: dict) -> None:
+    out_path = Path(__file__).parent / filename
+    out_path.write_text(json.dumps(payload, indent=2) + "\n")
+    collections = payload.get("collections", [])
+    text_styles = payload.get("textStyles", [])
+    grid_styles = payload.get("gridStyles", [])
+    n_vars = sum(len(c["variables"]) for c in collections)
+    parts: list[str] = []
+    if n_vars:
+        parts.append(f"{n_vars} variables across {len(collections)} collections")
+    if text_styles:
+        parts.append(f"{len(text_styles)} text styles")
+    if grid_styles:
+        parts.append(f"{len(grid_styles)} grid styles")
+    print(f"  {filename}: {', '.join(parts) if parts else 'empty payload'}")
+
+
 SURFACES = {
-    "diagrams": ("surface-diagrams.json", build_surface_diagrams),
     "website": ("surface-website.json", build_surface_website),
 }
 
@@ -510,14 +579,12 @@ def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        # Build everything
         write_payload("foundation.json", build_foundation())
-        for name, (filename, builder) in SURFACES.items():
+        for filename, builder in SURFACES.values():
             write_payload(filename, builder())
         return
 
     target = args[0]
-
     if target == "foundation":
         write_payload("foundation.json", build_foundation())
     elif target == "surface":
@@ -531,7 +598,7 @@ def main() -> None:
         filename, builder = SURFACES[name]
         write_payload(filename, builder())
     else:
-        print(f"Usage: python build.py [foundation | surface <name>]")
+        print("Usage: python build.py [foundation | surface <name>]")
         sys.exit(1)
 
 
