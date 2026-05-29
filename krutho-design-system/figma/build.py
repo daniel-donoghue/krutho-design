@@ -189,7 +189,7 @@ def parse_derived(md: str) -> dict[str, str]:
         return {}
     out: dict[str, str] = {}
     for row in tables[0]:
-        m = re.match(r"--color-surface-(\w+)\s+dark", row["Token"])
+        m = re.match(r"--color-feedback-(\w+)-surface\s+dark", row["Token"])
         if m:
             out[m.group(1)] = row["Derived dark value"].strip()
     return out
@@ -417,16 +417,13 @@ def build_foundation() -> dict:
             })
     collections.append({"name": PRIMITIVES_COLLECTION, "modes": ["Default"], "variables": p_vars})
 
-    # Semantic: source tokens first, then component tokens
+    # Semantic collection: applied component tokens lead, in document order
+    # (text, surface, border, icon, action). The source tokens are emitted
+    # just before feedback, their only consumer, so feedback aliases resolve
+    # without the sources sitting at the head of the collection.
     s_vars: list[dict] = []
-    for state, (light, dark) in sources.items():
-        s_vars.append({
-            "path": f"source/{state}",
-            "type": "COLOR",
-            "scopes": ["ALL_SCOPES"],
-            "values": {"Light": resolve(light), "Dark": resolve(dark)},
-        })
-    for category, name, light, dark in components:
+
+    def emit_component(category, name, light, dark):
         ctx = state_for(name)
         s_vars.append({
             "path": f"{category}/{name}",
@@ -437,6 +434,23 @@ def build_foundation() -> dict:
                 "Dark": resolve(dark, ctx_state=ctx, paired=light),
             },
         })
+
+    for category, name, light, dark in components:
+        if category != "feedback":
+            emit_component(category, name, light, dark)
+
+    for state, (light, dark) in sources.items():
+        s_vars.append({
+            "path": f"source/{state}",
+            "type": "COLOR",
+            "scopes": ["ALL_SCOPES"],
+            "values": {"Light": resolve(light), "Dark": resolve(dark)},
+        })
+
+    for category, name, light, dark in components:
+        if category == "feedback":
+            emit_component(category, name, light, dark)
+
     collections.append({"name": SEMANTIC_COLLECTION, "modes": ["Light", "Dark"], "variables": s_vars})
 
     # Spacing
@@ -511,7 +525,9 @@ def build_surface_website() -> dict:
 
     text_styles: list[dict] = []
     grid_styles: list[dict] = []
-    for bp_key, bp_label in breakpoints:
+    # Emit breakpoints largest viewport first (Display-LG down to SM): styles
+    # list large to small, matching a large-to-small design pass.
+    for bp_key, bp_label in reversed(breakpoints):
         for role, slot, weight in roles:
             size = role_sizes[role][bp_key]
             variant = lh_assign[role]

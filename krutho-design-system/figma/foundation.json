@@ -1020,221 +1020,6 @@
       ],
       "variables": [
         {
-          "path": "source/error",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.error/600"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.error/200"
-            }
-          }
-        },
-        {
-          "path": "source/success",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.success/700"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.success/200"
-            }
-          }
-        },
-        {
-          "path": "source/warning",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.warning/700"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.warning/300"
-            }
-          }
-        },
-        {
-          "path": "source/info",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.accent/500"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.accent/300"
-            }
-          }
-        },
-        {
-          "path": "surface/overlay",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.neutral/0"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.neutral/800"
-            }
-          }
-        },
-        {
-          "path": "surface/raised",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.neutral/50"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.neutral/850"
-            }
-          }
-        },
-        {
-          "path": "surface/base",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.neutral/100"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.neutral/900"
-            }
-          }
-        },
-        {
-          "path": "surface/sunken",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.neutral/200"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.neutral/950"
-            }
-          }
-        },
-        {
-          "path": "surface/inverse",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.neutral/900"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.neutral/200"
-            }
-          }
-        },
-        {
-          "path": "surface/error",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.error/50"
-            },
-            "Dark": {
-              "color": {
-                "r": 0.17254902,
-                "g": 0.10196078,
-                "b": 0.09803922,
-                "a": 1.0
-              }
-            }
-          }
-        },
-        {
-          "path": "surface/warning",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.warning/50"
-            },
-            "Dark": {
-              "color": {
-                "r": 0.15294118,
-                "g": 0.11372549,
-                "b": 0.09019608,
-                "a": 1.0
-              }
-            }
-          }
-        },
-        {
-          "path": "surface/success",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.success/50"
-            },
-            "Dark": {
-              "color": {
-                "r": 0.09411765,
-                "g": 0.12941176,
-                "b": 0.10588235,
-                "a": 1.0
-              }
-            }
-          }
-        },
-        {
-          "path": "surface/info",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.accent/50"
-            },
-            "Dark": {
-              "color": {
-                "r": 0.09411765,
-                "g": 0.13333333,
-                "b": 0.20392157,
-                "a": 1.0
-              }
-            }
-          }
-        },
-        {
           "path": "text/strong",
           "type": "COLOR",
           "scopes": [
@@ -1370,67 +1155,107 @@
           }
         },
         {
-          "path": "text/error",
+          "path": "surface/overlay",
           "type": "COLOR",
           "scopes": [
             "ALL_SCOPES"
           ],
           "values": {
             "Light": {
-              "alias": "Colour Semantic.source/error"
+              "color": {
+                "r": 0.03921569,
+                "g": 0.03921569,
+                "b": 0.03921569,
+                "a": 0.6
+              }
             },
             "Dark": {
-              "alias": "Colour Semantic.source/error"
+              "color": {
+                "r": 0.03921569,
+                "g": 0.03921569,
+                "b": 0.03921569,
+                "a": 0.6
+              }
             }
           }
         },
         {
-          "path": "text/success",
+          "path": "surface/raised",
           "type": "COLOR",
           "scopes": [
             "ALL_SCOPES"
           ],
           "values": {
             "Light": {
-              "alias": "Colour Semantic.source/success"
+              "alias": "Colour Primitives.neutral/0"
             },
             "Dark": {
-              "alias": "Colour Semantic.source/success"
+              "alias": "Colour Primitives.neutral/850"
             }
           }
         },
         {
-          "path": "text/warning",
+          "path": "surface/base",
           "type": "COLOR",
           "scopes": [
             "ALL_SCOPES"
           ],
           "values": {
             "Light": {
-              "alias": "Colour Semantic.source/warning"
+              "alias": "Colour Primitives.neutral/50"
             },
             "Dark": {
-              "alias": "Colour Semantic.source/warning"
+              "alias": "Colour Primitives.neutral/900"
             }
           }
         },
         {
-          "path": "text/info",
+          "path": "surface/sunken",
           "type": "COLOR",
           "scopes": [
             "ALL_SCOPES"
           ],
           "values": {
             "Light": {
-              "alias": "Colour Semantic.source/info"
+              "alias": "Colour Primitives.neutral/100"
             },
             "Dark": {
-              "alias": "Colour Semantic.source/info"
+              "alias": "Colour Primitives.neutral/950"
+            }
+          }
+        },
+        {
+          "path": "surface/inverse",
+          "type": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "values": {
+            "Light": {
+              "alias": "Colour Primitives.neutral/900"
+            },
+            "Dark": {
+              "alias": "Colour Primitives.neutral/200"
             }
           }
         },
         {
           "path": "border/strong",
+          "type": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "values": {
+            "Light": {
+              "alias": "Colour Primitives.neutral/700"
+            },
+            "Dark": {
+              "alias": "Colour Primitives.neutral/400"
+            }
+          }
+        },
+        {
+          "path": "border/default",
           "type": "COLOR",
           "scopes": [
             "ALL_SCOPES"
@@ -1445,7 +1270,7 @@
           }
         },
         {
-          "path": "border/default",
+          "path": "border/subtle",
           "type": "COLOR",
           "scopes": [
             "ALL_SCOPES"
@@ -1456,21 +1281,6 @@
             },
             "Dark": {
               "alias": "Colour Primitives.neutral/800"
-            }
-          }
-        },
-        {
-          "path": "border/subtle",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Primitives.neutral/200"
-            },
-            "Dark": {
-              "alias": "Colour Primitives.neutral/825"
             }
           }
         },
@@ -1501,66 +1311,6 @@
             },
             "Dark": {
               "alias": "Colour Primitives.neutral/300"
-            }
-          }
-        },
-        {
-          "path": "border/error",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/error"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/error"
-            }
-          }
-        },
-        {
-          "path": "border/success",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/success"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/success"
-            }
-          }
-        },
-        {
-          "path": "border/warning",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/warning"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/warning"
-            }
-          }
-        },
-        {
-          "path": "border/info",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/info"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/info"
             }
           }
         },
@@ -1681,66 +1431,6 @@
             },
             "Dark": {
               "alias": "Colour Primitives.accent/300"
-            }
-          }
-        },
-        {
-          "path": "icon/error",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/error"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/error"
-            }
-          }
-        },
-        {
-          "path": "icon/success",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/success"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/success"
-            }
-          }
-        },
-        {
-          "path": "icon/warning",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/warning"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/warning"
-            }
-          }
-        },
-        {
-          "path": "icon/info",
-          "type": "COLOR",
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "values": {
-            "Light": {
-              "alias": "Colour Semantic.source/info"
-            },
-            "Dark": {
-              "alias": "Colour Semantic.source/info"
             }
           }
         },
@@ -2076,6 +1766,66 @@
             },
             "Dark": {
               "alias": "Colour Primitives.neutral/700"
+            }
+          }
+        },
+        {
+          "path": "source/error",
+          "type": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "values": {
+            "Light": {
+              "alias": "Colour Primitives.error/600"
+            },
+            "Dark": {
+              "alias": "Colour Primitives.error/200"
+            }
+          }
+        },
+        {
+          "path": "source/success",
+          "type": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "values": {
+            "Light": {
+              "alias": "Colour Primitives.success/700"
+            },
+            "Dark": {
+              "alias": "Colour Primitives.success/200"
+            }
+          }
+        },
+        {
+          "path": "source/warning",
+          "type": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "values": {
+            "Light": {
+              "alias": "Colour Primitives.warning/700"
+            },
+            "Dark": {
+              "alias": "Colour Primitives.warning/300"
+            }
+          }
+        },
+        {
+          "path": "source/info",
+          "type": "COLOR",
+          "scopes": [
+            "ALL_SCOPES"
+          ],
+          "values": {
+            "Light": {
+              "alias": "Colour Primitives.accent/500"
+            },
+            "Dark": {
+              "alias": "Colour Primitives.accent/300"
             }
           }
         },

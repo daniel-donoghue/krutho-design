@@ -23,7 +23,7 @@ The web surface is responsive across six breakpoints. Structural breakpoints (SM
 | Display-MD | 1600 to 1855   | Display    |
 | Display-LG | 1856 and above | Display    |
 
-Structural breakpoints trigger at the smallest viewport producing column width 32 under the breakpoint's column count, margin, and gutter. SM is the smallest viewport addressed; surface instances requiring support below 320 document the extension with a stated functional reason.
+The structural boundaries 576 and 1088 sit at the smallest viewport producing column width 32 for an 8-column and a 16-column grid at margin 48. MD holds the 576 boundary but reduces its margin to 32, which widens its minimum column to 36. SM is the smallest viewport addressed; surface instances requiring support below 320 document the extension with a stated functional reason.
 
 Display breakpoints trigger where column width under the LG grid configuration reaches 48 (Display-SM), 64 (Display-MD), or 80 (Display-LG). Beyond Display-LG, column width would exceed 80, at which point the Content lock section governs surface behaviour.
 
@@ -51,7 +51,7 @@ Spacing values at each breakpoint are drawn from the declared register's designe
 | Breakpoint | Cols | Margin | Gutter | Primary grid | Col width at min |
 |------------|------|--------|--------|--------------|------------------|
 | SM         | 2    | 16     | 32     | grid-16      | 128              |
-| MD         | 8    | 48     | 32     | grid-16      | 32               |
+| MD         | 8    | 32     | 32     | grid-16      | 36               |
 | LG         | 16   | 48     | 32     | grid-16      | 32               |
 | Display-SM | 16   | 48     | 32     | grid-16      | 48               |
 | Display-MD | 16   | 48     | 32     | grid-16      | 64               |
@@ -59,11 +59,11 @@ Spacing values at each breakpoint are drawn from the declared register's designe
 
 **Column count.** SM uses 2 for a binary split at small viewport. MD uses 8 and LG uses 16; count increases with surface width to support finer subdivisions.
 
-**Margin.** Margin 48 at MD through Display-LG: the edge-buffer function is independent of viewport scale at mid-viewport size and above. Margin 16 at SM keeps the edge buffer proportionate at small viewport scale.
+**Margin.** Margin 48 at LG through Display-LG: the edge-buffer function is independent of viewport scale at large-viewport size and above. Margin 32 at MD widens the content area at mid-viewport widths, taking the minimum column from 32 to 36. Margin 16 at SM keeps the edge buffer proportionate at small viewport scale.
 
 **Gutter.** Gutter 32 at all breakpoints. At SM (column count 2), the gutter exceeds the margin to make the binary split visually clear.
 
-**Primary grid.** grid-16 at all breakpoints. It is the largest grid value that divides both the declared margins (16, 48) and the gutter (32) without remainder.
+**Primary grid.** grid-16 at all breakpoints. It is the largest grid value that divides the declared margins (16, 32, 48) and the gutter (32) without remainder.
 
 Column width is derived per the layout formulas. Within each breakpoint's range, column width varies fluidly with viewport.
 
@@ -127,9 +127,9 @@ The Style column references the typography foundation's style slots. The display
 
 | Role      | SM | MD | LG | Display-SM | Display-MD | Display-LG |
 |-----------|----|----|----|------------|------------|------------|
-| Display 1 | 32 | 64 | 64 | 80         | 96         | 128        |
-| Display 2 | 32 | 48 | 48 | 64         | 80         | 96         |
-| Heading 1 | 28 | 40 | 40 | 48         | 64         | 80         |
+| Display 1 | 32 | 48 | 64 | 80         | 96         | 128        |
+| Display 2 | 32 | 40 | 48 | 64         | 80         | 96         |
+| Heading 1 | 28 | 32 | 40 | 48         | 64         | 80         |
 | Heading 2 | 20 | 24 | 24 | 28         | 32         | 40         |
 | Heading 3 | 18 | 18 | 18 | 20         | 24         | 28         |
 | Heading 4 | 16 | 16 | 16 | 18         | 20         | 24         |
@@ -147,7 +147,7 @@ The table is the authoritative per-role, per-breakpoint size assignment. Three b
 
 **Content roles hold, then advance once.** Lead, Body, Caption, Code, and Eyebrow hold a single size from SM through Display-MD, where per-column reading density is equivalent. At Display-LG each advances one type token, where the larger display's viewing distance warrants it.
 
-MD and LG share a single size assignment per role. Proportional scaling of type to column width is not admitted: each breakpoint takes a fixed token.
+MD and LG share a size assignment for every role except the display-font roles (Display 1, Display 2, Heading 1), which sit one token smaller at MD. Proportional scaling of type to column width is not admitted: each breakpoint takes a fixed token.
 
 ---
 

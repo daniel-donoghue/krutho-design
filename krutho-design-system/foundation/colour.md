@@ -10,7 +10,7 @@ Colour is structured in three layers:
 
 **Component tokens.** Named values applied at the component level (surface, text, border, icon, action, feedback). Each references a primitive stop or a semantic source token.
 
-Component tokens never reference primitives by hex value. They reference by stop name (`ramp · stop`), which makes any token traceable back to its primitive.
+Component tokens reference primitives by stop name (`ramp · stop`) rather than by hex value, which keeps every token traceable to its primitive. The overlay scrim is the one exception: a translucent value has no stop on the opaque ramp, so it carries an explicit opacity (see Surface).
 
 ---
 
@@ -159,38 +159,18 @@ Dark feedback surfaces are derived by compositing the semantic source stop over 
 
 RGB calculation: `each channel = round(base + (source - base) × 0.12)` where `base = neutral-900 = rgb(24, 24, 24)`.
 
-| Token                        | Source stop             | Source RGB        | Derived dark value |
-|------------------------------|-------------------------|-------------------|--------------------|
-| --color-surface-error dark   | error · 600 (#C0251D)   | rgb(192, 37, 29)  | #2C1A19            |
-| --color-surface-warning dark | warning · 700 (#92400E) | rgb(146, 64, 14)  | #271D17            |
-| --color-surface-success dark | success · 700 (#166534) | rgb(22, 101, 52)  | #18211B            |
-| --color-surface-info dark    | accent · 500 (#1A6FFF)  | rgb(26, 111, 255) | #182234            |
-
-The same derivation applies to `--color-feedback-[state]-surface` dark values.
+| Token                                 | Source stop             | Source RGB        | Derived dark value |
+|---------------------------------------|-------------------------|-------------------|--------------------|
+| --color-feedback-error-surface dark   | error · 600 (#C0251D)   | rgb(192, 37, 29)  | #2C1A19            |
+| --color-feedback-warning-surface dark | warning · 700 (#92400E) | rgb(146, 64, 14)  | #271D17            |
+| --color-feedback-success-surface dark | success · 700 (#166534) | rgb(22, 101, 52)  | #18211B            |
+| --color-feedback-info-surface dark    | accent · 500 (#1A6FFF)  | rgb(26, 111, 255) | #182234            |
 
 The 12% value: above 15%, the surface begins to compete with node-level colour; below 8%, the tint falls below perceptual threshold at typical viewing distances. 12% is the midpoint of the viable range.
 
 ---
 
 ## Component tokens
-
-### Surface
-
-Surface tokens use an elevation metaphor: overlay floats above all other surfaces, raised floats above page, base is the page, sunken recedes below.
-
-| Token                   | Light            | Dark          |
-|-------------------------|------------------|---------------|
-| --color-surface-overlay | neutral · 0      | neutral · 800 |
-| --color-surface-raised  | neutral · 50     | neutral · 850 |
-| --color-surface-base    | neutral · 100    | neutral · 900 |
-| --color-surface-sunken  | neutral · 200    | neutral · 950 |
-| --color-surface-inverse | neutral · 900    | neutral · 200 |
-| --color-surface-error   | error · 50       | derived       |
-| --color-surface-warning | warning · 50     | derived       |
-| --color-surface-success | success · 50     | derived       |
-| --color-surface-info    | accent · 50      | derived       |
-
-"Derived" indicates the dark feedback surface formula applies.
 
 ### Text
 
@@ -217,17 +197,31 @@ Surface tokens use an elevation metaphor: overlay floats above all other surface
 | --color-text-inverse   | neutral · 100 | neutral · 900 |
 | --color-text-on-accent | neutral · 0   | neutral · 0   |
 
-#### Semantic
+#### Link
 
-Values reference the semantic source layer.
+| Token             | Value                       |
+|-------------------|-----------------------------|
+| --color-text-link | accent · 500 / accent · 300 |
 
-| Token                | Value                       |
-|----------------------|-----------------------------|
-| --color-text-link    | accent · 500 / accent · 300 |
-| --color-text-error   | semantic · error            |
-| --color-text-success | semantic · success          |
-| --color-text-warning | semantic · warning          |
-| --color-text-info    | semantic · info             |
+State-coloured text (error, warning, success, info) lives in Feedback.
+
+### Surface
+
+Surface tokens use an elevation metaphor: raised floats above the page, base is the page, sunken recedes below. Overlay is the modal scrim, a translucent dark layer that dims content behind a modal or dialog. It reads dark in both light and dark modes.
+
+| Token                   | Light         | Dark          |
+|-------------------------|---------------|---------------|
+| --color-surface-overlay | #0A0A0A99     | #0A0A0A99     |
+| --color-surface-raised  | neutral · 0   | neutral · 850 |
+| --color-surface-base    | neutral · 50  | neutral · 900 |
+| --color-surface-sunken  | neutral · 100 | neutral · 950 |
+| --color-surface-inverse | neutral · 900 | neutral · 200 |
+
+The overlay scrim is neutral-950 (#0A0A0A) at 60% opacity, written as a hex with alpha. It is the one surface token not aliased to a primitive stop, because a translucent value has no stop on the opaque ramp.
+
+In light mode the elevation runs lighter as it rises: sunken neutral-100, base neutral-50, raised neutral-0, so white panels sit on an off-white page. In dark mode it runs darker as it recedes: raised neutral-850, base neutral-900, sunken neutral-950. The dark base is pinned at neutral-900 by the dark feedback surface derivation.
+
+State-coloured surfaces (error, warning, success, info) live in Feedback.
 
 ### Border
 
@@ -235,9 +229,9 @@ Values reference the semantic source layer.
 
 | Token                  | Light         | Dark          |
 |------------------------|---------------|---------------|
-| --color-border-strong  | neutral · 600 | neutral · 500 |
-| --color-border-default | neutral · 300 | neutral · 800 |
-| --color-border-subtle  | neutral · 200 | neutral · 825 |
+| --color-border-strong  | neutral · 700 | neutral · 400 |
+| --color-border-default | neutral · 600 | neutral · 500 |
+| --color-border-subtle  | neutral · 300 | neutral · 800 |
 
 #### Functional
 
@@ -246,14 +240,7 @@ Values reference the semantic source layer.
 | --color-border-focus   | accent · 500  | accent · 500  |
 | --color-border-inverse | neutral · 800 | neutral · 300 |
 
-#### Semantic
-
-| Token                  | Value              |
-|------------------------|--------------------|
-| --color-border-error   | semantic · error   |
-| --color-border-success | semantic · success |
-| --color-border-warning | semantic · warning |
-| --color-border-info    | semantic · info    |
+State-coloured borders (error, warning, success, info) live in Feedback.
 
 ### Icon
 
@@ -281,15 +268,13 @@ Icon tokens mirror the text hierarchy directly. An icon paired with a text token
 | --color-icon-inverse   | neutral · 100 | neutral · 900 |
 | --color-icon-on-accent | neutral · 0   | neutral · 0   |
 
-#### Semantic
+#### Link
 
-| Token                | Value                       |
-|----------------------|-----------------------------|
-| --color-icon-link    | accent · 500 / accent · 300 |
-| --color-icon-error   | semantic · error            |
-| --color-icon-success | semantic · success          |
-| --color-icon-warning | semantic · warning          |
-| --color-icon-info    | semantic · info             |
+| Token             | Value                       |
+|-------------------|-----------------------------|
+| --color-icon-link | accent · 500 / accent · 300 |
+
+State-coloured icons (error, warning, success, info) live in Feedback.
 
 ### Action
 
@@ -340,6 +325,8 @@ Icon tokens mirror the text hierarchy directly. An icon paired with a text token
 | --color-action-disabled-text | neutral · 500 | neutral · 700 |
 
 ### Feedback
+
+Feedback is the single home for the state colours (error, warning, success, info). Surface, Text, Border, and Icon carry no per-state variants of their own: a state-coloured surface, text, border, or icon is taken from here.
 
 Surfaces use the dark feedback surface derivation formula for dark values. Text, border, and icon tokens reference the semantic source layer; "inherits" denotes the source token carries its own dark value.
 
