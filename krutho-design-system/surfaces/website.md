@@ -127,8 +127,8 @@ The Style column references the typography foundation's style slots. The display
 
 | Role      | SM | MD | LG | Display-SM | Display-MD | Display-LG |
 |-----------|----|----|----|------------|------------|------------|
-| Display 1 | 32 | 48 | 64 | 80         | 96         | 128        |
-| Display 2 | 32 | 40 | 48 | 64         | 80         | 96         |
+| Display 1 | 32 | 48 | 80 | 96         | 128        | 128        |
+| Display 2 | 32 | 40 | 64 | 80         | 96         | 96         |
 | Heading 1 | 28 | 32 | 40 | 48         | 64         | 80         |
 | Heading 2 | 20 | 24 | 24 | 28         | 32         | 40         |
 | Heading 3 | 18 | 18 | 18 | 20         | 24         | 28         |
@@ -141,13 +141,13 @@ The Style column references the typography foundation's style slots. The display
 
 The table is the authoritative per-role, per-breakpoint size assignment. Three behaviours shape it.
 
-**Display and heading roles scale with viewport.** Display 1, Display 2, Heading 1, and the structural headings advance through larger type tokens as the viewport widens, so the hierarchy reads at the surface's scale.
+**Display and heading roles scale with viewport.** Display 1, Display 2, Heading 1, and the structural headings advance through larger type tokens as the viewport widens, so the hierarchy reads at the surface's scale. Display 1 and Display 2 reach their cap at Display-MD; Display-LG holds them there, since a further step exceeds what the surface needs at scale.
 
 **SM caps the display roles.** At SM, Display 1 and Display 2 share type-32, the largest size that wraps cleanly at a 320 viewport, and Heading 1 sits at type-28. A larger display size breaks across too many lines to function at 320.
 
 **Content roles hold, then advance once.** Lead, Body, Caption, Code, and Eyebrow hold a single size from SM through Display-MD, where per-column reading density is equivalent. At Display-LG each advances one type token, where the larger display's viewing distance warrants it.
 
-MD and LG share a size assignment for every role except the display-font roles (Display 1, Display 2, Heading 1), which sit one token smaller at MD. Proportional scaling of type to column width is not admitted: each breakpoint takes a fixed token.
+MD and LG share a size assignment for the content roles and for Heading 2 through 4. The display-font roles take smaller values at MD: Heading 1 by one token, Display 1 and Display 2 by two tokens. Proportional scaling of type to column width is not admitted: each breakpoint takes a fixed token.
 
 ---
 

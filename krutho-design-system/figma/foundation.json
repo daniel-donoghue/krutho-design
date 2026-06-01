@@ -1247,10 +1247,10 @@
           ],
           "values": {
             "Light": {
-              "alias": "Colour Primitives.neutral/700"
+              "alias": "Colour Primitives.neutral/600"
             },
             "Dark": {
-              "alias": "Colour Primitives.neutral/400"
+              "alias": "Colour Primitives.neutral/500"
             }
           }
         },
@@ -1262,10 +1262,10 @@
           ],
           "values": {
             "Light": {
-              "alias": "Colour Primitives.neutral/600"
+              "alias": "Colour Primitives.neutral/300"
             },
             "Dark": {
-              "alias": "Colour Primitives.neutral/500"
+              "alias": "Colour Primitives.neutral/800"
             }
           }
         },
@@ -1277,10 +1277,10 @@
           ],
           "values": {
             "Light": {
-              "alias": "Colour Primitives.neutral/300"
+              "alias": "Colour Primitives.neutral/200"
             },
             "Dark": {
-              "alias": "Colour Primitives.neutral/800"
+              "alias": "Colour Primitives.neutral/825"
             }
           }
         },

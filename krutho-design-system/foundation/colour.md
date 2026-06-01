@@ -229,9 +229,9 @@ State-coloured surfaces (error, warning, success, info) live in Feedback.
 
 | Token                  | Light         | Dark          |
 |------------------------|---------------|---------------|
-| --color-border-strong  | neutral · 700 | neutral · 400 |
-| --color-border-default | neutral · 600 | neutral · 500 |
-| --color-border-subtle  | neutral · 300 | neutral · 800 |
+| --color-border-strong  | neutral · 600 | neutral · 500 |
+| --color-border-default | neutral · 300 | neutral · 800 |
+| --color-border-subtle  | neutral · 200 | neutral · 825 |
 
 #### Functional
 
